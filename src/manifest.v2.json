@@ -1,0 +1,47 @@
+{
+    "manifest_version": 2,
+    "name": "ChatGPT for Leetcode",
+    "short_name": "LeetGPT",
+    "description": "ChatGPT acting as your `Teacher` or `Interviewer` on every Leetcode question",
+    "version": "1.0.0",
+    "icons": {
+        "16": "assets/icons/logo.png",
+        "32": "assets/icons/logo.png",
+        "48": "assets/icons/logo.png",
+        "128": "assets/icons/logo.png"
+    },
+    "permissions": [
+        "activeTab",
+        "storage",
+        "https://*.openai.com/",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "author": "Liopun",
+    "background": {
+        "scripts": ["background.js"]
+    },
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://leetcode.com/problems/*",
+                "https://www.leetcode.com/problems/*",
+                "https://leetcode.com/problems/*/description/",
+                "https://www.leetcode.com/problems/*/description/",
+                "https://leetcode.com/problems/*/submissions/*",
+                "https://www.leetcode.com/problems/*/submissions/*"
+            ],
+            "run_at": "document_end",
+            "js": ["content-script.js"],
+            "css": ["content-script.css"]
+        }
+    ]
+}

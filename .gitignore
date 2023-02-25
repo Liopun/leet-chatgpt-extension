@@ -102,3 +102,18 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# Build
+extension/
+dist/
+.awcache
+
+# Misc
+.history/
+

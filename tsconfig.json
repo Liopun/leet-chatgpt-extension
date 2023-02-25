@@ -1,0 +1,34 @@
+{
+	"compilerOptions": {
+		"target": "ES2018", // ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'.
+		"module": "esnext", // Module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'.
+		"lib": [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"declaration": false,
+		"isolatedModules": true,
+		/* Additional Checks */
+		"useDefineForClassFields": true,
+		"skipLibCheck": true,
+        // "sourceMap": true,
+        "allowJs": true,
+        // "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        // "forceConsistentCasingInFileNames": true,
+        // "noFallthroughCasesInSwitch": true,
+        "moduleResolution": "node",
+        // "resolveJsonModule": true,
+        "noEmit": true,
+		// "outDir": "extension",
+        "jsx": "react-jsx"
+	},
+	"include": [
+		"src",
+	],
+	// "exclude": [
+	// 	"extension",
+	// ]
+}

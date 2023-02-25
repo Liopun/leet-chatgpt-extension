@@ -1,0 +1,65 @@
+{
+    "manifest_version": 3,
+    "name": "ChatGPT for Leetcode",
+    "short_name": "LeetGPT",
+    "description": "ChatGPT acting as your `Teacher` or `Interviewer` on every Leetcode question",
+    "version": "1.0.0",
+    "icons": {
+        "16": "assets/icons/logo.png",
+        "32": "assets/icons/logo.png",
+        "48": "assets/icons/logo.png",
+        "128": "assets/icons/logo.png"
+    },
+    "host_permissions": ["https://*.openai.com/"],
+    "permissions": [
+        "activeTab",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "content_security_policy": {"extension_pages": "script-src 'self'; object-src 'self'"},
+    "__chrome|firefox__author": "Liopun",
+    "__opera__developer": { "name": "Liopun" },
+    "__firefox__applications": {
+        "gecko": {
+          "id": "{754FB1AD-CC3B-4856-B6A0-7786F8CA9D17}"
+        }
+    },
+    "__chrome__minimum_chrome_version": "49",
+    "__opera__minimum_opera_version": "36",
+    "background": {
+        "scripts": [
+            "js/background.bundle.js"
+        ]
+    },
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "assets/icons/logo.png",
+            "32": "assets/icons/logo.png",
+            "48": "assets/icons/logo.png",
+            "128": "assets/icons/logo.png"
+        },
+        "default_title": "LeetGPT",
+        "__chrome|opera__chrome_style": false,
+        "__firefox__browser_style": false
+    },
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true,
+        "__chrome__chrome_style": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://leetcode.com/problems/*",
+                "https://www.leetcode.com/problems/*",
+                "https://leetcode.com/problems/*/description/",
+                "https://www.leetcode.com/problems/*/description/",
+                "https://leetcode.com/problems/*/submissions/*",
+                "https://www.leetcode.com/problems/*/submissions/*"
+            ],
+            "js": ["js/contentScript.bundle.js"]
+        }
+    ]
+}

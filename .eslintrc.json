@@ -1,0 +1,93 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended",
+        "plugin:import/errors",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended",
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "prettier"
+    ],
+    "rules": {
+        "react/prop-types": 0,
+        "react/react-in-jsx-scope": 0,
+        "import/no-unresolved": 0,
+        "no-unused-vars": 0,
+        "max-len": ["warn", {"code": 150}],
+        "no-console": ["error", { "allow": ["debug", "warn", "error"] }],
+        "no-extend-native": "off",
+        "react/jsx-props-no-spreading": "off",
+        "jsx-a11y/label-has-associated-control": "off",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this": "off",
+        "max-classes-per-file": "off",
+        "import/extensions": ["error", "ignorePackages", {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never"
+        }],
+        "node/no-missing-import": "off",
+		"node/no-unpublished-import": "off",
+		"node/no-unsupported-features/es-syntax": ["error", {
+			"ignores": ["modules"]
+		}],
+        "no-tabs": ["error", {"allowIndentationTabs": true}],
+        "@typescript-eslint/no-require-imports": "warn",
+        "@typescript-eslint/no-floating-promises": "off",
+        "import/prefer-default-export": "off"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint",
+        "import",
+        "jsx-a11y",
+        "node"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "project": "./tsconfig.json",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "webextensions": true,
+        "node": true
+    },
+    "globals": {
+        "JSX": "readonly"
+    },
+    "settings": {
+        "react": {
+            "version": "detect"
+        },
+        "import/resolver": {
+            "node": {
+              "extensions": [
+                ".js",
+                ".jsx",
+                ".ts",
+                ".tsx",
+                ".json"
+              ]
+            }
+        },
+        "import/ignore": ["node_modules"],
+        "import/extensions": [".js", ".mjs", ".jsx", ".ts", ".tsx"],
+        "import/parsers": {
+            "@typescript-eslint/parser": [
+              ".ts",
+              ".tsx"
+            ]
+        }
+    },
+    "ignorePatterns": ["extension/**"]
+}
