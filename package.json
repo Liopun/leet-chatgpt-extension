@@ -1,22 +1,18 @@
 {
   "name": "leet-gpt-extension",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "description": "AI-powered browser extension that enhances your leetcode experience.",
   "main": "index.js",
   "scripts": {
-    "debug": "node --inspect --inspect-brk=5858 $(npm bin webpack) --config webpack.config.js",
-    "build:es": "node build.mjs",
-    "dev:chrome": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=chrome webpack --watch",
-    "dev:firefox": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=firefox webpack --watch",
-    "dev:opera": "cross-env NODE_ENV=development cross-env TARGET_BROWSER=opera webpack --watch",
-    "build:chrome": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=chrome webpack",
-    "build:firefox": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=firefox webpack",
-    "build:opera": "cross-env NODE_ENV=production cross-env TARGET_BROWSER=opera webpack",
-    "build": "npm run build:chrome && npm run build:firefox",
+    "build": "node build.mjs",
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
-    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -32,8 +28,10 @@
     "@babel/runtime": "^7.21.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@hookform/resolvers": "^2.9.11",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
+    "@types/react-toastify": "^4.1.0",
     "advanced-css-reset": "^1.2.2",
     "emoji-log": "^1.0.2",
     "eventsource-parser": "^0.1.0",
@@ -42,12 +40,14 @@
     "lodash-es": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.43.5",
     "react-markdown": "^8.0.5",
     "react-toastify": "^9.1.1",
     "rehype-highlight": "^6.0.0",
     "swr": "^2.0.3",
     "uuid": "^9.0.0",
-    "webextension-polyfill": "^0.10.0"
+    "webextension-polyfill": "^0.10.0",
+    "zod": "^3.21.2"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.6",
@@ -68,7 +68,9 @@
     "esbuild": "^0.17.10",
     "esbuild-style-plugin": "^1.6.1",
     "eslint": "^8.34.0",
-    "eslint-config-prettier": "^8.6.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-node": "^11.1.0",
@@ -76,6 +78,8 @@
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "fs-extra": "^11.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
     "postcss": "^8.4.21",
     "postcss-loader": "^7.0.2",
     "prettier": "^2.8.4",
@@ -84,5 +88,9 @@
     "sass": "^1.58.3",
     "sass-loader": "^13.2.0",
     "typescript": "^4.9.5"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "src/**/*.{js,jsx,ts,tsx,css,scss,md}": "prettier --write --ignore-unknown"
   }
 }

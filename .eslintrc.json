@@ -17,7 +17,7 @@
         "import/no-unresolved": 0,
         "no-unused-vars": 0,
         "max-len": ["warn", {"code": 150}],
-        "no-console": ["error", { "allow": ["debug", "warn", "error"] }],
+        "no-console": ["error", { "allow": ["debug", "warn", "error", "assert"] }],
         "no-extend-native": "off",
         "react/jsx-props-no-spreading": "off",
         "jsx-a11y/label-has-associated-control": "off",

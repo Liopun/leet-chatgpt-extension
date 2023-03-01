@@ -1,8 +1,6 @@
 @import "../styles/font.scss";
 @import "../styles/reset.scss";
-@import "../styles/variables.scss";
-@import "../styles/light.scss";
-@import "../styles/dark.scss";
+@import "../styles/index.scss";
 
 .chat-gpt-container {
   margin-bottom: 0px;
@@ -44,7 +42,7 @@
   }
 
   #gpt-answer.markdown-body.gpt-markdown {
-    font-size: 15px;
+    font-size: 13px;
     line-height: 1.6;
 
     pre {

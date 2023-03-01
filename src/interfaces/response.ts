@@ -1,18 +1,24 @@
 export interface IResponse {
-    text: string
-    messageId: string
-    conversationId: string
+  text: string;
+  messageId: string;
+  conversationId: string;
 }
 
-export type ResponseEvent = | {
-    type: 'answer'
-    data: IResponse
-} | {
-    type: 'done'
-}
+export type ResponseEvent =
+  | {
+      type: 'answer';
+      data: IResponse;
+    }
+  | {
+      type: 'done';
+    }
+  | {
+      type: 'error';
+      error: Error;
+    };
 
 export interface IGenerateResponseParams {
-    prompt: string
-    onEvent: (e: ResponseEvent) => void
-    signal?: AbortSignal
+  prompt: string;
+  onEvent: (e: ResponseEvent) => void;
+  signal?: AbortSignal;
 }

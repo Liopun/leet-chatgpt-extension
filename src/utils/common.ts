@@ -1,58 +1,79 @@
 import Browser from 'webextension-polyfill';
-import { AssistanceMode, IPetition, Theme, TriggerMode } from '../interfaces';
+import { ASSISTANCE } from '../config';
+import { EngineModes } from '../engine';
+import { IPetition, TriggerMode } from '../interfaces';
 
-const PREFIX_PETITION = "Based on this question: \n"
-const L_PETITION_PROBLEM = "\n\nI want you to act as my teacher, and provide me advice and help on how I could work my way from a brute force to an optimal solution, pretending that I am 5 year old \n"
-const L_PETITION_SUBMISSION = "\n\nI want you to act as my teacher, and provide me advice and help on how I could work my way to an optimal solution based on the following code: \n"
-// const LEARNING_PETITION_LONG = "\n\nI want you to act as my teacher, and provide me advice and help on how I could work my way to an optimal solution based on the following code: \n"
-const I_PETITION_PROBLEM = "\nI want you to act as my interviewer, and provide me advice and help simulating real life interview, on how I could work my way from a brute force to an optimal solution, pretending that I am 5 year old \n"
-const I_PETITION_SUBMISSION = "\nI want you to act as my interviewer, and provide me advice and help simulating real life interview, on how I could work my way to an optimal solution based on the following code: \n"
+const PREFIX_PETITION =
+  'Can you please emphasize that you will act as my helper or teacher and provide me with advice only,' +
+  ' and not complete solutions. Your mission is to guide me into the right direction for solving the problem I am currently stuck on, ' +
+  'using my current solution code as a starting point. After receiving your advice,' +
+  ' I should be able to understand the important concepts needed to solve this problem completely. Additionally, ' +
+  'could you please provide me with any important points I should remember in oreder not to get stuck on this problem in the future: \n';
+const PETITION_QUESTION = '\n\nHere is the question I am stuck on: \n';
+const PETITION_SOLUTION = '\n\nHere is my current incomplete solution: \n';
+const M_B_PETITION_SOLUTION = '\n\nHere is my current incomplete solution towards a bruteforce solution: \n';
+const M_O_PETITION_SOLUTION = '\n\nHere is my current incomplete solution towards an optimal solution: \n';
 
-export const isBraveBrowser = () => (navigator as any).brave?.isBrave()
+const customNavigator: Navigator & { brave?: { isBrave: () => Promise<void> } } = navigator;
 
-export const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false
+export const isBraveBrowser = () =>
+  typeof customNavigator.brave !== 'undefined' && typeof customNavigator.brave.isBrave() !== 'undefined';
 
-export const isTipNeeded = async () => {
-    const { tipStorage } = await Browser.storage.local.get("tipsNumber")
-    const tipsNumber = tipStorage as number
+export const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false;
 
-    if(tipsNumber >= 5) return false
+export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    await Browser.storage.local.set({ tipsNumber: tipsNumber+1})
-
-    return tipsNumber >= 2
-}
+export const getAppVersion = () => Browser.runtime.getManifest().version;
 
 export const addPetition = (opts: IPetition): string => {
-    const { question, assistanceMode, triggerMode, questionExtra} = opts
+  const { question, solution, mode } = opts;
 
-    if(assistanceMode === AssistanceMode.Learning) {
-        if(triggerMode === TriggerMode.Problem) return PREFIX_PETITION + question + L_PETITION_PROBLEM
-        if(triggerMode === TriggerMode.Submission) return PREFIX_PETITION + question + L_PETITION_SUBMISSION + questionExtra
-    } 
-
-    if(assistanceMode === AssistanceMode.Interview) {
-        if(triggerMode === TriggerMode.Problem) return PREFIX_PETITION + question + I_PETITION_PROBLEM
-        if(triggerMode === TriggerMode.Submission) return PREFIX_PETITION + question + I_PETITION_SUBMISSION + questionExtra
+  if (mode) {
+    if (mode === ASSISTANCE.manual.types[0]) {
+      // bruteforce
+      return PREFIX_PETITION + PETITION_QUESTION + question + M_B_PETITION_SOLUTION + solution;
     }
 
-    return ""
+    if (mode === ASSISTANCE.manual.types[1]) {
+      // optmize
+      return PREFIX_PETITION + PETITION_QUESTION + question + M_O_PETITION_SOLUTION + solution;
+    }
+  }
+
+  return PREFIX_PETITION + PETITION_QUESTION + question + PETITION_SOLUTION + solution;
+};
+
+export function querySelectElement<T extends Element>(possibleItems: string[]): T | undefined {
+  possibleItems.forEach((val) => {
+    const item = document.querySelector(val);
+    if (item) return item as T;
+  });
+
+  return;
 }
 
-export function querySelectElement<T extends Element>(
-    possibleItems: string[],
-): T | undefined {
-    possibleItems.forEach((val) => {
-        const item = document.querySelector(val)
-        if(item) return item as T
-    })
+export const generateTriggerMode = () => {
+  const submissionRegex = new RegExp(Object.keys(EngineModes).join('.*'));
 
-    return
-}
+  return submissionRegex.test(location.hostname) ? TriggerMode.Submission : TriggerMode.Problem;
+};
 
 export const getQuestionElement = () => {
-    const qElem = document.getElementById("__next")
-    const qChild = qElem?.getElementsByClassName("_1l1MA")[0]
+  const qElem = document.getElementById('__next');
+  const qChild = qElem?.getElementsByClassName('_1l1MA')[0];
 
-    return qChild
-} 
+  return qChild;
+};
+
+export const getSolutionElement = () => {
+  const sElem = document.getElementById('qd-content');
+  const sChild = sElem?.getElementsByClassName('view-lines')[0];
+
+  return sChild;
+};
+
+export const secondsInStorage = async () => {
+  const item = await Browser.storage.local.get('seconds');
+
+  return item.seconds as number;
+};

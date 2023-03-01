@@ -1,10 +1,9 @@
-@import "../styles/font.scss";
-@import "../styles/reset.scss";
-@import "../styles/variables.scss";
+@import "../../styles/font.scss";
+@import "../../styles/reset.scss";
 
 body {
-  color: $black;
-  background-color: $greyWhite;
+  color: '#000';
+  background-color: '#808080';
 }
 
 html {

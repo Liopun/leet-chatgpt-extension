@@ -1,32 +1,32 @@
-import { IGenerateResponseParams } from './response.js';
+import { IGenerateResponseParams } from './response';
 
 export enum ClientType {
-    ChatGPT = "chatgpt",
-    GPT3 = "gpt3",
+  ChatGPT = 'chatgpt',
+  GPT3 = 'gpt3',
 }
 
 export interface IClient {
-    askAI(params: IGenerateResponseParams): Promise<{ cleanUp?: () => void }>
+  askAI(params: IGenerateResponseParams): Promise<{ cleanUp?: () => void }>;
 }
 
 export enum TriggerMode {
-    Problem = "problem",
-    Submission = "submission",
+  Problem = 'problem',
+  Submission = 'submission',
 }
 
 export enum AssistanceMode {
-    Learning = "learning",
-    Interview = "interview"
+  Timer = 'timer',
+  Manual = 'manual',
 }
 
 export interface IGPT3ClientCfg {
-    model: string
-    apiKey: string
+  model: string;
+  apiKey: string;
 }
 
 export interface IClientCfgs {
-    client: ClientType
-    configs: {
-        [ClientType.GPT3]: IGPT3ClientCfg | undefined
-    }
+  client: ClientType;
+  configs: {
+    [ClientType.GPT3]: IGPT3ClientCfg | undefined;
+  };
 }

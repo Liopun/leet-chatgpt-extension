@@ -1,5 +1,6 @@
 {
     "manifest_version": 3,
+    "author": "Liopun",
     "name": "ChatGPT for Leetcode",
     "short_name": "LeetGPT",
     "description": "ChatGPT acting as your `Teacher` or `Interviewer` on every Leetcode question",
@@ -15,7 +16,9 @@
         "activeTab",
         "storage"
     ],
-    "author": "Liopun",
+    "content_security_policy": {
+        "extension_pages": "script-src 'self'; object-src 'self'"
+    },
     "background": {
         "service_worker": "background.js"
     },

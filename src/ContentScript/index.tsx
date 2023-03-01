@@ -1,67 +1,77 @@
-import React from "react";
-import ReactDOM from "react-dom"
-import { getUserCfg } from "../config";
-import { EngineModes } from "../engine";
-import { Engine, IPetition } from "../interfaces";
-import { addPetition, getQuestionElement, isDarkMode, querySelectElement } from "../utils/common"
-import Card from "./Card";
-import Container from "./Container";
+import ReactDOM from 'react-dom';
+import Response from '../components/Response';
+import { EngineModes } from '../engine';
+import { Engine } from '../interfaces';
+import { generateTriggerMode, getQuestionElement, getSolutionElement } from '../utils/common';
 
-import './styles.scss'
-import { AssistanceMode } from '../interfaces/client';
+import CssBaseline from '@mui/material/CssBaseline';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import { TriggerMode } from '../interfaces/client';
+import theme from '../theme';
+import './styles.scss';
 
-const mount = async (question: string, engCfg: Engine) => {
-    const container = document.createElement('div')
-    container.className = "chat-gpt-container"
-    container.classList.add(isDarkMode ? "gpt-dark" : "gpt-light")
-    
-    const usrCfg = await getUserCfg()
-    const sbContainer = document.getElementsByClassName(engCfg.sidebarContainer[0])[0]
+const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine) => {
+  const container = document.createElement('div');
+  container.className = 'chat-gpt-container';
+  container.classList.add('gpt-dark');
 
-    if(sbContainer) {
-        sbContainer.prepend(container)
-    } else {
-        container.classList.add("sidebar-free")
-        const appendContainer = document.getElementsByClassName(engCfg.appendContainer[0])[1]
+  const sbContainer = document.getElementsByClassName(engCfg.sidebarContainer[0])[0];
 
-        if(appendContainer) {
-            appendContainer.insertBefore(container, appendContainer.firstChild)
-        }
+  if (sbContainer) {
+    sbContainer.prepend(container);
+  } else {
+    container.classList.add('sidebar-free');
+    const appendContainer =
+      document.getElementsByClassName(engCfg.appendContainerRight[0])[1] ||
+      document.getElementsByClassName(engCfg.appendContainerLeft[0])[1];
+
+    if (appendContainer) {
+      appendContainer.insertBefore(container, appendContainer.firstChild);
     }
+  }
 
-    ReactDOM.render(
-        <Container question={question} assistanceMode={usrCfg.assistanceMode || "learning"}/>,
-        container
-    )
-}
+  const responseComponent = (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Response inputQuestion={inpQ} inputSolution={inpS} triggerMode={trigger} />
+    </ThemeProvider>
+  );
 
-const submissionRegex = new RegExp(Object.keys(EngineModes).join(".*"))
+  ReactDOM.render(responseComponent, container);
+};
 
-const triggerMode = submissionRegex.test(location.hostname) ? "submission" : "problem"
+const tMode = generateTriggerMode();
+const engCfg = EngineModes[tMode];
 
-const engCfg = EngineModes[triggerMode]
+const run = () => {
+  const inputQuestion = getQuestionElement();
+  const inputSolution = getSolutionElement();
 
-const run = async () => {
-    const inputQuestion = getQuestionElement()
+  if (
+    inputQuestion !== undefined &&
+    inputQuestion.textContent &&
+    inputSolution !== undefined &&
+    inputSolution.textContent
+  ) {
+    console.debug('Re-mounting ChatGPT on a different route');
+    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+  }
+};
 
-    if(inputQuestion !== undefined && inputQuestion.textContent) {
-        console.debug('Mount ChatGPT on problems')
-        const usrCfg = await getUserCfg()
-        const petitionOpts: IPetition = {
-            question: inputQuestion.textContent,
-            assistanceMode: usrCfg.assistanceMode,
-            triggerMode: triggerMode
-        }
-        const cleanQuestion = addPetition(petitionOpts)
-        mount(cleanQuestion, engCfg)
-    }
-}
+const mutationObserver = new MutationObserver((mutations) => {
+  const inputQuestion = getQuestionElement();
+  const inputSolution = getSolutionElement();
+  if (
+    inputQuestion !== undefined &&
+    inputQuestion.textContent &&
+    inputSolution !== undefined &&
+    inputSolution.textContent
+  ) {
+    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+    mutationObserver.disconnect();
+  }
+});
 
-window.addEventListener("load", function load(event){
-    window.removeEventListener("load", load, false); //remove listener, no longer needed
-    //enter here the action you want to do once loaded 
-    setTimeout(run, 2000)
+mutationObserver.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
 
-}, false);
-
-if(engCfg.watchRouteChange) engCfg.watchRouteChange(run)
+if (engCfg.watchRouteChange) engCfg.watchRouteChange(run);

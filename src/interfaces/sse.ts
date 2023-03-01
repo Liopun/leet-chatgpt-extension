@@ -1,22 +1,41 @@
 export type SSEMessage = {
-    id: string
-    role: string
-    content: {
-        content_type: string
-        parts: string[]
-    }
-}
+  id: string;
+  role: string;
+  content: {
+    content_type: string;
+    parts: string[];
+  };
+};
 
 export interface ISSEChatGPT {
-    action: string
-    messages: SSEMessage[]
-    model: string
-    parent_message_id: string
+  action: string;
+  messages: SSEMessage[];
+  model: string;
+  parent_message_id: string;
+}
+
+export interface ISSEChatGPTResponse {
+  conversation_id: string;
+  message?: {
+    id: string;
+    content?: {
+      parts: string[];
+    };
+  };
 }
 
 export interface ISSEOpenAI {
-    model: string
-    prompt: string
-    stream: boolean
-    max_tokens: number
+  model: string;
+  prompt: string;
+  stream: boolean;
+  max_tokens: number;
+}
+
+export interface ISSEOpenAIResponse {
+  id: string;
+  choices: [
+    {
+      text: string;
+    }
+  ];
 }

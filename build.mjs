@@ -23,10 +23,10 @@ const cleanupBuild = async () => {
 const runEsbuild = async () => {
   await esbuild.build({
     entryPoints: [
-      path.join(sourceDir, 'ContentScript', 'index.tsx'),
-      path.join(sourceDir, 'Background', 'index.ts'),
-      path.join(sourceDir, 'Options', 'index.tsx'),
-      path.join(sourceDir, 'Popup', 'index.tsx'),
+      path.join(sourceDir, 'contentScript', 'index.tsx'),
+      path.join(sourceDir, 'background', 'index.ts'),
+      path.join(sourceDir, 'options', 'index.tsx'),
+      path.join(sourceDir, 'popup', 'index.tsx'),
     ],
     bundle: true,
     outdir: outDir,
@@ -76,14 +76,14 @@ async function build() {
   await runEsbuild()
 
   const commonFiles = [
-    { src: path.join(outDir, 'ContentScript', 'index.js'), dst: 'content-script.js' },
-    { src: path.join(outDir, 'ContentScript', 'index.css'), dst: 'content-script.css' },
-    { src: path.join(outDir, 'Background', 'index.js'), dst: 'background.js' },
-    { src: path.join(outDir, 'Options', 'index.js'), dst: 'options.js' },
+    { src: path.join(outDir, 'contentScript', 'index.js'), dst: 'content-script.js' },
+    { src: path.join(outDir, 'contentScript', 'index.css'), dst: 'content-script.css' },
+    { src: path.join(outDir, 'background', 'index.js'), dst: 'background.js' },
+    { src: path.join(outDir, 'options', 'index.js'), dst: 'options.js' },
     { src: path.join(templatesDir, 'options.html'), dst: 'options.html' },
-    { src: path.join(outDir, 'Options', 'index.css'), dst: 'options.css' },
-    { src: path.join(outDir, 'Popup', 'index.js'), dst: 'popup.js' },
-    { src: path.join(outDir, 'Popup', 'index.css'), dst: 'popup.css' },
+    { src: path.join(outDir, 'options', 'index.css'), dst: 'options.css' },
+    { src: path.join(outDir, 'popup', 'index.js'), dst: 'popup.js' },
+    { src: path.join(outDir, 'popup', 'index.css'), dst: 'popup.css' },
     { src: path.join(templatesDir, 'popup.html'), dst: 'popup.html' },
     { src: path.join(sourceDir, 'assets', 'logo.png'), dst: 'logo.png' },
   ]

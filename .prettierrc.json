@@ -4,7 +4,7 @@
 	"printWidth": 120,
 	"bracketSameLine": true,
 	"jsxSingleQuote": true,
-    "tabWidth": 4,
+    "tabWidth": 2,
     "endOfLine": "lf",
 	"eslintIntegration": true
 }
