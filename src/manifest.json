@@ -1,9 +1,9 @@
 {
     "manifest_version": 3,
     "author": "Liopun",
-    "name": "ChatGPT for Leetcode",
-    "short_name": "LeetGPT",
-    "description": "ChatGPT acting as your `Teacher` or `Interviewer` on every Leetcode question",
+    "name": "LeetChatGPT",
+    "short_name": "LeetChatGPT",
+    "description": "Get ChatGPT's help and guidance for solving leetcode questions",
     "version": "1.0.0",
     "icons": {
         "16": "logo.png",
