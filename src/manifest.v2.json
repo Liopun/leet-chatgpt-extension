@@ -5,13 +5,12 @@
     "description": "Get ChatGPT's help and guidance for solving leetcode questions",
     "version": "1.0.0",
     "icons": {
-        "16": "assets/icons/logo.png",
-        "32": "assets/icons/logo.png",
-        "48": "assets/icons/logo.png",
-        "128": "assets/icons/logo.png"
+        "16": "logo.png",
+        "32": "logo.png",
+        "48": "logo.png",
+        "128": "logo.png"
     },
     "permissions": [
-        "activeTab",
         "storage",
         "https://*.openai.com/",
         "http://*/*",
