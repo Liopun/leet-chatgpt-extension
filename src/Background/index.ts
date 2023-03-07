@@ -62,7 +62,6 @@ async function askAI(port: Browser.Runtime.Port, question: string) {
 Browser.runtime.onConnect.addListener((port) => {
   console.assert(port.name === 'leet-gpt-main', 'LISTENER PORT');
   port.onMessage.addListener((msg) => {
-    console.debug('incoming msg', msg);
     const { value } = msg as IQueryEvent;
 
     try {
@@ -86,7 +85,6 @@ Browser.runtime.onConnect.addListener((port) => {
 
 Browser.runtime.onMessage.addListener(async (msg) => {
   const { event } = msg as IQueryEvent;
-  console.debug(event);
   switch (event) {
     // case "FEEDBACK":
     //     const token = await GetAuthAccessToken()

@@ -50,8 +50,10 @@ const run = () => {
   if (
     inputQuestion !== undefined &&
     inputQuestion.textContent &&
+    inputQuestion.textContent.length > 5 &&
     inputSolution !== undefined &&
-    inputSolution.textContent
+    inputSolution.textContent &&
+    inputSolution.textContent.length > 5
   ) {
     console.debug('Re-mounting ChatGPT on a different route');
     mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
@@ -64,8 +66,10 @@ const mutationObserver = new MutationObserver((mutations) => {
   if (
     inputQuestion !== undefined &&
     inputQuestion.textContent &&
+    inputQuestion.textContent.length > 5 &&
     inputSolution !== undefined &&
-    inputSolution.textContent
+    inputSolution.textContent &&
+    inputSolution.textContent.length > 5
   ) {
     mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
     mutationObserver.disconnect();

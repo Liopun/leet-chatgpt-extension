@@ -59,7 +59,6 @@ class ChatGPTClient implements IClient {
     };
 
     const modelName = await this.getModelName();
-    console.debug('Active Model:', modelName);
 
     const sseBodyObj: ISSEChatGPT = {
       action: 'next',

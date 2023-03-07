@@ -31,9 +31,9 @@ const Query: FC<QueryProps> = (props) => {
   // timer
   const [timeStarted, setTimerStarted] = useState(false);
   const [timerInProgress, setTimerInProgress] = useState('');
-  const [selectedTimer, setSelectedTimer] = useState('1 min');
+  const [selectedTimer, setSelectedTimer] = useState('10 min');
   const [timerId, setTimerId] = useState<NodeJS.Timer>();
-  const TIME_OPTIONS = ['1 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
+  const TIME_OPTIONS = ['10 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
 
   const port = Browser.runtime.connect({ name: 'leet-gpt-main' });
 
@@ -127,7 +127,7 @@ const Query: FC<QueryProps> = (props) => {
         }
 
         if (event === 'ERROR' && data.text) {
-          console.debug(`Error: ${event} ${data.text}`);
+          console.error(`Error: ${event} ${data.text}`);
           setError(data.text);
           setDisableManuals(false);
           setStatus('error');
@@ -189,7 +189,6 @@ const Query: FC<QueryProps> = (props) => {
   if (error === 'UNAUTHORIZED' || error === 'CLOUDFLARE' || error === 'AUTH_ERROR') {
     return <AuthRequired retries={retries} authRetries={authRetries} />;
   } else if (error.length > 0) {
-    console.debug(':::::--::', error);
     return <AuthRequired retries={retries} authRetries={authRetries} customErr={error} />;
   }
 

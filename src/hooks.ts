@@ -9,7 +9,7 @@ export const useUserAuth = () => {
     { shouldRetryOnError: false }
   );
 
-  // console.debug("useHook", data, error, isLoading)
+
   const customErr = error && (error.message === 'UNAUTHORIZED' || error.message === 'CLOUDFLARE') ? 'AUTH_ERROR' : '';
 
   return {

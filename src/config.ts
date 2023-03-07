@@ -30,8 +30,6 @@ export const ASSISTANCE_TEXT = {
   [AssistanceMode.Manual]: 'Manual',
 };
 
-console.debug('RIGHT BEFORE I FAIL^%$%$%');
-
 const userDefaultCfg = {
   triggerMode: TriggerMode.Problem,
   language: Language.Auto,
@@ -45,7 +43,6 @@ const getUserCfg = async (): Promise<UserCfg> => {
 };
 
 const updateUserCfg = async (inp: Partial<UserCfg>) => {
-  console.debug('updating cfg', inp);
   return Browser.storage.local.set(inp);
 };
 

@@ -82,7 +82,6 @@ const Options: FC = () => {
 
   const onSubmitHandler: SubmitHandler<IClientSchema> = async (values: IClientSchema) => {
     const opts = clientSchema.parse(values);
-    console.debug('goign to save', opts);
     await setClientCfgs(ClientType.GPT3, {
       [ClientType.GPT3]: {
         model: opts.model,
