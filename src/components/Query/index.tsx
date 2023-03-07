@@ -119,7 +119,7 @@ const Query: FC<QueryProps> = (props) => {
       const listener = (message: any) => {
         const { event, data } = message as IQueryEventRec;
 
-        if (event === 'RESPONSE_OUTPUT') {
+        if (event === 'RESPONSE_OUTPUT' && data.text !== question) {
           setAnswer(data);
           setDisableManuals(true);
           setStatus('success');
