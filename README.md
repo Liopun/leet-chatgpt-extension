@@ -1,8 +1,8 @@
 # LeetChatGPT
 ## AI-powered browser extension that enhances your leetcode experience
 ### Installation
-[Chrome Web Store]()
-[Firefox Add-on Store]()
+- [Chrome Web Store]()
+- [Firefox Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt)
 
 ## Screenshot
 ![Screenshot](promotion/screenshot.png?raw=true)
