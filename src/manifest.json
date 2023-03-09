@@ -3,7 +3,7 @@
     "author": "Liopun",
     "name": "LeetChatGPT",
     "short_name": "LeetChatGPT",
-    "description": "Get ChatGPT's help and guidance for solving leetcode questions",
+    "description": "Get ChatGPT's help and guidance for solving leetcode/hacker-rank questions",
     "version": "1.0.1",
     "icons": {
         "16": "logo.png",
