@@ -7,6 +7,13 @@
 ## Screenshot
 ![Screenshot](promotion/screenshot.png?raw=true)
 
+## Supported plaforms
+- Leetcode
+- Hacker-Rank
+- Code signal
+- GeeksforGeeks
+- Codeacademy
+
 ## Features
 - Supports both free and premium leetcode questions
 - Timer Mode: Get feedback and help for your current solution when a timer runs out
