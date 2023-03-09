@@ -1,14 +1,17 @@
 # LeetChatGPT
-## AI-powered browser extension that enhances your leetcode experience
+## AI-powered browser extension that enhances your leetcode/hacker-rank experience
 ### Installation
-- [Chrome Web Store]()
+- [Chrome Web Store](https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek)
 - [Firefox Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt)
 
-## Screenshot
-![Screenshot](promotion/screenshot.png?raw=true)
+## Supported questions
+- Leetcode
+![Leetcode](promotion/screenshot.png?raw=true)
+- HackerRank
+![Hackerrank](promotion/screenshot1.png?raw=true)
 
 ## Features
-- Supports both free and premium leetcode questions
+- Supports both leetcode and hacker-rank questions
 - Timer Mode: Get feedback and help for your current solution when a timer runs out
 - Manual Mode: Get feedback for your current solution towards a brute-force or optimal solution on demand
 - Markdown rendering and Code highlights

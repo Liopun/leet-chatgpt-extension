@@ -11,7 +11,7 @@ export interface IClient {
 
 export enum TriggerMode {
   Problem = 'problem',
-  Submission = 'submission',
+  Challenge = 'challenge',
 }
 
 export enum AssistanceMode {

@@ -53,21 +53,44 @@ export function querySelectElement<T extends Element>(possibleItems: string[]): 
 }
 
 export const generateTriggerMode = () => {
-  const submissionRegex = new RegExp(Object.keys(EngineModes).join('.*'));
+  for (const val of Object.keys(EngineModes)) {
+    const currRegex = new RegExp(`${EngineModes[val].host}.*${val}`);
+    if (currRegex.test(location.href)) return val as TriggerMode;
+  }
 
-  return submissionRegex.test(location.hostname) ? TriggerMode.Submission : TriggerMode.Problem;
+  return null;
 };
 
-export const getQuestionElement = () => {
-  const qElem = document.getElementById('__next');
-  const qChild = qElem?.getElementsByClassName('_1l1MA')[0];
+export const getQuestionElement = (tMode: TriggerMode) => {
+  const cfg = EngineModes[tMode];
+  const qElem = document.getElementById(cfg.input_question[0]);
+  const qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
 
   return qChild;
 };
 
-export const getSolutionElement = () => {
-  const sElem = document.getElementById('qd-content');
-  const sChild = sElem?.getElementsByClassName('view-lines')[0];
+export const getSolutionElement = (tMode: TriggerMode) => {
+  const cfg = EngineModes[tMode];
+  const sElem = document.getElementById(cfg.input_code[0]);
+  const sChild = sElem?.getElementsByClassName(cfg.input_code[1])[0];
+
+  return sChild;
+};
+
+export const getHolderElement = (tMode: TriggerMode) => {
+  const cfg = EngineModes[tMode];
+  const sElem = document.getElementById(cfg.input_code[0]);
+  let sChild;
+
+  if (tMode === TriggerMode.Problem) {
+    sChild =
+      sElem?.getElementsByClassName(cfg.appendContainerRight[0])[1] ||
+      sElem?.getElementsByClassName(cfg.appendContainerLeft[0])[1];
+  } else if (tMode === TriggerMode.Challenge) {
+    sChild =
+      sElem?.getElementsByClassName(cfg.appendContainerRight[0])[0] ||
+      sElem?.getElementsByClassName(cfg.appendContainerLeft[0])[0];
+  }
 
   return sChild;
 };
