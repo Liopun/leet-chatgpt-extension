@@ -2,7 +2,7 @@ import ReactDOM from 'react-dom';
 import Response from '../components/Response';
 import { EngineModes } from '../engine';
 import { Engine } from '../interfaces';
-import { generateTriggerMode, getQuestionElement, getSolutionElement } from '../utils/common';
+import { generateTriggerMode, getHolderElement, getQuestionElement, getSolutionElement } from '../utils/common';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -21,9 +21,7 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
     sbContainer.prepend(container);
   } else {
     container.classList.add('sidebar-free');
-    const appendContainer =
-      document.getElementsByClassName(engCfg.appendContainerRight[0])[1] ||
-      document.getElementsByClassName(engCfg.appendContainerLeft[0])[1];
+    const appendContainer = getHolderElement(trigger);
 
     if (appendContainer) {
       appendContainer.insertBefore(container, appendContainer.firstChild);
@@ -41,11 +39,16 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
 };
 
 const tMode = generateTriggerMode();
+if (!tMode) {
+  throw new Error(`err:TriggerMode could not be generated`);
+}
+
+console.debug(`MODE ACTIVATION::: ${tMode}`);
 const engCfg = EngineModes[tMode];
 
 const run = () => {
-  const inputQuestion = getQuestionElement();
-  const inputSolution = getSolutionElement();
+  const inputQuestion = getQuestionElement(tMode);
+  const inputSolution = getSolutionElement(tMode);
 
   if (
     inputQuestion !== undefined &&
@@ -61,8 +64,9 @@ const run = () => {
 };
 
 const mutationObserver = new MutationObserver((mutations) => {
-  const inputQuestion = getQuestionElement();
-  const inputSolution = getSolutionElement();
+  const inputQuestion = getQuestionElement(tMode);
+  const inputSolution = getSolutionElement(tMode);
+
   if (
     inputQuestion !== undefined &&
     inputQuestion.textContent &&
@@ -72,6 +76,7 @@ const mutationObserver = new MutationObserver((mutations) => {
     inputSolution.textContent.length > 5
   ) {
     mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+    console.debug(`Mounting ChatGPT on ${tMode} trigger`);
     mutationObserver.disconnect();
   }
 });

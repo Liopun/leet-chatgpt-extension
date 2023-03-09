@@ -1,5 +1,5 @@
 {
-  "name": "leet-gpt-extension",
+  "name": "leet-chatgpt-extension",
   "version": "1.0.0",
   "engines": {
     "node": ">=18.0.0"
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Liopun/leet-gpt-extension.git"
+    "url": "git+https://github.com/Liopun/leet-chatgpt-extension.git"
   },
   "author": "Captone Habiyaremye",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Liopun/leet-gpt-extension/issues"
+    "url": "https://github.com/Liopun/leet-chatgpt-extension/issues"
   },
-  "homepage": "https://github.com/Liopun/leet-gpt-extension#readme",
+  "homepage": "https://github.com/Liopun/leet-chatgpt-extension#readme",
   "dependencies": {
     "@babel/runtime": "^7.21.0",
     "@emotion/react": "^11.10.6",

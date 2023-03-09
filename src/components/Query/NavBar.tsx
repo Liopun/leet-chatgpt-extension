@@ -63,7 +63,7 @@ const NavBar: FC<NavBarProps> = (props) => {
     <AppBar position='static' color='transparent'>
       <Toolbar variant='dense'>
         <Typography variant='body1' component='div' mr='2rem'>
-          Get ChatGPT Help
+          ChatGPT
         </Typography>
         <Box sx={{ ml: '1rem' }}>
           <Accordion
