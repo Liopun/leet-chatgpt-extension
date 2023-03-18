@@ -35,7 +35,10 @@ export interface ISSEOpenAIResponse {
   id: string;
   choices: [
     {
-      text: string;
+      delta: {
+        content: string;
+      };
+      index: number;
     }
   ];
 }

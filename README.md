@@ -14,6 +14,7 @@
 - Supports both leetcode and hacker-rank questions
 - Timer Mode: Get feedback and help for your current solution when a timer runs out
 - Manual Mode: Get feedback for your current solution towards a brute-force or optimal solution on demand
+- Ability to ask follow-up questions (chat with ChatGPT)
 - Markdown rendering and Code highlights
 - Supports both ChatGPT and ChatGPT Plus
 

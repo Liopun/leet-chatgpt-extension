@@ -1,4 +1,4 @@
-export interface IModels {
+export interface IModel {
   slug: string;
   title: string;
   description: string;

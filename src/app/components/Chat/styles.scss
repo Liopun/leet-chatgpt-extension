@@ -1,0 +1,31 @@
+.markdown-custom-styles {
+  color: '#fff';
+  margin: 0 !important;
+  background-color: inherit !important;
+  max-height: fit-content !important;
+  overflow: hidden !important;
+  font-size: 13px !important;
+  > p {
+    margin-bottom: 2px;
+  }
+  > ul,
+  ol {
+    list-style: disc;
+    padding-left: 1em;
+    margin-bottom: 5px;
+  }
+  & li p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  > pre {
+    margin-bottom: 5px;
+    background-color: rgb(64, 64, 64, 0.5) !important;
+  }
+  > pre code.hljs {
+    padding: 0;
+  }
+  > pre code {
+    white-space: pre-wrap;
+  }
+}

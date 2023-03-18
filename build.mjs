@@ -85,7 +85,7 @@ async function build() {
     { src: path.join(outDir, 'popup', 'index.js'), dst: 'popup.js' },
     { src: path.join(outDir, 'popup', 'index.css'), dst: 'popup.css' },
     { src: path.join(templatesDir, 'popup.html'), dst: 'popup.html' },
-    { src: path.join(sourceDir, 'assets', 'logo.png'), dst: 'logo.png' },
+    { src: path.join(sourceDir, 'app/assets', 'logo.png'), dst: 'logo.png' },
   ]
 
   // chromium

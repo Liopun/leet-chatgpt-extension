@@ -1,13 +1,13 @@
 import ReactDOM from 'react-dom';
-import Response from '../components/Response';
-import { EngineModes } from '../engine';
+import App from '../app';
+import { EngineModes } from '../config/engine';
 import { Engine } from '../interfaces';
 import { generateTriggerMode, getHolderElement, getQuestionElement, getSolutionElement } from '../utils/common';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import theme from '../app/theme';
 import { TriggerMode } from '../interfaces/client';
-import theme from '../theme';
 import './styles.scss';
 
 const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine) => {
@@ -31,11 +31,25 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
   const responseComponent = (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Response inputQuestion={inpQ} inputSolution={inpS} triggerMode={trigger} />
+      <App inputQuestion={inpQ} inputSolution={inpS} triggerMode={trigger} />
     </ThemeProvider>
   );
 
   ReactDOM.render(responseComponent, container);
+};
+
+const inputsReady = (q?: Element, s?: Element): boolean => {
+  if (
+    q !== undefined &&
+    q.textContent &&
+    q.textContent.length > 5 &&
+    s !== undefined &&
+    s.textContent &&
+    s.textContent.length > 5
+  )
+    return true;
+
+  return false;
 };
 
 const tMode = generateTriggerMode();
@@ -50,16 +64,9 @@ const run = () => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
 
-  if (
-    inputQuestion !== undefined &&
-    inputQuestion.textContent &&
-    inputQuestion.textContent.length > 5 &&
-    inputSolution !== undefined &&
-    inputSolution.textContent &&
-    inputSolution.textContent.length > 5
-  ) {
+  if (inputQuestion && inputSolution && inputsReady(inputQuestion, inputSolution)) {
     console.debug('Re-mounting ChatGPT on a different route');
-    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+    mount(inputQuestion.textContent!, inputSolution.textContent!, tMode, engCfg);
   }
 };
 
@@ -67,15 +74,8 @@ const mutationObserver = new MutationObserver((mutations) => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
 
-  if (
-    inputQuestion !== undefined &&
-    inputQuestion.textContent &&
-    inputQuestion.textContent.length > 5 &&
-    inputSolution !== undefined &&
-    inputSolution.textContent &&
-    inputSolution.textContent.length > 5
-  ) {
-    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+  if (inputQuestion && inputSolution && inputsReady(inputQuestion, inputSolution)) {
+    mount(inputQuestion.textContent!, inputSolution.textContent!, tMode, engCfg);
     console.debug(`Mounting ChatGPT on ${tMode} trigger`);
     mutationObserver.disconnect();
   }
