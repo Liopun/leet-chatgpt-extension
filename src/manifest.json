@@ -4,7 +4,7 @@
     "name": "LeetChatGPT",
     "short_name": "LeetChatGPT",
     "description": "Get ChatGPT's help and guidance for solving leetcode/hacker-rank questions",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "icons": {
         "16": "logo.png",
         "32": "logo.png",

@@ -40,25 +40,6 @@ const Popup: FC = () => {
           </Toolbar>
         </AppBar>
       </Box>
-      {(() => {
-        const elem = <iframe height='272px' width='400px' title='Authenticated' src='https://chat.openai.com' />;
-        return (
-          <Box
-            component='p'
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '17rem',
-              width: '100%',
-              fontSize: '1rem',
-              textAlign: 'center',
-              padding: 0,
-            }}>
-            {elem}
-          </Box>
-        );
-      })()}
     </>
   );
 };
