@@ -27,6 +27,13 @@ export interface IGenerateResponseParams {
   signal?: AbortSignal;
 }
 
+interface ICatchErrorObj {
+  error: {
+    message: string;
+    code: string;
+  };
+}
+
 export abstract class AbstractClient {
   async askAI(params: IGenerateResponseParams) {
     try {
@@ -36,14 +43,22 @@ export abstract class AbstractClient {
         params.onEvent({ type: 'ERROR', error: err });
       } else if (!params.signal?.aborted) {
         // ignore user abort exception
-        const parsedError = JSON.parse((err as Error).message) as { error: { message: string; code: string } };
+        let parsedError: ICatchErrorObj;
+        try {
+          parsedError = JSON.parse((err as Error).message) as ICatchErrorObj;
+        } catch (err1) {
+          console.error(err1);
+          parsedError = { error: { message: (err as Error).message, code: ErrorCode.UNKOWN_ERROR } };
+        }
+
         const code =
           parsedError.error.code.toUpperCase() === ErrorCode.INVALID_API_KEY
             ? ErrorCode.INVALID_API_KEY
             : ErrorCode.UNKOWN_ERROR;
+
         params.onEvent({
           type: 'ERROR',
-          error: new ClientError(parsedError.error.message || (err as Error).message, code),
+          error: new ClientError(parsedError.error.message, code),
         });
       }
     }
