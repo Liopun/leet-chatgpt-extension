@@ -38,6 +38,20 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
   ReactDOM.render(responseComponent, container);
 };
 
+const inputsReady = (q?: Element, s?: Element): boolean => {
+  if (
+    q !== undefined &&
+    q.textContent &&
+    q.textContent.length > 5 &&
+    s !== undefined &&
+    s.textContent &&
+    s.textContent.length > 5
+  )
+    return true;
+
+  return false;
+};
+
 const tMode = generateTriggerMode();
 if (!tMode) {
   throw new Error(`err:TriggerMode could not be generated`);
@@ -50,16 +64,9 @@ const run = () => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
 
-  if (
-    inputQuestion !== undefined &&
-    inputQuestion.textContent &&
-    inputQuestion.textContent.length > 5 &&
-    inputSolution !== undefined &&
-    inputSolution.textContent &&
-    inputSolution.textContent.length > 5
-  ) {
+  if (inputQuestion && inputSolution && inputsReady(inputQuestion, inputSolution)) {
     console.debug('Re-mounting ChatGPT on a different route');
-    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+    mount(inputQuestion.textContent!, inputSolution.textContent!, tMode, engCfg);
   }
 };
 
@@ -67,15 +74,8 @@ const mutationObserver = new MutationObserver((mutations) => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
 
-  if (
-    inputQuestion !== undefined &&
-    inputQuestion.textContent &&
-    inputQuestion.textContent.length > 5 &&
-    inputSolution !== undefined &&
-    inputSolution.textContent &&
-    inputSolution.textContent.length > 5
-  ) {
-    mount(inputQuestion.textContent, inputSolution.textContent, tMode, engCfg);
+  if (inputQuestion && inputSolution && inputsReady(inputQuestion, inputSolution)) {
+    mount(inputQuestion.textContent!, inputSolution.textContent!, tMode, engCfg);
     console.debug(`Mounting ChatGPT on ${tMode} trigger`);
     mutationObserver.disconnect();
   }

@@ -42,14 +42,8 @@ const Options: FC = () => {
   const modelList = ['text-davinci-003'];
   const [tabsValue, setTabsValue] = useState(1);
   const [clientMode, setClientMode] = useState(ClientType.ChatGPT);
-
-  useEffect(() => {
-    getUserCfg().then((config) => {
-      const cMode = config.openaiApiKey && config.openaiApiKey !== '' ? ClientType.GPT3 : ClientType.ChatGPT;
-      setClientMode(cMode);
-      setTabsValue(cMode === ClientType.GPT3 ? 1 : 0);
-    });
-  }, []);
+  const [configChanged, setConfigChanged] = useState(false);
+  const [apiPlaceholder, setApiPlaceholder] = useState('');
 
   const defaultValues: IClientSchema = {
     model: modelList[0],
@@ -62,21 +56,46 @@ const Options: FC = () => {
     defaultValues,
   });
 
+  const getUserConfig = () => {
+    getUserCfg().then((config) => {
+      const apiKey = config.openaiApiKey;
+      const cMode = apiKey !== '' ? ClientType.TurboGPT : ClientType.ChatGPT;
+      setClientMode(cMode);
+      setTabsValue(cMode === ClientType.TurboGPT ? 1 : 0);
+      setApiPlaceholder(apiKey);
+    });
+  };
+
   const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => setTabsValue(newValue);
 
   const handleClientModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked) {
       invalidateUserCfgToken('openaiApiKey');
     }
-    setClientMode(event.target.checked ? ClientType.GPT3 : ClientType.ChatGPT);
+    setClientMode(event.target.checked ? ClientType.TurboGPT : ClientType.ChatGPT);
     setTabsValue(event.target.checked ? 1 : 0);
   };
 
   const onSubmitHandler: SubmitHandler<IClientSchema> = async (values: IClientSchema) => {
     const opts = clientSchema.parse(values);
     await updateUserCfg({ openaiApiKey: opts.apiKey });
+    setClientMode(ClientType.TurboGPT);
     alert('Changes saved');
+    setConfigChanged(true);
   };
+
+  // useEffect(() => {
+  //   getUserConfig()
+  // }, [])
+
+  useEffect(() => {
+    if (configChanged) {
+      getUserConfig();
+      setConfigChanged(false);
+      return;
+    }
+    getUserConfig();
+  }, [configChanged]);
 
   return (
     <Container>
@@ -112,16 +131,28 @@ const Options: FC = () => {
           <Box sx={{ backgroundColor: 'transparent' }} style={{ flex: 1 }}></Box>
           <Box>
             <Stack direction='row' divider={<Divider orientation='vertical' flexItem />} spacing={2}>
-              <Link fontSize='1.25rem' href='#' underline='none' color='#000'>
+              <Link
+                fontSize='1.25rem'
+                href='https://github.com/Liopun/leet-chatgpt-extension/releases'
+                underline='none'
+                color='#000'>
                 {'Releases'}
               </Link>
-              <Link fontSize='1.25rem' href='#' underline='none' color='#000'>
+              <Link
+                fontSize='1.25rem'
+                href='https://github.com/Liopun/leet-chatgpt-extension/issues'
+                underline='none'
+                color='#000'>
                 {'Feedback'}
               </Link>
-              <Link fontSize='1.25rem' href='#' underline='none' color='#000'>
+              <Link fontSize='1.25rem' href='https://twitter.com/liopun' underline='none' color='#000'>
                 {'Twitter'}
               </Link>
-              <Link fontSize='1.25rem' href='#' underline='none' color='#000'>
+              <Link
+                fontSize='1.25rem'
+                href='https://github.com/Liopun/leet-chatgpt-extension'
+                underline='none'
+                color='#000'>
                 {'Github'}
               </Link>
             </Stack>
@@ -150,11 +181,11 @@ const Options: FC = () => {
           <Stack direction='row' spacing={1} alignItems='center'>
             <Typography textTransform='uppercase'>{ClientType.ChatGPT}</Typography>
             <Switch
-              checked={clientMode === ClientType.GPT3}
+              checked={clientMode === ClientType.TurboGPT}
               onChange={handleClientModeChange}
               inputProps={{ 'aria-label': 'active-client' }}
             />
-            <Typography textTransform='uppercase'>{ClientType.GPT3}</Typography>
+            <Typography textTransform='uppercase'>{ClientType.TurboGPT}</Typography>
           </Stack>
 
           <Box
@@ -188,7 +219,7 @@ const Options: FC = () => {
             </TabPanel>
             <TabPanel value={tabsValue} index={1}>
               <FormProvider {...methods}>
-                OpenAI official API (GPT-3), more stable, charge by usage
+                OpenAI official API (GPT-3.5 Turbo), more stable, charge by usage
                 <Box
                   component='form'
                   sx={{
@@ -196,7 +227,14 @@ const Options: FC = () => {
                   }}
                   noValidate
                   autoComplete='off'>
-                  <TextField id='apikey' label='API Key' variant='standard' {...methods.register('apiKey')} />
+                  <TextField
+                    placeholder={apiPlaceholder}
+                    id='apikey'
+                    label='API Key'
+                    variant='standard'
+                    style={{ width: '100%' }}
+                    {...methods.register('apiKey')}
+                  />
                   <Typography variant='subtitle2' component='div' mt='.05rem' color='info' style={{ width: '100%' }}>
                     Don&#39;t kow how to get your API key?
                     <Typography

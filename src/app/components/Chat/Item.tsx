@@ -3,6 +3,8 @@ import { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
 import rehypeHighlight from 'rehype-highlight';
+import remarkGfm from 'remark-gfm';
+import supersub from 'remark-supersub';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import Bubbles from './Bubbles';
 import Error from './Error';
@@ -39,7 +41,8 @@ const Item: FC<Props> = (props) => {
           {message.text ? (
             <ReactMarkdown
               className={`markdown-body markdown-custom-styles !text-base`}
-              rehypePlugins={[[rehypeHighlight, { detect: true }]]}>
+              remarkPlugins={[supersub, remarkGfm]}
+              rehypePlugins={[[rehypeHighlight, { detect: true, ignoreMissing: true }]]}>
               {message.text}
             </ReactMarkdown>
           ) : (

@@ -4,6 +4,7 @@ export enum ErrorCode {
   CHATGPT_CLOUDFLARE = 'CHATGPT_CLOUDFLARE',
   CHATGPT_UNAUTHORIZED = 'CHATGPT_UNAUTHORIZED',
   API_KEY_NOT_SET = 'API_KEY_NOT_SET',
+  INVALID_API_KEY = 'INVALID_API_KEY',
 }
 
 export class ClientError extends Error {

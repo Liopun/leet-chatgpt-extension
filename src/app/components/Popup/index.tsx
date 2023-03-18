@@ -13,7 +13,7 @@ import Logo from '../../assets/logo.png';
 
 const Popup: FC = () => {
   const openWebPage = useCallback(() => {
-    Browser.tabs.create({ url: 'options.html' });
+    Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
   }, []);
 
   return (

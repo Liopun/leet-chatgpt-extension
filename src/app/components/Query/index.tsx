@@ -165,24 +165,6 @@ const Query: FC<Props> = (props) => {
   }, [generating]);
 
   useEffect(() => {
-    if (error) {
-      const onFocus = () => {
-        setRetries((r) => ++r);
-        window.location.reload();
-      };
-
-      const timer = setTimeout(() => {
-        window.addEventListener('focus', onFocus);
-      }, 1000);
-
-      return () => {
-        window.removeEventListener('focus', onFocus);
-        clearTimeout(timer);
-      };
-    }
-  }, [error]);
-
-  useEffect(() => {
     if (timeStarted) {
       timerCountDown(parseInt(selectedTimer.split(' ')[0], 10) * 60);
     } else {

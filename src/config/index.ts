@@ -41,19 +41,16 @@ const userDefaultCfg = {
 export type UserCfg = typeof userDefaultCfg;
 
 const getUserCfg = async (): Promise<UserCfg> => {
-  const res = await Browser.storage.sync.get(Object.keys(userDefaultCfg));
+  const res = await Browser.storage.local.get(Object.keys(userDefaultCfg));
   return defaults(res, userDefaultCfg);
 };
 
 const updateUserCfg = async (inp: Partial<UserCfg>) => {
-  // return Browser.storage.local.set(inp);
-  for (const [k, v] of Object.entries(inp)) {
-    if (v !== undefined) await Browser.storage.sync.set({ k, v });
-  }
+  await Browser.storage.local.set(defaults(inp, userDefaultCfg));
 };
 
 const invalidateUserCfgToken = async (key: string) => {
-  await Browser.storage.sync.remove(key);
+  await Browser.storage.local.remove(key);
 };
 
 export { getUserCfg, updateUserCfg, invalidateUserCfgToken };

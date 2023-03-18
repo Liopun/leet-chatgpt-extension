@@ -1,6 +1,6 @@
 {
   "name": "leet-chatgpt-extension",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -31,7 +31,6 @@
     "@hookform/resolvers": "^2.9.11",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
-    "@radix-ui/react-tooltip": "^1.0.5",
     "@types/react-toastify": "^4.1.0",
     "advanced-css-reset": "^1.2.2",
     "classnames": "^2.3.2",
@@ -72,8 +71,6 @@
     "@typescript-eslint/parser": "^5.53.0",
     "archiver": "^5.3.1",
     "autoprefixer": "^10.4.13",
-    "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^11.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
     "dotenv": "^16.0.3",

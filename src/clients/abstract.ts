@@ -32,13 +32,19 @@ export abstract class AbstractClient {
     try {
       await this.doAskAI(params);
     } catch (err) {
-      console.debug(err instanceof ClientError, 'DOaskaIII:::', JSON.stringify(err));
       if (err instanceof ClientError) {
         params.onEvent({ type: 'ERROR', error: err });
       } else if (!params.signal?.aborted) {
         // ignore user abort exception
-        console.debug('DOaskaIIIIIIIII:::', JSON.stringify(err));
-        params.onEvent({ type: 'ERROR', error: new ClientError((err as Error).message, ErrorCode.UNKOWN_ERROR) });
+        const parsedError = JSON.parse((err as Error).message) as { error: { message: string; code: string } };
+        const code =
+          parsedError.error.code.toUpperCase() === ErrorCode.INVALID_API_KEY
+            ? ErrorCode.INVALID_API_KEY
+            : ErrorCode.UNKOWN_ERROR;
+        params.onEvent({
+          type: 'ERROR',
+          error: new ClientError(parsedError.error.message || (err as Error).message, code),
+        });
       }
     }
   }

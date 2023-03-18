@@ -7,7 +7,7 @@ import {
 } from '../interfaces/request';
 import { streamAsyncIterable } from './stream-async-iterable';
 
-export const executeInit = () => {
+export const executorInit = () => {
   Browser.runtime.onConnect.addListener((port) => {
     const abortCtlr = new AbortController();
     port.onDisconnect.addListener(() => {
@@ -15,7 +15,7 @@ export const executeInit = () => {
     });
     port.onMessage.addListener((message: RequestParamsMessage) => {
       (async () => {
-        console.debug('proxy fetch', message.url, message.options);
+        console.debug('fetch executor', message.url, message.options);
         const resp = await fetch(message.url, {
           ...message.options,
           signal: abortCtlr.signal,
