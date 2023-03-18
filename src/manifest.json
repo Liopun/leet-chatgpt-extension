@@ -4,7 +4,7 @@
     "name": "LeetChatGPT",
     "short_name": "LeetChatGPT",
     "description": "Get ChatGPT's help and guidance for solving leetcode/hacker-rank questions",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "icons": {
         "16": "logo.png",
         "32": "logo.png",
@@ -40,8 +40,8 @@
             "matches": [
                 "https://leetcode.com/problems/*/",
                 "https://www.leetcode.com/problems/*/",
-                "https://leetcode.com/problems/*/description/",
-                "https://www.leetcode.com/problems/*/description/",
+                "https://leetcode.com/problems/*/description/*",
+                "https://www.leetcode.com/problems/*/description/*",
                 "https://hackerrank.com/challenges/*/problem*",
                 "https://www.hackerrank.com/challenges/*/problem*"
             ],

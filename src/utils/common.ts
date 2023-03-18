@@ -1,6 +1,6 @@
 import Browser from 'webextension-polyfill';
 import { ASSISTANCE } from '../config';
-import { EngineModes } from '../engine';
+import { EngineModes } from '../config/engine';
 import { IPetition, TriggerMode } from '../interfaces';
 
 const PREFIX_PETITION =

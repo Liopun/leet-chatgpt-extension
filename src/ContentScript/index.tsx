@@ -1,13 +1,13 @@
 import ReactDOM from 'react-dom';
-import Response from '../components/Response';
-import { EngineModes } from '../engine';
+import App from '../app';
+import { EngineModes } from '../config/engine';
 import { Engine } from '../interfaces';
 import { generateTriggerMode, getHolderElement, getQuestionElement, getSolutionElement } from '../utils/common';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import theme from '../app/theme';
 import { TriggerMode } from '../interfaces/client';
-import theme from '../theme';
 import './styles.scss';
 
 const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine) => {
@@ -31,7 +31,7 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
   const responseComponent = (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Response inputQuestion={inpQ} inputSolution={inpS} triggerMode={trigger} />
+      <App inputQuestion={inpQ} inputSolution={inpS} triggerMode={trigger} />
     </ThemeProvider>
   );
 
