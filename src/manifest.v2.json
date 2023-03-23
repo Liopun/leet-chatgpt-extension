@@ -3,7 +3,7 @@
     "name": "LeetChatGPT",
     "short_name": "LeetChatGPT",
     "description": "Get ChatGPT's help and guidance for solving leetcode/hacker-rank questions",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "icons": {
         "16": "logo.png",
         "32": "logo.png",
@@ -12,9 +12,7 @@
     },
     "permissions": [
         "storage",
-        "https://*.openai.com/",
-        "http://*/*",
-        "https://*/*"
+        "https://*.openai.com/"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "author": "Liopun",

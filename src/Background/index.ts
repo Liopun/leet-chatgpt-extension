@@ -10,5 +10,5 @@ Browser.runtime.onMessage.addListener((message) => {
 });
 
 Browser.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
+  if (details.reason === 'install') Browser.tabs.create({ url: 'options.html' });
 });

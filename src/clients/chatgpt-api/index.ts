@@ -46,7 +46,9 @@ export class ChatGPTApiClient extends AbstractClient {
       }),
     });
 
-    await parseSSE(resp, (message) => {
+    const respClone = resp.clone();
+
+    await parseSSE(respClone, (message) => {
       if (message === '[DONE]') {
         params.onEvent({ type: 'DONE' });
         return;
