@@ -13,6 +13,10 @@ const PETITION_QUESTION = '\n\nHere is the question I am stuck on: \n';
 const PETITION_SOLUTION = '\n\nHere is my current incomplete solution: \n';
 const M_B_PETITION_SOLUTION = '\n\nHere is my current incomplete solution towards a bruteforce solution: \n';
 const M_O_PETITION_SOLUTION = '\n\nHere is my current incomplete solution towards an optimal solution: \n';
+const PETITION_TOPIC_QUERY =
+  'In 100 words, can you simply and meticulously explain the following data structure & algorithm pattern/technique ' +
+  'and give important points on how to detect questions that can be solved using this pattern/technique. The pattern/technique is ';
+const PETITION_TOPIC_QUERY_EOL = '\\n remember to only use 100 words';
 
 const customNavigator: Navigator & { brave?: { isBrave: () => Promise<void> } } = navigator;
 
@@ -42,6 +46,8 @@ export const addPetition = (opts: IPetition): string => {
 
   return PREFIX_PETITION + PETITION_QUESTION + question + PETITION_SOLUTION + solution;
 };
+
+export const formatTopicQuery = (topic: string): string => PETITION_TOPIC_QUERY + topic + PETITION_TOPIC_QUERY_EOL;
 
 export function querySelectElement<T extends Element>(possibleItems: string[]): T | undefined {
   possibleItems.forEach((val) => {
@@ -93,10 +99,4 @@ export const getHolderElement = (tMode: TriggerMode) => {
   }
 
   return sChild;
-};
-
-export const secondsInStorage = async () => {
-  const item = await Browser.storage.local.get('seconds');
-
-  return item.seconds as number;
 };

@@ -18,6 +18,9 @@ const CssSelect = styled(InputBase)({
       boxShadow: '0 0 0 0.2rem rgba(128, 128, 128,.25)',
     },
   },
+  '& .MuiButtonBase-root': {
+    fontSize: '1px',
+  },
 });
 
 export { CssSelect };

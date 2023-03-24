@@ -9,9 +9,9 @@ import Browser from 'webextension-polyfill';
 import { ASSISTANCE } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { ClientError } from '../../../utils/errors';
+import { TIME_OPTIONS } from '../../constants';
 import { useChat } from '../../hooks';
 import theme from '../../theme';
-import Loading from '../Loading';
 import ChatPanel from './ChatPanel';
 import ErrorPanel from './ErrorPanel';
 import NavBar from './NavBar';
@@ -35,9 +35,8 @@ const Query: FC<Props> = (props) => {
   // timer
   const [timeStarted, setTimerStarted] = useState(false);
   const [timerInProgress, setTimerInProgress] = useState('');
-  const [selectedTimer, setSelectedTimer] = useState('10 min');
+  const [selectedTimer, setSelectedTimer] = useState(TIME_OPTIONS[0]);
   const [timerId, setTimerId] = useState<NodeJS.Timer>();
-  const TIME_OPTIONS = ['10 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
 
   const chatgptChat = useChat('chatgpt');
 
@@ -283,8 +282,6 @@ const Query: FC<Props> = (props) => {
           <Box ref={containerRef}></Box>
         </Box>
       ) : null}
-
-      {loading && !startedChat ? <Loading /> : null}
 
       {startedChat === true ? <ChatPanel clientId='chatgpt' /> : null}
     </Box>

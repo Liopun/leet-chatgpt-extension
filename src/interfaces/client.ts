@@ -1,6 +1,6 @@
 export enum ClientType {
   ChatGPT = 'chatgpt',
-  TurboGPT = 'gpt',
+  TurboGPT = 'gpt3.5',
 }
 
 export enum TriggerMode {

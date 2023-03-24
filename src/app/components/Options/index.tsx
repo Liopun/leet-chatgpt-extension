@@ -32,7 +32,6 @@ const a11yProps = (index: number) => {
 };
 
 const clientSchema = object({
-  model: string().trim().min(1, 'Model is required'),
   apiKey: string().trim().min(1, 'ApiKey is required'),
 });
 
@@ -46,7 +45,6 @@ const Options: FC = () => {
   const [apiPlaceholder, setApiPlaceholder] = useState('');
 
   const defaultValues: IClientSchema = {
-    model: modelList[0],
     apiKey: '',
   };
 
@@ -208,8 +206,8 @@ const Options: FC = () => {
                 borderColor: 'divider',
               }}
               indicatorColor='primary'>
-              <Tab color='#000' label='ChatGPT' {...a11yProps(0)} />
-              <Tab label='Open AI' {...a11yProps(1)} />
+              <Tab color='#000' label={ClientType.ChatGPT} {...a11yProps(0)} />
+              <Tab label={ClientType.TurboGPT} {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={tabsValue} index={0}>
               Default choice
