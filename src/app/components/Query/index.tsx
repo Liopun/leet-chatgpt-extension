@@ -238,6 +238,7 @@ const Query: FC<Props> = (props) => {
           }}>
           {answer.text && answer.text.length > 0 ? (
             <>
+              <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>{answer.text}</ReactMarkdown>
               {generating && (
                 <Typography
                   component='a'
@@ -247,10 +248,9 @@ const Query: FC<Props> = (props) => {
                     e.preventDefault();
                     stopConvo();
                   }}>
-                  <CancelIcon sx={{ color: 'red', opacity: 0.5 }} /> {' stop generating'}
+                  <CancelIcon sx={{ color: 'red', opacity: 0.5 }} /> {' cancel'}
                 </Typography>
               )}
-              <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>{answer.text}</ReactMarkdown>
             </>
           ) : (
             !answer.error && (
@@ -263,7 +263,7 @@ const Query: FC<Props> = (props) => {
                 }}>
                 <Grid container direction='row' justifyContent='center' alignItems='center'>
                   <Typography component='div' variant='body1' sx={{ mt: '1rem' }}>
-                    <BeatLoader size={10} className='leading-tight' />
+                    <BeatLoader color='#808080' size={10} className='leading-tight' />
                   </Typography>
                 </Grid>
               </Box>
@@ -271,7 +271,12 @@ const Query: FC<Props> = (props) => {
           )}
 
           {!generating ? (
-            <Button variant='outlined' size='medium' endIcon={<QuestionAnswer />} onClick={() => setStartedChat(true)}>
+            <Button
+              sx={{ textTransform: 'capitalize' }}
+              variant='outlined'
+              size='medium'
+              endIcon={<QuestionAnswer />}
+              onClick={() => setStartedChat(true)}>
               I Have follow-up question(s)
             </Button>
           ) : null}

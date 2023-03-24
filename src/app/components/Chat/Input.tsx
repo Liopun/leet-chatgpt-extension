@@ -106,6 +106,7 @@ const Input: FC<Props> = (props) => {
             flex: 1,
             flexGrow: 1,
             marginRight: theme.spacing(1),
+            textTransform: 'capitalize',
           }}
           onKeyDown={onKeyDown}
           disabled={generating}
