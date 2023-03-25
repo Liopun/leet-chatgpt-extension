@@ -13,6 +13,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config()
 
 const templatesDir = path.join(__dirname, 'templates');
+const localesDir = path.join(__dirname, '_locales');
 const sourceDir = path.join(__dirname, 'src');
 const outDir = path.join(__dirname, 'extension')
 
@@ -86,6 +87,7 @@ async function build() {
     { src: path.join(outDir, 'popup', 'index.css'), dst: 'popup.css' },
     { src: path.join(templatesDir, 'popup.html'), dst: 'popup.html' },
     { src: path.join(sourceDir, 'app/assets', 'logo.png'), dst: 'logo.png' },
+    { src: localesDir, dst: '_locales' },
   ]
 
   // chromium

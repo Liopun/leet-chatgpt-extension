@@ -13,7 +13,7 @@ import './styles.scss';
 
 import { BeatLoader } from 'react-spinners';
 import { ChatMessageObj } from '../../../interfaces/chat';
-import { formatTopicQuery } from '../../../utils/common';
+import { formatTopicQuery, loadAppLocales } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
 import Logo from '../../assets/logo.png';
 import { TOPICS } from '../../constants';
@@ -27,6 +27,7 @@ const Popup: FC = () => {
   const [selectedTopic, setSelectedTopic] = useState(TOPICS[Math.floor(Math.random() * TOPICS.length)]);
 
   const chatgptChat = useChat('chatgpt');
+  const langBasedAppStrings = loadAppLocales();
 
   const openWebPage = useCallback(() => {
     Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
@@ -146,7 +147,7 @@ const Popup: FC = () => {
                   e.preventDefault();
                   setSelectedTopic(TOPICS[Math.floor(Math.random() * TOPICS.length)]);
                 }}>
-                <ShuffleIcon sx={{ fontSize: '20px' }} /> Shuffle
+                <ShuffleIcon sx={{ fontSize: '20px' }} /> {langBasedAppStrings.appShuffle}
               </Fab>
             </Zoom>
             <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '200ms' : '0ms' }}>

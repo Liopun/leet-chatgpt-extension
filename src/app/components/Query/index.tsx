@@ -6,8 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
 import rehypeHighlight from 'rehype-highlight';
 import Browser from 'webextension-polyfill';
-import { ASSISTANCE } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
+import { loadAppLocales } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
 import { TIME_OPTIONS } from '../../constants';
 import { useChat } from '../../hooks';
@@ -39,6 +39,7 @@ const Query: FC<Props> = (props) => {
   const [timerId, setTimerId] = useState<NodeJS.Timer>();
 
   const chatgptChat = useChat('chatgpt');
+  const langBasedAppStrings = loadAppLocales();
 
   const generating = useMemo(() => chatgptChat.generating, [chatgptChat.generating]);
 
@@ -92,7 +93,7 @@ const Query: FC<Props> = (props) => {
     handleStopTimer();
     setTimeout(() => {
       // wait for resetQuestion effect
-      onModeChange(ASSISTANCE.manual.types[0]);
+      onModeChange(langBasedAppStrings.appBruteforce);
     }, 0);
   };
 
@@ -101,7 +102,7 @@ const Query: FC<Props> = (props) => {
     handleStopTimer();
     setTimeout(() => {
       // wait for resetQuestion effect
-      onModeChange(ASSISTANCE.manual.types[1]);
+      onModeChange(langBasedAppStrings.appOptimize);
     }, 0);
   };
 
@@ -211,7 +212,7 @@ const Query: FC<Props> = (props) => {
               {timerInProgress}
             </Typography>
             <Typography component='p' variant='body1'>
-              try to solve this question, you will get feedback and help on your solution after this timer runs out.
+              {langBasedAppStrings.appTimerDesc}
             </Typography>
           </Typography>
         </Box>
@@ -276,7 +277,7 @@ const Query: FC<Props> = (props) => {
               size='medium'
               endIcon={<QuestionAnswer />}
               onClick={() => setStartedChat(true)}>
-              I Have follow-up question(s)
+              {langBasedAppStrings.appLetsChat}
             </Button>
           ) : null}
           <Box ref={containerRef}></Box>

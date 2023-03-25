@@ -1,5 +1,6 @@
 import { Box, Button, Paper, styled, TextField } from '@mui/material';
 import { ChangeEvent, FC, KeyboardEventHandler, memo, useCallback, useEffect, useRef, useState } from 'react';
+import { loadAppLocales } from '../../../utils/common';
 import theme from '../../theme';
 
 interface Props {
@@ -39,6 +40,8 @@ const Input: FC<Props> = (props) => {
   const [inputValue, setInputValue] = useState('');
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const langBasedAppStrings = loadAppLocales();
 
   useEffect(() => {
     if (!generating) {
@@ -122,7 +125,7 @@ const Input: FC<Props> = (props) => {
             onClick={onFormSubmit}
             sx={{ color: '#fff' }}
             disabled={inputValue.length === 0}>
-            Send
+            {langBasedAppStrings.appSend}
           </Button>
         ) : (
           <Button
@@ -134,7 +137,7 @@ const Input: FC<Props> = (props) => {
               e.preventDefault();
               stopGenerating();
             }}>
-            Stop
+            {langBasedAppStrings.appStop}
           </Button>
         )}
       </Paper>

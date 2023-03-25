@@ -1,0 +1,62 @@
+{
+    "appName": {
+      "message": "LeetChatGPT"
+    },
+    "appDesc": {
+      "message": "获得ChatGPT的帮助和指导来解决leetcode/hacker-rank问题"
+    },
+    "appTimerMode": {
+      "message": "计时器模式"
+    },
+    "appTimerTip": {
+      "message": "当计时器耗尽时，为你当前的解决方案获得反馈和帮助"
+    },
+    "appTimerDesc": {
+      "message": "尝试解决这个问题，在这个计时器用完后，你会得到关于你的解决方案的反馈和帮助。"
+    },
+    "appManualMode": {
+      "message": "手动模式"
+    },
+    "appManualTip": {
+      "message": "为你当前的解决方案获得反馈，使之朝着粗暴或最佳解决方案的方向发展，并按需提供。"
+    },
+    "appBruteforce": {
+      "message": "残酷的力量"
+    },
+    "appOptimize": {
+      "message": "优化"
+    },
+    "appLetsChat": {
+      "message": "我有后续问题"
+    },
+    "appSend": {
+      "message": "发送"
+    },
+    "appStop": {
+      "message": "停止"
+    },
+    "appShuffle": {
+      "message": "洗牌"
+    },
+    "appChatGpt": {
+      "message": "ChatGPT"
+    },
+    "appChatGptTitle": {
+      "message": "默认选择"
+    },
+    "appChatGptDesc": {
+      "message": "免费使用，但不时出现不稳定的情况"
+    },
+    "appChatGptPlusDesc": {
+      "message": "OpenAI官方API（GPT-3.5 Turbo），更稳定，按用量收费"
+    },
+    "appChatGptPlusFooter": {
+      "message": "不知道如何获得你的API密钥？"
+    },
+    "appChatGptPlusSave": {
+      "message": "拯救"
+    },
+    "appChatGptPlusLearnMore": {
+      "message": "了解更多"
+    }
+}

@@ -21,6 +21,7 @@ import { object, string, TypeOf } from 'zod';
 
 import { getUserCfg, invalidateUserCfgToken, updateUserCfg } from '../../../config';
 import { ClientType } from '../../../interfaces';
+import { loadAppLocales } from '../../../utils/common';
 import Logo from '../../assets/logo.png';
 import './styles.scss';
 import TabPanel from './TabPanel';
@@ -47,6 +48,8 @@ const Options: FC = () => {
   const defaultValues: IClientSchema = {
     apiKey: '',
   };
+
+  const langBasedAppStrings = loadAppLocales();
 
   // useForm hook object
   const methods = useForm<IClientSchema>({
@@ -210,14 +213,14 @@ const Options: FC = () => {
               <Tab label={ClientType.TurboGPT} {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={tabsValue} index={0}>
-              Default choice
+              {langBasedAppStrings.appChatGpt}
               <Typography variant='h6' component='div' mt='1rem' color='info'>
-                Free to use but unstable from time to time.
+                {langBasedAppStrings.appChatGptDesc}
               </Typography>
             </TabPanel>
             <TabPanel value={tabsValue} index={1}>
               <FormProvider {...methods}>
-                OpenAI official API (GPT-3.5 Turbo), more stable, charge by usage
+                {langBasedAppStrings.appChatGptPlusDesc}
                 <Box
                   component='form'
                   sx={{
@@ -234,7 +237,7 @@ const Options: FC = () => {
                     {...methods.register('apiKey')}
                   />
                   <Typography variant='subtitle2' component='div' mt='.05rem' color='info' style={{ width: '100%' }}>
-                    Don&#39;t kow how to get your API key?
+                    {langBasedAppStrings.appChatGptPlusFooter}
                     <Typography
                       variant='subtitle2'
                       component='a'
@@ -243,7 +246,8 @@ const Options: FC = () => {
                         textDecoration: 'none',
                       }}
                       color='primary'>
-                      {' Learn more'}
+                      {' '}
+                      {langBasedAppStrings.appChatGptPlusLearnMore}
                     </Typography>
                   </Typography>
                   <Stack
@@ -258,7 +262,7 @@ const Options: FC = () => {
                       size='medium'
                       sx={{ color: '#fff' }}
                       onClick={(...args) => void methods.handleSubmit(onSubmitHandler)(...args)}>
-                      Save
+                      {langBasedAppStrings.appChatGptPlusSave}
                     </Button>
                   </Stack>
                 </Box>

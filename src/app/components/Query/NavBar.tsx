@@ -20,7 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FC, useState } from 'react';
-import { ASSISTANCE } from '../../../config';
+import { loadAppLocales } from '../../../utils/common';
 import { CssSelect } from '../../styles/controls';
 
 interface NavBarProps {
@@ -54,6 +54,7 @@ const NavBar: FC<NavBarProps> = (props) => {
     handleMinimizeClick,
   } = props;
   const [expanded, setExpanded] = useState<string | false>(false);
+  const langBasedAppStrings = loadAppLocales();
 
   const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
     setExpanded(isExpanded ? panel : false);
@@ -63,7 +64,7 @@ const NavBar: FC<NavBarProps> = (props) => {
     <AppBar position='static' color='transparent'>
       <Toolbar variant='dense'>
         <Typography variant='body1' component='div' mr='2rem'>
-          ChatGPT
+          {langBasedAppStrings.appChatGpt}
         </Typography>
         <Box sx={{ ml: '1rem' }}>
           <Accordion
@@ -82,8 +83,8 @@ const NavBar: FC<NavBarProps> = (props) => {
                 color: '#fff',
                 borderRadius: '.3rem',
               }}>
-              <Tooltip title={ASSISTANCE.timer.desc} placement='top-start' arrow>
-                <Typography sx={{ width: '100%' }}>{ASSISTANCE.timer.title} Mode</Typography>
+              <Tooltip title={langBasedAppStrings.appTimerTip} placement='top-start' arrow>
+                <Typography sx={{ width: '100%' }}>{langBasedAppStrings.appTimerMode}</Typography>
               </Tooltip>
             </AccordionSummary>
             <AccordionDetails sx={{ minHeight: '1.5rem', backgroundColor: '#0C0F15' }}>
@@ -152,8 +153,8 @@ const NavBar: FC<NavBarProps> = (props) => {
                 color: '#fff',
                 borderRadius: '.3rem',
               }}>
-              <Tooltip title={ASSISTANCE.manual.desc} placement='top-start' arrow>
-                <Typography sx={{ width: '100%' }}>{ASSISTANCE.manual.title} Mode</Typography>
+              <Tooltip title={langBasedAppStrings.appManualTip} placement='top-start' arrow>
+                <Typography sx={{ width: '100%' }}>{langBasedAppStrings.appManualMode}</Typography>
               </Tooltip>
             </AccordionSummary>
             <AccordionDetails sx={{ minHeight: '1.5rem', backgroundColor: '#0C0F15' }}>
@@ -171,7 +172,7 @@ const NavBar: FC<NavBarProps> = (props) => {
                   sx={{ color: '#808080', borderColor: '#808080', width: '7rem' }}
                   disabled={disableManuals}
                   onClick={handleManualBRClick}>
-                  {ASSISTANCE.manual.types[0]}
+                  {langBasedAppStrings.appBruteforce}
                 </Button>
                 <Button
                   variant='outlined'
@@ -180,7 +181,7 @@ const NavBar: FC<NavBarProps> = (props) => {
                   sx={{ color: '#808080', borderColor: '#808080', width: '7rem' }}
                   disabled={disableManuals}
                   onClick={handleManualOPClick}>
-                  {ASSISTANCE.manual.types[1]}
+                  {langBasedAppStrings.appOptimize}
                 </Button>
               </Stack>
             </AccordionDetails>

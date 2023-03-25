@@ -2,6 +2,16 @@
 @import '../app/styles/reset.scss';
 @import '../app/styles/index.scss';
 
+.leetcode-cn {
+  position: absolute;
+  display: block;
+  bottom: 60px;
+  left: 0px;
+  right: 0px;
+  z-index: 9999999999;
+  width: 100%;
+}
+
 .chat-gpt-container {
   margin-bottom: 0px;
   flex-basis: 0;

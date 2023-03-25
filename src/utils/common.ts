@@ -1,7 +1,6 @@
 import Browser from 'webextension-polyfill';
-import { ASSISTANCE } from '../config';
 import { EngineModes } from '../config/engine';
-import { IPetition, TriggerMode } from '../interfaces';
+import { IAppStrings, IPetition, TriggerMode } from '../interfaces';
 
 const PREFIX_PETITION =
   'Can you please emphasize that you will act as my helper or teacher and provide me with advice only,' +
@@ -29,16 +28,42 @@ export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resol
 
 export const getAppVersion = () => Browser.runtime.getManifest().version;
 
+export const loadAppLocales = (): IAppStrings => {
+  const appStrings: IAppStrings = {
+    appTimerMode: Browser.i18n.getMessage('appTimerMode'),
+    appTimerTip: Browser.i18n.getMessage('appTimerTip'),
+    appTimerDesc: Browser.i18n.getMessage('appTimerDesc'),
+    appManualMode: Browser.i18n.getMessage('appManualMode'),
+    appBruteforce: Browser.i18n.getMessage('appBruteforce'),
+    appOptimize: Browser.i18n.getMessage('appOptimize'),
+    appLetsChat: Browser.i18n.getMessage('appLetsChat'),
+    appSend: Browser.i18n.getMessage('appSend'),
+    appStop: Browser.i18n.getMessage('appStop'),
+    appShuffle: Browser.i18n.getMessage('appShuffle'),
+    appChatGpt: Browser.i18n.getMessage('appChatGpt'),
+    appChatGptTitle: Browser.i18n.getMessage('appChatGptTitle'),
+    appChatGptDesc: Browser.i18n.getMessage('appChatGptDesc'),
+    appChatGptPlusDesc: Browser.i18n.getMessage('appChatGptPlusDesc'),
+    appChatGptPlusFooter: Browser.i18n.getMessage('appChatGptPlusFooter'),
+    appChatGptPlusSave: Browser.i18n.getMessage('appChatGptPlusSave'),
+    appManualTip: Browser.i18n.getMessage('appManualTip'),
+    appChatGptPlusLearnMore: Browser.i18n.getMessage('appChatGptPlusLearnMore'),
+  };
+
+  return appStrings;
+};
+
 export const addPetition = (opts: IPetition): string => {
   const { question, solution, mode } = opts;
+  const langBasedAppStrings = loadAppLocales();
 
   if (mode) {
-    if (mode === ASSISTANCE.manual.types[0]) {
+    if (mode === langBasedAppStrings.appBruteforce) {
       // bruteforce
       return PREFIX_PETITION + PETITION_QUESTION + question + M_B_PETITION_SOLUTION + solution;
     }
 
-    if (mode === ASSISTANCE.manual.types[1]) {
+    if (mode === langBasedAppStrings.appOptimize) {
       // optmize
       return PREFIX_PETITION + PETITION_QUESTION + question + M_O_PETITION_SOLUTION + solution;
     }
@@ -70,15 +95,25 @@ export const generateTriggerMode = () => {
 export const getQuestionElement = (tMode: TriggerMode) => {
   const cfg = EngineModes[tMode];
   const qElem = document.getElementById(cfg.input_question[0]);
-  const qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
+  let qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
+
+  if (!qElem || !qChild) {
+    const qParent = document.getElementById(cfg.input_question[2]);
+    const q = qParent?.getElementsByClassName(cfg.input_question[3])[0];
+    qChild = q?.getElementsByClassName(cfg.input_question[4])[0];
+  }
 
   return qChild;
 };
 
 export const getSolutionElement = (tMode: TriggerMode) => {
   const cfg = EngineModes[tMode];
-  const sElem = document.getElementById(cfg.input_code[0]);
-  const sChild = sElem?.getElementsByClassName(cfg.input_code[1])[0];
+  let sElem = document.getElementById(cfg.input_code[0]);
+  let sChild = sElem?.getElementsByClassName(cfg.input_code[1])[0];
+  if (!sElem || !sChild) {
+    sElem = document.getElementById(cfg.input_code[2]);
+    sChild = sElem?.getElementsByClassName(cfg.input_code[3])[0];
+  }
 
   return sChild;
 };
@@ -97,6 +132,16 @@ export const getHolderElement = (tMode: TriggerMode) => {
       sElem?.getElementsByClassName(cfg.appendContainerRight[0])[0] ||
       sElem?.getElementsByClassName(cfg.appendContainerLeft[0])[0];
   }
+
+  return sChild;
+};
+
+export const retryHolderElement = (tMode: TriggerMode) => {
+  const cfg = EngineModes[tMode];
+  const sElem = document.getElementById(cfg.input_code[2]);
+  const sChild =
+    sElem?.getElementsByClassName(cfg.appendContainerRight[1])[0] ||
+    sElem?.getElementsByClassName(cfg.appendContainerLeft[1])[0];
 
   return sChild;
 };
