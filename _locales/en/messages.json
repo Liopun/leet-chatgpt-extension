@@ -48,7 +48,7 @@
       "message": "Free to use but unstable from time to time"
     },
     "appChatGptPlusDesc": {
-      "message": "OpenAI official API (GPT-3.5 Turbo), more stable, charge by usage"
+      "message": "OpenAI official API, more stable, charge by usage"
     },
     "appChatGptPlusFooter": {
       "message": "Don't kow how to get your API key?"

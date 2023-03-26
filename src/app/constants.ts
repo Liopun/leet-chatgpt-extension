@@ -4,6 +4,10 @@ export const CHATCLIENTS = {
   },
 };
 
+export const CHATGPT_HOME_URL = 'https://chat.openai.com/chat';
+
+export const CHATGPT_API_MODELS = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k'];
+
 export const TIME_OPTIONS = ['10 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
 
 export const TOPICS = [
@@ -29,5 +33,3 @@ export const TOPICS = [
   'Palindromic Subsequence',
   'Longest Common Substring',
 ];
-
-export const CHATGPT_HOME_URL = 'https://chat.openai.com/chat';

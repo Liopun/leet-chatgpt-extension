@@ -5,8 +5,12 @@ import {
   Button,
   Container,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   Link,
+  MenuItem,
+  Select,
   Stack,
   Switch,
   Tab,
@@ -19,10 +23,11 @@ import { FC, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { object, string, TypeOf } from 'zod';
 
-import { getUserCfg, invalidateUserCfgToken, updateUserCfg } from '../../../config';
+import { getUserCfg, invalidateUserCfgToken, updateUserCfg, UserCfg } from '../../../config';
 import { ClientType } from '../../../interfaces';
-import { loadAppLocales } from '../../../utils/common';
+import { getAppVersion, loadAppLocales } from '../../../utils/common';
 import Logo from '../../assets/logo.png';
+import { CHATGPT_API_MODELS } from '../../constants';
 import './styles.scss';
 import TabPanel from './TabPanel';
 const a11yProps = (index: number) => {
@@ -34,19 +39,24 @@ const a11yProps = (index: number) => {
 
 const clientSchema = object({
   apiKey: string().trim().min(1, 'ApiKey is required'),
+  apiModel: string().trim().min(1, 'ApiModel is required'),
+  apiHost: string().trim().min(1, 'ApiKey is required'),
+  clientMode: string(),
 });
 
 type IClientSchema = TypeOf<typeof clientSchema>;
 
 const Options: FC = () => {
-  const modelList = ['text-davinci-003'];
-  const [tabsValue, setTabsValue] = useState(1);
-  const [clientMode, setClientMode] = useState(ClientType.ChatGPT);
+  const [tabsValue, setTabsValue] = useState(0);
   const [configChanged, setConfigChanged] = useState(false);
-  const [apiPlaceholder, setApiPlaceholder] = useState('');
+  const [userConfig, setUserConfig] = useState<UserCfg | null>(null);
+  const [clientSwitcher, setClientSwitcher] = useState<ClientType>(ClientType.ChatGPT);
 
   const defaultValues: IClientSchema = {
     apiKey: '',
+    apiModel: '',
+    apiHost: '',
+    clientMode: '',
   };
 
   const langBasedAppStrings = loadAppLocales();
@@ -59,11 +69,8 @@ const Options: FC = () => {
 
   const getUserConfig = () => {
     getUserCfg().then((config) => {
-      const apiKey = config.openaiApiKey;
-      const cMode = apiKey !== '' ? ClientType.TurboGPT : ClientType.ChatGPT;
-      setClientMode(cMode);
-      setTabsValue(cMode === ClientType.TurboGPT ? 1 : 0);
-      setApiPlaceholder(apiKey);
+      setClientSwitcher(config.clientMode);
+      setUserConfig(config);
     });
   };
 
@@ -72,31 +79,44 @@ const Options: FC = () => {
   const handleClientModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked) {
       invalidateUserCfgToken('openaiApiKey');
+      updateUserCfg({ clientMode: ClientType.ChatGPT });
+      setConfigChanged(true);
+      return;
     }
-    setClientMode(event.target.checked ? ClientType.TurboGPT : ClientType.ChatGPT);
-    setTabsValue(event.target.checked ? 1 : 0);
+    setClientSwitcher(ClientType.ChatGPTPlus);
+    setTabsValue(1);
   };
 
   const onSubmitHandler: SubmitHandler<IClientSchema> = async (values: IClientSchema) => {
     const opts = clientSchema.parse(values);
-    await updateUserCfg({ openaiApiKey: opts.apiKey });
-    setClientMode(ClientType.TurboGPT);
+    await updateUserCfg({
+      openaiApiKey: opts.apiKey,
+      openaiApiHost: opts.apiHost,
+      openaiApiModel: opts.apiModel,
+      clientMode: ClientType.ChatGPTPlus,
+    });
     alert('Changes saved');
     setConfigChanged(true);
   };
 
-  // useEffect(() => {
-  //   getUserConfig()
-  // }, [])
-
   useEffect(() => {
+    getUserConfig();
     if (configChanged) {
-      getUserConfig();
       setConfigChanged(false);
       return;
     }
-    getUserConfig();
   }, [configChanged]);
+
+  useEffect(() => {
+    if (userConfig) {
+      methods.setValue('apiKey', userConfig.openaiApiKey);
+      methods.setValue('apiHost', userConfig.openaiApiHost);
+      methods.setValue('apiModel', userConfig.openaiApiModel);
+      methods.setValue('clientMode', userConfig.clientMode);
+
+      setTabsValue(userConfig.clientMode === ClientType.ChatGPTPlus ? 1 : 0);
+    }
+  }, [userConfig]);
 
   return (
     <Container>
@@ -124,7 +144,7 @@ const Options: FC = () => {
               />
               <Typography component='div'>
                 <Typography fontWeight='bold' fontSize='1.25rem' marginTop='1rem'>
-                  LeetChatGPT
+                  LeetChatGPT {getAppVersion()}
                 </Typography>
               </Typography>
             </Stack>
@@ -182,11 +202,11 @@ const Options: FC = () => {
           <Stack direction='row' spacing={1} alignItems='center'>
             <Typography textTransform='uppercase'>{ClientType.ChatGPT}</Typography>
             <Switch
-              checked={clientMode === ClientType.TurboGPT}
+              checked={userConfig?.openaiApiKey !== '' || clientSwitcher === ClientType.ChatGPTPlus}
               onChange={handleClientModeChange}
               inputProps={{ 'aria-label': 'active-client' }}
             />
-            <Typography textTransform='uppercase'>{ClientType.TurboGPT}</Typography>
+            <Typography textTransform='uppercase'>{ClientType.ChatGPTPlus}</Typography>
           </Stack>
 
           <Box
@@ -210,7 +230,7 @@ const Options: FC = () => {
               }}
               indicatorColor='primary'>
               <Tab color='#000' label={ClientType.ChatGPT} {...a11yProps(0)} />
-              <Tab label={ClientType.TurboGPT} {...a11yProps(1)} />
+              <Tab label={ClientType.ChatGPTPlus} {...a11yProps(1)} />
             </Tabs>
             <TabPanel value={tabsValue} index={0}>
               {langBasedAppStrings.appChatGpt}
@@ -229,11 +249,10 @@ const Options: FC = () => {
                   noValidate
                   autoComplete='off'>
                   <TextField
-                    placeholder={apiPlaceholder}
                     id='apikey'
                     label='API Key'
                     variant='standard'
-                    style={{ width: '100%' }}
+                    style={{ width: '23rem' }}
                     {...methods.register('apiKey')}
                   />
                   <Typography variant='subtitle2' component='div' mt='.05rem' color='info' style={{ width: '100%' }}>
@@ -250,12 +269,28 @@ const Options: FC = () => {
                       {langBasedAppStrings.appChatGptPlusLearnMore}
                     </Typography>
                   </Typography>
+                  <FormControl variant='standard'>
+                    <InputLabel id='model-select-label'>API Model</InputLabel>
+                    <Select
+                      id='model-select'
+                      defaultValue={userConfig?.openaiApiModel}
+                      labelId='model-select-label'
+                      label='model-select'
+                      {...methods.register('apiModel')}>
+                      {CHATGPT_API_MODELS.map((v) => (
+                        <MenuItem key={v} value={v}>
+                          {v}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  <TextField id='apiHost' label='API Host' variant='standard' {...methods.register('apiHost')} />
                   <Stack
                     direction='row'
                     justifyContent='space-between'
                     alignItems='center'
                     spacing={2}
-                    style={{ width: '100%', margin: 1 }}>
+                    style={{ width: '23.5rem', margin: 1, marginTop: 5 }}>
                     <Box sx={{ backgroundColor: 'transparent' }} style={{ flex: 1 }}></Box>
                     <Button
                       variant='contained'

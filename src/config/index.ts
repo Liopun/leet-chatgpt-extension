@@ -1,9 +1,13 @@
 import { defaults } from 'lodash-es';
 import Browser from 'webextension-polyfill';
+import { CHATGPT_API_MODELS } from '../app/constants';
+import { ClientType } from '../interfaces';
 
 const userDefaultCfg = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
+  openaiApiModel: CHATGPT_API_MODELS[0],
+  clientMode: ClientType.ChatGPT,
   chatgptApiTemperature: 0.6,
   language: Browser.i18n.getUILanguage(),
 };

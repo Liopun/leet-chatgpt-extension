@@ -32,6 +32,7 @@ interface ICatchErrorObj {
     message: string;
     code: string;
   };
+  detail?: ICatchErrorObj['error'];
 }
 
 export abstract class AbstractClient {
@@ -51,14 +52,14 @@ export abstract class AbstractClient {
           parsedError = { error: { message: (err as Error).message, code: ErrorCode.UNKOWN_ERROR } };
         }
 
+        const errCode = parsedError.detail?.code || parsedError.error.code || '';
+
         const code =
-          parsedError.error.code.toUpperCase() === ErrorCode.INVALID_API_KEY
-            ? ErrorCode.INVALID_API_KEY
-            : ErrorCode.UNKOWN_ERROR;
+          errCode.toUpperCase() === ErrorCode.INVALID_API_KEY ? ErrorCode.INVALID_API_KEY : ErrorCode.UNKOWN_ERROR;
 
         params.onEvent({
           type: 'ERROR',
-          error: new ClientError(parsedError.error.message, code),
+          error: new ClientError(parsedError.detail?.message || parsedError.error.message, code),
         });
       }
     }

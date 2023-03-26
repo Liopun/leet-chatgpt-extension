@@ -48,7 +48,7 @@
       "message": "免费使用，但不时出现不稳定的情况"
     },
     "appChatGptPlusDesc": {
-      "message": "OpenAI官方API（GPT-3.5 Turbo），更稳定，按用量收费"
+      "message": "OpenAI官方API），更稳定，按用量收费"
     },
     "appChatGptPlusFooter": {
       "message": "不知道如何获得你的API密钥？"
