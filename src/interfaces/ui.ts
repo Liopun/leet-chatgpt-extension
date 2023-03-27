@@ -1,4 +1,5 @@
 export interface IAppStrings {
+  appName: string;
   appTimerMode: string;
   appTimerTip: string;
   appTimerDesc: string;
@@ -9,6 +10,16 @@ export interface IAppStrings {
   appLetsChat: string;
   appSend: string;
   appStop: string;
+  appReset: string;
+  appOr: string;
+  appOptions: string;
+  appAIClient: string;
+  appAuthLogin: string;
+  appAuthSetApiKey: string;
+  appErrCloudflare: string;
+  appErrBraveNotWorking: string;
+  appErrBraveTroubleshoot: string;
+  appErrCloudflareDetails: string;
   appShuffle: string;
   appChatGpt: string;
   appChatGptTitle: string;

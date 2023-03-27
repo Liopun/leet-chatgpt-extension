@@ -5,6 +5,5 @@
 	"bracketSameLine": true,
 	"jsxSingleQuote": true,
     "tabWidth": 2,
-    "endOfLine": "lf",
-	"eslintIntegration": true
+    "endOfLine": "lf"
 }

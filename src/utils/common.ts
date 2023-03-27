@@ -30,6 +30,7 @@ export const getAppVersion = () => Browser.runtime.getManifest().version;
 
 export const loadAppLocales = (): IAppStrings => {
   const appStrings: IAppStrings = {
+    appName: Browser.i18n.getMessage('appName'),
     appTimerMode: Browser.i18n.getMessage('appTimerMode'),
     appTimerTip: Browser.i18n.getMessage('appTimerTip'),
     appTimerDesc: Browser.i18n.getMessage('appTimerDesc'),
@@ -39,6 +40,16 @@ export const loadAppLocales = (): IAppStrings => {
     appLetsChat: Browser.i18n.getMessage('appLetsChat'),
     appSend: Browser.i18n.getMessage('appSend'),
     appStop: Browser.i18n.getMessage('appStop'),
+    appReset: Browser.i18n.getMessage('appReset'),
+    appOr: Browser.i18n.getMessage('appOr'),
+    appOptions: Browser.i18n.getMessage('appOptions'),
+    appAIClient: Browser.i18n.getMessage('appAIClient'),
+    appAuthLogin: Browser.i18n.getMessage('appAuthLogin'),
+    appAuthSetApiKey: Browser.i18n.getMessage('appAuthSetApiKey'),
+    appErrCloudflare: Browser.i18n.getMessage('appErrCloudflare'),
+    appErrBraveNotWorking: Browser.i18n.getMessage('appErrBraveNotWorking'),
+    appErrBraveTroubleshoot: Browser.i18n.getMessage('appErrBraveTroubleshoot'),
+    appErrCloudflareDetails: Browser.i18n.getMessage('appErrCloudflareDetails'),
     appShuffle: Browser.i18n.getMessage('appShuffle'),
     appChatGpt: Browser.i18n.getMessage('appChatGpt'),
     appChatGptTitle: Browser.i18n.getMessage('appChatGptTitle'),

@@ -35,6 +35,36 @@
     "appStop": {
       "message": "停止"
     },
+    "appReset": {
+      "message": "复位"
+    },
+    "appOr": {
+      "message": "或"
+    },
+    "appOptions": {
+      "message": "选择"
+    },
+    "appAIClient": {
+      "message": "AI客户"
+    },
+    "appAuthLogin": {
+      "message": "登录并验证"
+    },
+    "appAuthSetApiKey": {
+      "message": "设置api密钥"
+    },
+    "appErrCloudflare": {
+      "message": "请登录并通过Cloudflare检查，网址是"
+    },
+    "appErrBraveNotWorking": {
+      "message": "仍然没有工作？遵循"
+    },
+    "appErrBraveTroubleshoot": {
+      "message": "勇敢地排除故障"
+    },
+    "appErrCloudflareDetails": {
+      "message": "OpenAI要求通过安全检查。如果这让你感到烦恼，请在扩展选项中把AI客户端改为ChatGPT Plus。"
+    },
     "appShuffle": {
       "message": "洗牌"
     },

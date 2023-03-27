@@ -144,7 +144,7 @@ const Options: FC = () => {
               />
               <Typography component='div'>
                 <Typography fontWeight='bold' fontSize='1.25rem' marginTop='1rem'>
-                  LeetChatGPT {getAppVersion()}
+                  {langBasedAppStrings.appName} {getAppVersion()}
                 </Typography>
               </Typography>
             </Stack>
@@ -192,10 +192,10 @@ const Options: FC = () => {
           sx={{ mt: '5rem' }}>
           <Stack direction='column' width='100%' alignItems='flex-start' spacing={2}>
             <Typography variant='h4' component='div'>
-              Options
+              {langBasedAppStrings.appOptions}
             </Typography>
             <Typography variant='h6' component='div' mt='1rem' color='info'>
-              AI Client
+              {langBasedAppStrings.appAIClient}
             </Typography>
           </Stack>
 

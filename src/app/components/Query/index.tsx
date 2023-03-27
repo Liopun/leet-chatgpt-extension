@@ -26,10 +26,8 @@ const Query: FC<Props> = (props) => {
   const { question, onModeChange, resetQuestion } = props;
   const [answer, setAnswer] = useState<ChatMessageObj | null>(null);
   const [error, setError] = useState<ClientError | null>(null);
-  const [retries, setRetries] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [minimized, setMinimized] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [startedChat, setStartedChat] = useState(false);
 
   // timer
@@ -52,7 +50,6 @@ const Query: FC<Props> = (props) => {
   }, [chatgptChat.stopGenerating]);
 
   const oneTimeUseAI = () => {
-    setLoading(true);
     setError(null);
     resetConvo();
     chatgptChat.sendMessage(question);
@@ -72,8 +69,8 @@ const Query: FC<Props> = (props) => {
     setTimerStarted(true);
     setMinimized(false);
     setAnswer(null);
+    setError(null);
     setShowAnswer(false);
-    setLoading(false);
     setStartedChat(false);
     setTimerInProgress(`${selectedTimer.split(' ')[0]}:00`);
   };
@@ -83,7 +80,6 @@ const Query: FC<Props> = (props) => {
     setMinimized(false);
     setAnswer(null);
     setShowAnswer(false);
-    setLoading(false);
     setStartedChat(false);
     setTimerInProgress('');
   };
@@ -154,14 +150,13 @@ const Query: FC<Props> = (props) => {
         // ignore input_question echoing
         setShowAnswer(true);
         setAnswer(curr);
-        setLoading(false);
         scrollToBottom(containerRef);
       }
     }
   }, [chatgptChat.messages]);
 
   useEffect(() => {
-    if (answer && showAnswer && !loading && !startedChat && !minimized) scrollToBottom(containerRef);
+    if (answer && showAnswer && !startedChat && !minimized) scrollToBottom(containerRef);
   }, [generating]);
 
   useEffect(() => {
@@ -174,10 +169,6 @@ const Query: FC<Props> = (props) => {
       }
     }
   }, [timeStarted]);
-
-  if (error) {
-    return <ErrorPanel retries={retries} error={error} />;
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -196,7 +187,8 @@ const Query: FC<Props> = (props) => {
         handleMinimizeClick={handleMinimizeClick}
       />
 
-      {(!answer && timeStarted && !minimized) === true ? (
+      {error && !startedChat && !minimized ? <ErrorPanel error={error} /> : null}
+      {(!answer && !error && timeStarted && !minimized) === true ? (
         <Box
           sx={{
             display: 'flex',
@@ -218,7 +210,7 @@ const Query: FC<Props> = (props) => {
         </Box>
       ) : null}
 
-      {answer && showAnswer && !loading && !startedChat && !minimized ? (
+      {answer && !error && showAnswer && !startedChat && !minimized ? (
         <Box
           className='markdown-body gpt-markdown'
           id='gpt-answer'
@@ -284,7 +276,7 @@ const Query: FC<Props> = (props) => {
         </Box>
       ) : null}
 
-      {startedChat === true ? <ChatPanel clientId='chatgpt' /> : null}
+      {startedChat === true && !minimized ? <ChatPanel clientId='chatgpt' /> : null}
     </Box>
   );
 };

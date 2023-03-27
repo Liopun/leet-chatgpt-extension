@@ -35,6 +35,36 @@
     "appStop": {
       "message": "Stop"
     },
+    "appReset": {
+      "message": "Reset"
+    },
+    "appOr": {
+      "message": "Or"
+    },
+    "appOptions": {
+      "message": "Options"
+    },
+    "appAIClient": {
+      "message": "AI Client"
+    },
+    "appAuthLogin": {
+      "message": "Login & verify"
+    },
+    "appAuthSetApiKey": {
+      "message": "Set api key"
+    },
+    "appErrCloudflare": {
+      "message": "Please login and pass Cloudflare check at"
+    },
+    "appErrBraveNotWorking": {
+      "message": "Still not working? Follow"
+    },
+    "appErrBraveTroubleshoot": {
+      "message": "Brave Troubleshooting"
+    },
+    "appErrCloudflareDetails": {
+      "message": "OpenAI requires passing a security check. If this annoys you, change AI client to ChatGPT Plus in the extension options"
+    },
     "appShuffle": {
       "message": "Shuffle"
     },
