@@ -6,12 +6,12 @@ import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
 import rehypeHighlight from 'rehype-highlight';
 import Browser from 'webextension-polyfill';
-import { ASSISTANCE } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
+import { loadAppLocales } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
+import { TIME_OPTIONS } from '../../constants';
 import { useChat } from '../../hooks';
 import theme from '../../theme';
-import Loading from '../Loading';
 import ChatPanel from './ChatPanel';
 import ErrorPanel from './ErrorPanel';
 import NavBar from './NavBar';
@@ -26,20 +26,18 @@ const Query: FC<Props> = (props) => {
   const { question, onModeChange, resetQuestion } = props;
   const [answer, setAnswer] = useState<ChatMessageObj | null>(null);
   const [error, setError] = useState<ClientError | null>(null);
-  const [retries, setRetries] = useState(0);
   const [showAnswer, setShowAnswer] = useState(false);
   const [minimized, setMinimized] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [startedChat, setStartedChat] = useState(false);
 
   // timer
   const [timeStarted, setTimerStarted] = useState(false);
   const [timerInProgress, setTimerInProgress] = useState('');
-  const [selectedTimer, setSelectedTimer] = useState('10 min');
+  const [selectedTimer, setSelectedTimer] = useState(TIME_OPTIONS[0]);
   const [timerId, setTimerId] = useState<NodeJS.Timer>();
-  const TIME_OPTIONS = ['10 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
 
   const chatgptChat = useChat('chatgpt');
+  const langBasedAppStrings = loadAppLocales();
 
   const generating = useMemo(() => chatgptChat.generating, [chatgptChat.generating]);
 
@@ -52,7 +50,6 @@ const Query: FC<Props> = (props) => {
   }, [chatgptChat.stopGenerating]);
 
   const oneTimeUseAI = () => {
-    setLoading(true);
     setError(null);
     resetConvo();
     chatgptChat.sendMessage(question);
@@ -72,8 +69,8 @@ const Query: FC<Props> = (props) => {
     setTimerStarted(true);
     setMinimized(false);
     setAnswer(null);
+    setError(null);
     setShowAnswer(false);
-    setLoading(false);
     setStartedChat(false);
     setTimerInProgress(`${selectedTimer.split(' ')[0]}:00`);
   };
@@ -83,7 +80,6 @@ const Query: FC<Props> = (props) => {
     setMinimized(false);
     setAnswer(null);
     setShowAnswer(false);
-    setLoading(false);
     setStartedChat(false);
     setTimerInProgress('');
   };
@@ -93,7 +89,7 @@ const Query: FC<Props> = (props) => {
     handleStopTimer();
     setTimeout(() => {
       // wait for resetQuestion effect
-      onModeChange(ASSISTANCE.manual.types[0]);
+      onModeChange(langBasedAppStrings.appBruteforce);
     }, 0);
   };
 
@@ -102,7 +98,7 @@ const Query: FC<Props> = (props) => {
     handleStopTimer();
     setTimeout(() => {
       // wait for resetQuestion effect
-      onModeChange(ASSISTANCE.manual.types[1]);
+      onModeChange(langBasedAppStrings.appOptimize);
     }, 0);
   };
 
@@ -154,14 +150,13 @@ const Query: FC<Props> = (props) => {
         // ignore input_question echoing
         setShowAnswer(true);
         setAnswer(curr);
-        setLoading(false);
         scrollToBottom(containerRef);
       }
     }
   }, [chatgptChat.messages]);
 
   useEffect(() => {
-    if (answer && showAnswer && !loading && !startedChat && !minimized) scrollToBottom(containerRef);
+    if (answer && showAnswer && !startedChat && !minimized) scrollToBottom(containerRef);
   }, [generating]);
 
   useEffect(() => {
@@ -174,10 +169,6 @@ const Query: FC<Props> = (props) => {
       }
     }
   }, [timeStarted]);
-
-  if (error) {
-    return <ErrorPanel retries={retries} error={error} />;
-  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -196,7 +187,8 @@ const Query: FC<Props> = (props) => {
         handleMinimizeClick={handleMinimizeClick}
       />
 
-      {(!answer && timeStarted && !minimized) === true ? (
+      {error && !startedChat && !minimized ? <ErrorPanel error={error} /> : null}
+      {(!answer && !error && timeStarted && !minimized) === true ? (
         <Box
           sx={{
             display: 'flex',
@@ -212,13 +204,13 @@ const Query: FC<Props> = (props) => {
               {timerInProgress}
             </Typography>
             <Typography component='p' variant='body1'>
-              try to solve this question, you will get feedback and help on your solution after this timer runs out.
+              {langBasedAppStrings.appTimerDesc}
             </Typography>
           </Typography>
         </Box>
       ) : null}
 
-      {answer && showAnswer && !loading && !startedChat && !minimized ? (
+      {answer && !error && showAnswer && !startedChat && !minimized ? (
         <Box
           className='markdown-body gpt-markdown'
           id='gpt-answer'
@@ -277,16 +269,14 @@ const Query: FC<Props> = (props) => {
               size='medium'
               endIcon={<QuestionAnswer />}
               onClick={() => setStartedChat(true)}>
-              I Have follow-up question(s)
+              {langBasedAppStrings.appLetsChat}
             </Button>
           ) : null}
           <Box ref={containerRef}></Box>
         </Box>
       ) : null}
 
-      {loading && !startedChat ? <Loading /> : null}
-
-      {startedChat === true ? <ChatPanel clientId='chatgpt' /> : null}
+      {startedChat === true && !minimized ? <ChatPanel clientId='chatgpt' /> : null}
     </Box>
   );
 };

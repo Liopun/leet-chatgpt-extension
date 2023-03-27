@@ -2,7 +2,13 @@ import ReactDOM from 'react-dom';
 import App from '../app';
 import { EngineModes } from '../config/engine';
 import { Engine } from '../interfaces';
-import { generateTriggerMode, getHolderElement, getQuestionElement, getSolutionElement } from '../utils/common';
+import {
+  generateTriggerMode,
+  getHolderElement,
+  getQuestionElement,
+  getSolutionElement,
+  retryHolderElement,
+} from '../utils/common';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
@@ -21,10 +27,14 @@ const mount = (inpQ: string, inpS: string, trigger: TriggerMode, engCfg: Engine)
     sbContainer.prepend(container);
   } else {
     container.classList.add('sidebar-free');
-    const appendContainer = getHolderElement(trigger);
+    let appendContainer = getHolderElement(trigger);
 
     if (appendContainer) {
       appendContainer.insertBefore(container, appendContainer.firstChild);
+    } else {
+      appendContainer = retryHolderElement(trigger);
+      container.classList.add('leetcode-cn');
+      if (appendContainer) appendContainer.insertBefore(container, appendContainer.lastChild);
     }
   }
 

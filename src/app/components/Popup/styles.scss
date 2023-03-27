@@ -1,56 +1,24 @@
 @import '../../styles/font.scss';
 @import '../../styles/reset.scss';
 
-body {
-  color: '#000';
-  background-color: '#808080';
+body html {
+  background-color: '#0C0F15 !important';
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  -webkit-scrollbar: {
+    width: 6px;
+  }
+  -webkit-scrollbar-track: {
+    background: 'transparent';
+  }
+  -webkit-scrollbar-thumb: {
+    background: #808080;
+    border-radius: 6px;
+  }
 }
 
-html {
-  width: 25rem;
-  height: 20rem;
-}
-
-#popup {
-  width: 400px;
-  padding: 30px 20px;
-
-  h2 {
-    font-size: 25px;
-    text-align: center;
-  }
-
-  #options__button {
-    width: 50%;
-    background: green;
-    color: white;
-    font-weight: 500;
-    border-radius: 15px;
-    padding: 5px 10px;
-    justify-content: center;
-    margin: 20px auto;
-    cursor: pointer;
-    opacity: 0.8;
-    display: flex;
-  }
-
-  .links__holder {
-    ul {
-      display: flex;
-      margin-top: 1em;
-      justify-content: space-around;
-
-      li {
-        button {
-          border-radius: 25px;
-          font-size: 20px;
-          font-weight: 600;
-          padding: 10px 17px;
-          background-color: rgba(0, 0, 255, 0.7);
-          color: white;
-          cursor: pointer;
-        }
-      }
-    }
-  }
+#popup-view {
+  width: 350px;
+  padding: 0px;
+  background-color: '#0C0F15';
 }

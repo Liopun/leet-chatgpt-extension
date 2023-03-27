@@ -4,11 +4,11 @@ export const EngineModes: Record<string, Engine> = {
   problem: {
     // leetcode
     host: 'leetcode',
-    input_question: ['__next', '_1l1MA'],
-    input_code: ['qd-content', 'view-lines'],
+    input_question: ['__next', '_1l1MA', 'lc-home', 'css-1qqaagl-layer1', 'notranslate'],
+    input_code: ['qd-content', 'view-lines', 'lc-home', 'view-lines'],
     sidebarContainer: ['rhs'],
-    appendContainerRight: ['ssg__qd-console-position--right'],
-    appendContainerLeft: ['ssg__qd-console-position--left'],
+    appendContainerRight: ['ssg__qd-console-position--right', 'css-pwvbgl-CodeAreaContainer'],
+    appendContainerLeft: ['ssg__qd-console-position--left', 'css-pwvbgl-CodeAreaContainer'],
   },
   challenge: {
     // hacker-rank

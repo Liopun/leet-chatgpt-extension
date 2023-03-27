@@ -1,11 +1,31 @@
-export enum Language {
-  Auto = 'auto',
-  English = 'english',
-  Chinese = 'chinese',
-  Spanish = 'spanish',
-  French = 'french',
-  Korean = 'korean',
-  Japanese = 'japanese',
-  German = 'german',
-  Portuguese = 'portuguese',
+export interface IAppStrings {
+  appName: string;
+  appTimerMode: string;
+  appTimerTip: string;
+  appTimerDesc: string;
+  appManualMode: string;
+  appManualTip: string;
+  appBruteforce: string;
+  appOptimize: string;
+  appLetsChat: string;
+  appSend: string;
+  appStop: string;
+  appReset: string;
+  appOr: string;
+  appOptions: string;
+  appAIClient: string;
+  appAuthLogin: string;
+  appAuthSetApiKey: string;
+  appErrCloudflare: string;
+  appErrBraveNotWorking: string;
+  appErrBraveTroubleshoot: string;
+  appErrCloudflareDetails: string;
+  appShuffle: string;
+  appChatGpt: string;
+  appChatGptTitle: string;
+  appChatGptDesc: string;
+  appChatGptPlusDesc: string;
+  appChatGptPlusFooter: string;
+  appChatGptPlusSave: string;
+  appChatGptPlusLearnMore: string;
 }

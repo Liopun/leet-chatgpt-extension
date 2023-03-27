@@ -1,0 +1,92 @@
+{
+    "appName": {
+      "message": "LeetChatGPT"
+    },
+    "appDesc": {
+      "message": "Get ChatGPT's help and guidance for solving leetcode/hacker-rank questions"
+    },
+    "appTimerMode": {
+      "message": "Timer Mode"
+    },
+    "appTimerTip": {
+      "message": "Get feedback and help for your current solution when the timer runs out"
+    },
+    "appTimerDesc": {
+      "message": "try to solve this question, you will get feedback and help on your solution after this timer runs out"
+    },
+    "appManualMode": {
+      "message": "Manual Mode"
+    },
+    "appManualTip": {
+      "message": "Get feedback for your current solution towards a brute-force or optimal solution on demand"
+    },
+    "appBruteforce": {
+      "message": "Bruteforce"
+    },
+    "appOptimize": {
+      "message": "Optimize"
+    },
+    "appLetsChat": {
+      "message": "I have follow-up question(s)"
+    },
+    "appSend": {
+      "message": "Send"
+    },
+    "appStop": {
+      "message": "Stop"
+    },
+    "appReset": {
+      "message": "Reset"
+    },
+    "appOr": {
+      "message": "Or"
+    },
+    "appOptions": {
+      "message": "Options"
+    },
+    "appAIClient": {
+      "message": "AI Client"
+    },
+    "appAuthLogin": {
+      "message": "Login & verify"
+    },
+    "appAuthSetApiKey": {
+      "message": "Set api key"
+    },
+    "appErrCloudflare": {
+      "message": "Please login and pass Cloudflare check at"
+    },
+    "appErrBraveNotWorking": {
+      "message": "Still not working? Follow"
+    },
+    "appErrBraveTroubleshoot": {
+      "message": "Brave Troubleshooting"
+    },
+    "appErrCloudflareDetails": {
+      "message": "OpenAI requires passing a security check. If this annoys you, change AI client to ChatGPT Plus in the extension options"
+    },
+    "appShuffle": {
+      "message": "Shuffle"
+    },
+    "appChatGpt": {
+      "message": "ChatGPT"
+    },
+    "appChatGptTitle": {
+      "message": "Default choice"
+    },
+    "appChatGptDesc": {
+      "message": "Free to use but unstable from time to time"
+    },
+    "appChatGptPlusDesc": {
+      "message": "OpenAI official API, more stable, charge by usage"
+    },
+    "appChatGptPlusFooter": {
+      "message": "Don't kow how to get your API key?"
+    },
+    "appChatGptPlusSave": {
+      "message": "Save"
+    },
+    "appChatGptPlusLearnMore": {
+      "message": "Learn more"
+    }
+}

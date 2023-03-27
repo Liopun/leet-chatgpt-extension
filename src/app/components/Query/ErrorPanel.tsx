@@ -3,16 +3,16 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Link, Stack, Typography } from '@mui/material';
 import { FC, useCallback } from 'react';
 import Browser from 'webextension-polyfill';
-import { isBraveBrowser } from '../../../utils/common';
+import { isBraveBrowser, loadAppLocales } from '../../../utils/common';
 import { ClientError, ErrorCode } from '../../../utils/errors';
 
 interface AuthProps {
-  retries: number;
   error: ClientError;
 }
 
 const ErrorPanel: FC<AuthProps> = (props) => {
-  const { retries, error } = props;
+  const { error } = props;
+  const langBasedAppStrings = loadAppLocales();
 
   const openWebPage = useCallback(() => {
     Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
@@ -29,11 +29,12 @@ const ErrorPanel: FC<AuthProps> = (props) => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '2rem',
+        mt: '1rem',
         width: '100%',
       }}>
       {error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED ? (
         <Typography variant='body1' paragraph>
-          Please login and pass Cloudflare check at{' '}
+          {langBasedAppStrings.appErrCloudflare}{' '}
           <Link
             href='https://chat.openai.com'
             underline='none'
@@ -47,19 +48,16 @@ const ErrorPanel: FC<AuthProps> = (props) => {
             }}>
             chat.openai.com
           </Link>
-          {retries > 0 &&
+          {error.message.length > 0 &&
             (() => {
               return isBraveBrowser() ? (
                 <Typography mt={2} variant='body2'>
-                  Still not working? Follow{' '}
-                  <a href='https://github.com/liopun/leet-gpt-extension#troubleshooting'>Brave Troubleshooting</a>
+                  {langBasedAppStrings.appErrBraveNotWorking}{' '}
+                  <a href='https://github.com/liopun/leet-gpt-extension#troubleshooting'>
+                    {langBasedAppStrings.appErrBraveTroubleshoot}
+                  </a>
                 </Typography>
-              ) : (
-                <Typography mt={2} variant='body2' className='italic block mt-2 text-xs'>
-                  OpenAI requires passing a security. If this annoys you, change AI provider to OpenAI API in the
-                  extension options.
-                </Typography>
-              );
+              ) : null;
             })()}
         </Typography>
       ) : (

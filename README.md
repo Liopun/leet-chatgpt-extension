@@ -5,10 +5,7 @@
 - [Firefox Add-on Store](https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt)
 
 ## Supported questions
-- Leetcode
 ![Leetcode](promotion/screenshot.png?raw=true)
-- HackerRank
-![Hackerrank](promotion/screenshot1.png?raw=true)
 
 ## Features
 - Supports both leetcode and hacker-rank questions
