@@ -29,6 +29,7 @@ const ErrorPanel: FC<AuthProps> = (props) => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '2rem',
+        mt: '1rem',
         width: '100%',
       }}>
       {error.code === ErrorCode.CHATGPT_CLOUDFLARE || error.code === ErrorCode.CHATGPT_UNAUTHORIZED ? (
