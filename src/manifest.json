@@ -5,7 +5,7 @@
     "short_name": "__MSG_appName__",
     "description": "__MSG_appDesc__",
     "default_locale": "en",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "icons": {
         "16": "logo.png",
         "32": "logo.png",
@@ -15,6 +15,7 @@
     "host_permissions": ["https://*.openai.com/"],
     "permissions": [
         "storage",
+        "alarms",
         "notifications"
     ],
     "content_security_policy": {

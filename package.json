@@ -1,6 +1,6 @@
 {
   "name": "leet-chatgpt-extension",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -26,14 +26,21 @@
   "homepage": "https://github.com/Liopun/leet-chatgpt-extension#readme",
   "dependencies": {
     "@babel/runtime": "^7.21.0",
+    "@devexpress/dx-react-chart-material-ui": "^4.0.3",
+    "@devexpress/dx-react-scheduler": "^4.0.3",
+    "@devexpress/dx-react-scheduler-material-ui": "^4.0.3",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@hookform/resolvers": "^2.9.11",
     "@mui/icons-material": "^5.11.9",
     "@mui/material": "^5.11.10",
+    "@mui/x-date-pickers": "^5.0.20",
     "@types/react-toastify": "^4.1.0",
     "advanced-css-reset": "^1.2.2",
     "classnames": "^2.3.2",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.2.0",
+    "dayjs": "^1.11.7",
     "emoji-log": "^1.0.2",
     "eventsource-parser": "^0.1.0",
     "expiry-map": "^2.0.0",
@@ -60,6 +67,8 @@
     "zod": "^3.21.2"
   },
   "devDependencies": {
+    "@types/d3-scale": "^4.0.3",
+    "@types/d3-shape": "^3.1.1",
     "@types/lodash-es": "^4.17.6",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

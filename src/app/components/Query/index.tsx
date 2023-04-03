@@ -5,7 +5,6 @@ import { FC, RefObject, useCallback, useEffect, useMemo, useRef, useState } from
 import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
 import rehypeHighlight from 'rehype-highlight';
-import Browser from 'webextension-polyfill';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { loadAppLocales } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
@@ -106,11 +105,6 @@ const Query: FC<Props> = (props) => {
     setMinimized(!minimized);
   };
 
-  const resetTimer = async (id: NodeJS.Timer) => {
-    await Browser.storage.local.remove(['timer', 'seconds']);
-    clearInterval(id);
-  };
-
   const timerCountDown = (duration: number) => {
     let timer = duration,
       minutes,
@@ -165,7 +159,6 @@ const Query: FC<Props> = (props) => {
     } else {
       if (timerId !== undefined) {
         handleStopTimer();
-        resetTimer(timerId);
       }
     }
   }, [timeStarted]);

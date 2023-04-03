@@ -1,4 +1,5 @@
 import Browser from 'webextension-polyfill';
+import { REMINDER_MESSAGES } from '../app/constants';
 import { EngineModes } from '../config/engine';
 import { IAppStrings, IPetition, TriggerMode } from '../interfaces';
 
@@ -27,6 +28,8 @@ export const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color
 export const waitFor = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const getAppVersion = () => Browser.runtime.getManifest().version;
+
+export const getReminderMessage = () => REMINDER_MESSAGES[Math.floor(Math.random() * REMINDER_MESSAGES.length)];
 
 export const loadAppLocales = (): IAppStrings => {
   const appStrings: IAppStrings = {
@@ -103,12 +106,30 @@ export const generateTriggerMode = () => {
   return null;
 };
 
+export const getSubmitElement = (tMode: TriggerMode) => {
+  let qChild: Element | undefined;
+  const cfg = EngineModes[tMode];
+  const qElem = document.getElementById(cfg.submit_button[0]);
+  qChild =
+    document.querySelectorAll(`[data-e2e-locator="${cfg.submit_button[1]}"]`)[0] ||
+    qElem?.getElementsByClassName(cfg.submit_button[1])[0];
+
+  if (tMode === TriggerMode.Problem && (!qElem || !qChild)) {
+    const qParent = document.getElementById(cfg.submit_button[2]);
+    qChild =
+      qParent?.getElementsByClassName(cfg.submit_button[3])[0] ||
+      qParent?.getElementsByClassName(cfg.submit_button[4])[0];
+  }
+
+  return qChild;
+};
+
 export const getQuestionElement = (tMode: TriggerMode) => {
   const cfg = EngineModes[tMode];
   const qElem = document.getElementById(cfg.input_question[0]);
   let qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
 
-  if (!qElem || !qChild) {
+  if (tMode === TriggerMode.Problem && (!qElem || !qChild)) {
     const qParent = document.getElementById(cfg.input_question[2]);
     const q = qParent?.getElementsByClassName(cfg.input_question[3])[0];
     qChild = q?.getElementsByClassName(cfg.input_question[4])[0];
@@ -117,11 +138,45 @@ export const getQuestionElement = (tMode: TriggerMode) => {
   return qChild;
 };
 
+export const getQuestionTopics = (tMode: TriggerMode) => {
+  const cfg = EngineModes[tMode];
+
+  const qElem = document.getElementById(cfg.input_topics[0]) || document.getElementById(cfg.input_topics[2]);
+  const qChild =
+    qElem?.getElementsByClassName(cfg.input_topics[1])[0] || qElem?.getElementsByClassName(cfg.input_topics[3])[0];
+  let topicAnchors: NodeListOf<HTMLAnchorElement> | undefined;
+
+  if (tMode === TriggerMode.Problem && qChild !== undefined) {
+    const cols = qChild.querySelectorAll('.flex-col');
+
+    if (cols.length > 0) {
+      const topicCol = cols[cols.length - 1];
+      topicAnchors = topicCol.querySelectorAll('a');
+    } else {
+      topicAnchors = qChild.querySelectorAll('.question__3cwj');
+    }
+
+    const topics: string[] = [];
+    topicAnchors.forEach((v) => {
+      topics.push(v.innerText);
+    });
+    console.debug('TOPICS:::', topics);
+    return topics;
+  } else {
+    const regex = new RegExp(`\\/${tMode}\\/(\\w+)\\/`);
+    const match = regex.exec(location.href);
+
+    if (match) return [match[0]];
+  }
+
+  return [];
+};
+
 export const getSolutionElement = (tMode: TriggerMode) => {
   const cfg = EngineModes[tMode];
   let sElem = document.getElementById(cfg.input_code[0]);
   let sChild = sElem?.getElementsByClassName(cfg.input_code[1])[0];
-  if (!sElem || !sChild) {
+  if (tMode === TriggerMode.Problem && (!sElem || !sChild)) {
     sElem = document.getElementById(cfg.input_code[2]);
     sChild = sElem?.getElementsByClassName(cfg.input_code[3])[0];
   }

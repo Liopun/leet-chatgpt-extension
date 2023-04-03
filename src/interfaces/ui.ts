@@ -1,3 +1,6 @@
+import { PickersDayProps } from '@mui/x-date-pickers/PickersDay';
+import { Dayjs } from 'dayjs';
+
 export interface IAppStrings {
   appName: string;
   appTimerMode: string;
@@ -28,4 +31,19 @@ export interface IAppStrings {
   appChatGptPlusFooter: string;
   appChatGptPlusSave: string;
   appChatGptPlusLearnMore: string;
+}
+
+export interface CustomPickerDayProps extends PickersDayProps<Dayjs> {
+  dayIsEvent: boolean;
+  startsOn?: string;
+  endsOn?: string;
+}
+
+export interface IUserStats {
+  id: number;
+  title: string;
+  startDate: Date | string;
+  endDate: Date | string;
+  description: string;
+  resourcesId: number;
 }

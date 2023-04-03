@@ -11,7 +11,9 @@ import Browser from 'webextension-polyfill';
 
 import './styles.scss';
 
+import { LocalFireDepartment } from '@mui/icons-material';
 import { BeatLoader } from 'react-spinners';
+import { getUserCfg, UserCfg } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { formatTopicQuery, loadAppLocales } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
@@ -23,6 +25,7 @@ const Popup: FC = () => {
   const [renderFab, setRenderFab] = useState(true);
   const [topicAnswer, setTopicAnswer] = useState<ChatMessageObj | null>(null);
   const [error, setError] = useState<ClientError | null>(null);
+  const [userConfig, setUserConfig] = useState<UserCfg | null>(null);
   const [submittedQuestion, setSubmittedQuestion] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(TOPICS[Math.floor(Math.random() * TOPICS.length)]);
 
@@ -33,6 +36,12 @@ const Popup: FC = () => {
     Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
   }, []);
 
+  const getUserConfig = () => {
+    getUserCfg().then((config) => {
+      setUserConfig(config);
+    });
+  };
+
   const generating = useMemo(() => chatgptChat.generating, [chatgptChat.generating]);
 
   const resetConvo = useCallback(() => {
@@ -40,6 +49,7 @@ const Popup: FC = () => {
   }, [chatgptChat.resetConversation]);
 
   useEffect(() => {
+    getUserConfig();
     if (selectedTopic) {
       setSubmittedQuestion('');
       setError(null);
@@ -84,6 +94,12 @@ const Popup: FC = () => {
             <Typography variant='body2' component='div' sx={{ flexGrow: 1 }}>
               LeetChatGPT
             </Typography>
+            <IconButton onClick={() => openWebPage()} sx={{ p: 0, mr: 4 }}>
+              <LocalFireDepartment fontSize='medium' htmlColor='#F89F1B' />
+              <Typography variant='h6' style={{ marginLeft: '1px', color: '#fff' }}>
+                {userConfig?.userStats.length}
+              </Typography>
+            </IconButton>
             <IconButton onClick={() => openWebPage()} sx={{ p: 0 }}>
               <SettingsIcon style={{ fontSize: '1.5rem', color: '#808080' }} />
             </IconButton>
