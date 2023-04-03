@@ -1,7 +1,8 @@
+import dayjs from 'dayjs';
 import { defaults } from 'lodash-es';
 import Browser from 'webextension-polyfill';
 import { CHATGPT_API_MODELS } from '../app/constants';
-import { ClientType } from '../interfaces';
+import { ClientType, IUserStats } from '../interfaces';
 
 const userDefaultCfg = {
   openaiApiKey: '',
@@ -9,6 +10,10 @@ const userDefaultCfg = {
   openaiApiModel: CHATGPT_API_MODELS[0],
   clientMode: ClientType.ChatGPT,
   chatgptApiTemperature: 0.6,
+  userReminder: dayjs().format('HH:mm'),
+  userDays: [] as string[],
+  userStats: [] as IUserStats[],
+  userWeeklyTip: '',
   language: Browser.i18n.getUILanguage(),
 };
 
@@ -20,7 +25,8 @@ const getUserCfg = async (): Promise<UserCfg> => {
 };
 
 const updateUserCfg = async (inp: Partial<UserCfg>) => {
-  await Browser.storage.local.set(defaults(inp, userDefaultCfg));
+  const cfg = await getUserCfg();
+  await Browser.storage.local.set({ ...cfg, ...inp });
 };
 
 const invalidateUserCfgToken = async (key: string) => {

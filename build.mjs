@@ -87,6 +87,7 @@ async function build() {
     { src: path.join(outDir, 'popup', 'index.css'), dst: 'popup.css' },
     { src: path.join(templatesDir, 'popup.html'), dst: 'popup.html' },
     { src: path.join(sourceDir, 'app/assets', 'logo.png'), dst: 'logo.png' },
+    { src: path.join(sourceDir, 'app/assets', 'logo-notification.png'), dst: 'logo-notification.png' },
     { src: localesDir, dst: '_locales' },
   ]
 
