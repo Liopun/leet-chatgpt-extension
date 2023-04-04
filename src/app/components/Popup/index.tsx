@@ -15,8 +15,9 @@ import { LocalFireDepartment } from '@mui/icons-material';
 import { BeatLoader } from 'react-spinners';
 import { getUserCfg, UserCfg } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
-import { formatTopicQuery, loadAppLocales } from '../../../utils/common';
+import { formatTopicQuery } from '../../../utils/common';
 import { ClientError } from '../../../utils/errors';
+import { loadAppLocales } from '../../../utils/locales';
 import Logo from '../../assets/logo.png';
 import { TOPICS } from '../../constants';
 import { useChat } from '../../hooks';
@@ -92,7 +93,7 @@ const Popup: FC = () => {
               }}
             />
             <Typography variant='body2' component='div' sx={{ flexGrow: 1 }}>
-              LeetChatGPT
+              {langBasedAppStrings.appName}
             </Typography>
             <IconButton onClick={() => openWebPage()} sx={{ p: 0, mr: 4 }}>
               <LocalFireDepartment fontSize='medium' htmlColor='#F89F1B' />

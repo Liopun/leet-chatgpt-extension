@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import Browser from 'webextension-polyfill';
 import { REMINDER_MESSAGES } from '../app/constants';
 import { getUserCfg } from '../config';
+import { loadAppLocales } from './locales';
 
 export const alarmInit = () => {
   const alarmTime = dayjs();
@@ -30,6 +31,19 @@ export const dailyReminderSetup = async () => {
   return Browser.alarms.create(todayString, { when: Date.now() + diffMs });
 };
 
+export const showStreakNotification = async (msg?: string, cxtMsg?: string) => {
+  const langBasedAppStrings = loadAppLocales();
+  const cfg = await getUserCfg();
+
+  await Browser.notifications.create({
+    type: 'basic',
+    iconUrl: 'logo-notification.png',
+    title: `LeetChatGPT ${langBasedAppStrings.appStreak} - ${cfg.userStats.length}`,
+    message: msg || langBasedAppStrings.appStreakAddedNotification,
+    contextMessage: cxtMsg || langBasedAppStrings.appStreakNotification,
+  });
+};
+
 export const alarmHandler = () => {
   Browser.alarms.onAlarm.addListener(function (alarm: Browser.Alarms.Alarm) {
     (async () => {
@@ -39,13 +53,10 @@ export const alarmHandler = () => {
       if (name === 'bootstrap') {
         await dailyReminderSetup();
       } else if (cfg.userDays.indexOf(name) > -1) {
-        await Browser.notifications.create({
-          type: 'basic',
-          iconUrl: 'logo-notification.png',
-          title: `LeetChatGPT Streak - ${cfg.userStats.length}`,
-          message: REMINDER_MESSAGES[Math.floor(Math.random() * REMINDER_MESSAGES.length)],
-          contextMessage: 'Time To Sharpen Your Problem Solving Skills',
-        });
+        await showStreakNotification(
+          REMINDER_MESSAGES[Math.floor(Math.random() * REMINDER_MESSAGES.length)],
+          undefined
+        );
 
         await Browser.alarms.clear(name).then((v) => {
           Browser.tabs.create({ url: 'https://leetcode.com/problemset/all/' });
@@ -57,7 +68,6 @@ export const alarmHandler = () => {
 
 export const clearAlarm = () => {
   (async () => {
-    // Browser.alarms.create('bootstrap', { when: alarmTime.valueOf(), periodInMinutes: 24 * 60 })
     await Browser.alarms.clear(dayjs().format('dddd'));
   })();
 };

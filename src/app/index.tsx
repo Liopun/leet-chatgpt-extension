@@ -1,4 +1,5 @@
 import { FC, useState } from 'react';
+import Browser from 'webextension-polyfill';
 import { getUserCfg, updateUserCfg } from '../config';
 import { IPetition, IUserStats, TriggerMode } from '../interfaces';
 import { addPetition } from '../utils/common';
@@ -32,9 +33,10 @@ const App: FC<ResponseProps> = (props) => {
       if (len > 0) {
         const diff = Math.abs(new Date(stats[len - 1].startDate).getTime() - sDate.getTime());
         const roundedDiff = Math.round(diff / (24 * 60 * 60 * 1000)) * (24 * 60 * 60 * 1000);
+        const newStats = stats.slice(); // shallow copy
 
         if (roundedDiff === 0) {
-          const newStats = stats.slice(); // shallow copy
+          // today's streak already started
 
           let desc = newStats[len - 1].description;
           if (!desc.includes(location.href)) {
@@ -55,9 +57,9 @@ const App: FC<ResponseProps> = (props) => {
           await updateUserCfg({
             userStats: newStats,
           });
-        }
 
-        return;
+          return;
+        }
       }
 
       await updateUserCfg({
@@ -73,6 +75,8 @@ const App: FC<ResponseProps> = (props) => {
           } as IUserStats,
         ],
       });
+
+      await Browser.runtime.sendMessage({ action: 'SHOW_STREAK' });
     })();
   });
 

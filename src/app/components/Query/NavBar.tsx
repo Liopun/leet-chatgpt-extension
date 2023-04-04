@@ -20,7 +20,7 @@ import {
   Typography,
 } from '@mui/material';
 import { FC, useState } from 'react';
-import { loadAppLocales } from '../../../utils/common';
+import { loadAppLocales } from '../../../utils/locales';
 import { CssSelect } from '../../styles/controls';
 
 interface NavBarProps {

@@ -13,8 +13,8 @@
     },
     "permissions": [
         "storage",
-        "notifications",
         "alarms",
+        "notifications",
         "https://*.openai.com/"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",

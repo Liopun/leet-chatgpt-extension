@@ -31,6 +31,13 @@ export interface IAppStrings {
   appChatGptPlusFooter: string;
   appChatGptPlusSave: string;
   appChatGptPlusLearnMore: string;
+  appInstallNotification: string;
+  appStreak: string;
+  appStreakDesc: string;
+  appStreakNotification: string;
+  appStreakAddedNotification: string;
+  appStreakAddedSubNotification: string;
+  appStreakQuestions: string;
 }
 
 export interface CustomPickerDayProps extends PickersDayProps<Dayjs> {

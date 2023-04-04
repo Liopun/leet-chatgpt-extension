@@ -88,5 +88,26 @@
     },
     "appChatGptPlusLearnMore": {
       "message": "了解更多"
+    },
+    "appInstallNotification": {
+      "message": "为了与ChatGPT的连接更加稳定，在使用Leetcode时，请保持chat.openai.com标签打开。"
+    },
+    "appStreak": {
+      "message": "潸然泪下"
+    },
+    "appStreakDesc": {
+      "message": "你掌握着你的成功。你解决的每一个问题都是走向成功的一步。继续推动并创造你想要的未来。可能性是无止境的!"
+    },
+    "appStreakNotification": {
+      "message": "是时候磨练你的问题解决技巧了"
+    },
+    "appStreakAddedNotification": {
+      "message": "日复一日地坚持一个目标需要大量的纪律、承诺和毅力，请继续努力！\"！你可以在LeetChatGPT选项页中找到你的记录和统计资料"
+    },
+    "appStreakAddedSubNotification": {
+      "message": "添加了Streak"
+    },
+    "appStreakQuestions": {
+      "message": "连日来的问题"
     }
 }
