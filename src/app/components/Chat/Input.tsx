@@ -1,6 +1,6 @@
 import { Box, Button, Paper, styled, TextField } from '@mui/material';
 import { ChangeEvent, FC, KeyboardEventHandler, memo, useCallback, useEffect, useRef, useState } from 'react';
-import { loadAppLocales } from '../../../utils/common';
+import { loadAppLocales } from '../../../utils/locales';
 import theme from '../../theme';
 
 interface Props {

@@ -34,7 +34,8 @@ import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
 import { getUserCfg, invalidateUserCfgToken, updateUserCfg, UserCfg } from '../../../config';
 import { ClientType } from '../../../interfaces';
-import { getAppVersion, loadAppLocales } from '../../../utils/common';
+import { getAppVersion } from '../../../utils/common';
+import { loadAppLocales } from '../../../utils/locales';
 import Logo from '../../assets/logo.png';
 import { CHATGPT_API_MODELS, WEEK_DAYS } from '../../constants';
 import { MenuProps } from '../../styles/controls/cssSelectField';
@@ -247,12 +248,10 @@ const Options: FC = () => {
             sx={{ mt: '5rem' }}>
             <Stack direction='column' alignItems='flex-start' spacing={2}>
               <Typography variant='h4' component='div'>
-                Streak{/* {langBasedAppStrings.appOptions} */}
+                {langBasedAppStrings.appStreak}
               </Typography>
               <Typography variant='h6' component='div' mt='1rem' color='info'>
-                You are the artist of your own success, and each problem you solve is a stroke of your brush. So keep
-                pushing yourself, and keep creating the future that you desire. The possibilities are endless!
-                {/* {langBasedAppStrings.appAIClient} */}
+                {langBasedAppStrings.appStreakDesc}
               </Typography>
             </Stack>
             <Box

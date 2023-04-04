@@ -13,6 +13,7 @@ import { AssessmentOutlined, LocalFireDepartment, Subject } from '@mui/icons-mat
 import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
 import { FC } from 'react';
 import { IUserStats } from '../../../interfaces';
+import { loadAppLocales } from '../../../utils/locales';
 
 interface ChartProps {
   data: IUserStats[];
@@ -48,11 +49,13 @@ const TooltipComponent = ({ children, appointmentData, ...restProps }: Appointme
 const CalendarPanel: FC<ChartProps> = (props) => {
   const { data } = props;
 
+  const langBasedAppStrings = loadAppLocales();
+
   const resources: ResourcesProps = {
     data: [
       {
         fieldName: 'resourcesId',
-        title: 'Streak day questions',
+        title: langBasedAppStrings.appStreakQuestions,
         instances: [{ id: 1, color: '#F89F1B' }],
       },
     ],

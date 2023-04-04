@@ -88,5 +88,26 @@
     },
     "appChatGptPlusLearnMore": {
       "message": "Learn more"
+    },
+    "appInstallNotification": {
+      "message": "For more stable connection with ChatGPT, keep chat.openai.com tab open while using Leetcode"
+    },
+    "appStreak": {
+      "message": "Streak"
+    },
+    "appStreakDesc": {
+      "message": "You are in control of your success. Every problem you solve is a step towards success. Keep pushing and creating the future you want. The possibilities are endless!"
+    },
+    "appStreakNotification": {
+      "message": "Time To Sharpen Your Problem Solving Skills"
+    },
+    "appStreakAddedNotification": {
+      "message": "It takes a lot of discipline, commitment, and perseverance to stick to a goal day after day, keep pushing! You can find your records and stats in LeetChatGPT option page"
+    },
+    "appStreakAddedSubNotification": {
+      "message": "Streak added"
+    },
+    "appStreakQuestions": {
+      "message": "Streak day questions"
     }
 }

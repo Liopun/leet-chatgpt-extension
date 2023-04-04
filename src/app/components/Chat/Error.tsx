@@ -1,7 +1,7 @@
 import { Box, Button, Link } from '@mui/material';
 import { FC, useContext } from 'react';
-import { loadAppLocales } from '../../../utils/common';
 import { ClientError, ErrorCode } from '../../../utils/errors';
+import { loadAppLocales } from '../../../utils/locales';
 import { ConversationContext } from '../../context';
 
 const langBasedAppStrings = loadAppLocales();

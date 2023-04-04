@@ -3,8 +3,9 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Link, Stack, Typography } from '@mui/material';
 import { FC, useCallback } from 'react';
 import Browser from 'webextension-polyfill';
-import { isBraveBrowser, loadAppLocales } from '../../../utils/common';
+import { isBraveBrowser } from '../../../utils/common';
 import { ClientError, ErrorCode } from '../../../utils/errors';
+import { loadAppLocales } from '../../../utils/locales';
 
 interface AuthProps {
   error: ClientError;
