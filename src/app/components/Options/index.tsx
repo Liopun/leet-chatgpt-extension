@@ -90,7 +90,6 @@ const Options: FC = () => {
   const getUserConfig = () => {
     getUserCfg().then((config) => {
       setClientSwitcher(config.clientMode);
-      console.debug('INIT:::', config);
       setUserConfig(config);
     });
   };
