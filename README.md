@@ -12,6 +12,8 @@
 - Timer Mode: Get feedback and help for your current solution when a timer runs out
 - Manual Mode: Get feedback for your current solution towards a brute-force or optimal solution on demand
 - Ability to ask follow-up questions (chat with ChatGPT)
+- Streak system for motivation and record keeping
+- Customizable reminders for constistent problem solving goals
 - Markdown rendering and Code highlights
 - Supports both ChatGPT and ChatGPT Plus
 

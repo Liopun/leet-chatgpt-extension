@@ -6,6 +6,11 @@ export interface ChatMessageObj {
   author: ClientId | 'user';
   text: string;
   error?: ClientError;
+  timestamp: number;
+}
+
+export interface IUserChats {
+  [key: string]: ChatMessageObj[];
 }
 
 export interface ConversationModel {

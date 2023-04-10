@@ -23,16 +23,16 @@ export function useChat(clientId: ClientId) {
 
   const sendMessage = useCallback(
     async (input: string) => {
-      const botMessageId = uuid();
+      const clientMessageId = uuid();
       setChatState((draft) => {
         draft.messages.push(
-          { id: uuid(), text: input.replaceAll('\n', '\n\n'), author: 'user' },
-          { id: botMessageId, text: '', author: clientId }
+          { id: uuid(), text: input.replaceAll('\n', '\n\n'), author: 'user', timestamp: new Date().getTime() },
+          { id: clientMessageId, text: '', author: clientId, timestamp: new Date().getTime() }
         );
       });
       const abortController = new AbortController();
       setChatState((draft) => {
-        draft.generatingMessageId = botMessageId;
+        draft.generatingMessageId = clientMessageId;
         draft.abortController = abortController;
       });
       await chatState.client.askAI({
@@ -40,13 +40,15 @@ export function useChat(clientId: ClientId) {
         signal: abortController.signal,
         onEvent(event) {
           if (event.type === 'ANSWER') {
-            updateMessage(botMessageId, (message) => {
+            updateMessage(clientMessageId, (message) => {
               message.text = event.data.text;
+              message.timestamp = new Date().getTime();
             });
           } else if (event.type === 'ERROR') {
             console.error('sendMessage error', event.error.code, event.error);
-            updateMessage(botMessageId, (message) => {
+            updateMessage(clientMessageId, (message) => {
               message.error = event.error;
+              message.timestamp = new Date().getTime();
             });
             setChatState((draft) => {
               draft.abortController = undefined;

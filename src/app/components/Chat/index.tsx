@@ -16,16 +16,18 @@ interface Props {
   resetConversation: () => void;
   generating: boolean;
   stopGenerating: () => void;
+  saveChatRecord: () => void;
 }
 
 const Chat: FC<Props> = (props) => {
-  const { clientId, messages, onUserSendMessage, resetConversation, generating, stopGenerating } = props;
+  const { clientId, messages, onUserSendMessage, resetConversation, generating, stopGenerating, saveChatRecord } =
+    props;
 
   const containerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = (cRef: RefObject<HTMLDivElement>) => {
     // const i: ScrollIntoViewOptions
-    if (cRef.current) cRef.current.scrollIntoView({ block: 'end' });
+    if (cRef.current) cRef.current.scrollTop = cRef.current.scrollHeight;
   };
 
   const clientInfo = CHATCLIENTS[clientId];
@@ -53,9 +55,16 @@ const Chat: FC<Props> = (props) => {
     scrollToBottom(containerRef);
   }, [messages]);
 
+  useEffect(() => {
+    if (!generating) {
+      saveChatRecord();
+    }
+  }, [generating]);
+
   return (
     <Box display='flex' flex='col' flexDirection='column' height='100%'>
       <Box
+        ref={containerRef}
         flex='1'
         maxHeight='560px'
         width='100%'
@@ -66,7 +75,7 @@ const Chat: FC<Props> = (props) => {
         overflow='auto'
         sx={{
           scrollbarWidth: 'thin',
-          scrollBehavior: 'smooth',
+          scrollBehavior: 'auto',
           '&::-webkit-scrollbar': {
             width: '6px',
           },
@@ -80,7 +89,7 @@ const Chat: FC<Props> = (props) => {
         }}>
         {messages.map((message: ChatMessageObj, index: number) => index > 0 && <Item key={index} message={message} />)}
 
-        <Box ref={containerRef}></Box>
+        {/* <Box ref={containerRef}></Box> */}
       </Box>
       <Input onSubmit={onSubmit} stopGenerating={stopGenerating} generating={generating} />
     </Box>

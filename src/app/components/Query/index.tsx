@@ -8,6 +8,7 @@ import rehypeHighlight from 'rehype-highlight';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { ClientError } from '../../../utils/errors';
 import { loadAppLocales } from '../../../utils/locales';
+import { addStreak } from '../../../utils/streak';
 import { TIME_OPTIONS } from '../../constants';
 import { useChat } from '../../hooks';
 import theme from '../../theme';
@@ -17,17 +18,20 @@ import NavBar from './NavBar';
 
 interface Props {
   question: string;
+  topics: string[];
+  submitElement: Element;
   onModeChange: (mode?: string) => void;
   resetQuestion: () => void;
 }
 
 const Query: FC<Props> = (props) => {
-  const { question, onModeChange, resetQuestion } = props;
+  const { question, topics, submitElement, onModeChange, resetQuestion } = props;
   const [answer, setAnswer] = useState<ChatMessageObj | null>(null);
   const [error, setError] = useState<ClientError | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [startedChat, setStartedChat] = useState(false);
+  const [isAddingStreak, setIsAddingStreak] = useState(true);
 
   // timer
   const [timeStarted, setTimerStarted] = useState(false);
@@ -50,6 +54,7 @@ const Query: FC<Props> = (props) => {
 
   const oneTimeUseAI = () => {
     setError(null);
+    setIsAddingStreak(true);
     resetConvo();
     chatgptChat.sendMessage(question);
   };
@@ -127,6 +132,13 @@ const Query: FC<Props> = (props) => {
     setTimerId(currentTimerId);
   };
 
+  const submitButtonHandler = useCallback(() => {
+    (async () => {
+      setMinimized(true);
+      await addStreak(topics);
+    })();
+  }, [topics]);
+
   useEffect(() => {
     if (question.length > 10) oneTimeUseAI();
   }, [question, onModeChange]);
@@ -162,6 +174,17 @@ const Query: FC<Props> = (props) => {
       }
     }
   }, [timeStarted]);
+
+  useEffect(() => {
+    if (submitElement) {
+      submitElement.addEventListener('click', submitButtonHandler);
+    }
+
+    // Remove event listener when component unmounts
+    return () => {
+      submitElement.removeEventListener('click', submitButtonHandler);
+    };
+  }, [submitElement, submitButtonHandler]);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -209,7 +232,7 @@ const Query: FC<Props> = (props) => {
           id='gpt-answer'
           sx={{
             scrollbarWidth: 'thin',
-            scrollBehavior: 'smooth',
+            scrollBehavior: 'auto',
             '&::-webkit-scrollbar': {
               width: '6px',
             },
@@ -269,7 +292,16 @@ const Query: FC<Props> = (props) => {
         </Box>
       ) : null}
 
-      {startedChat === true && !minimized ? <ChatPanel clientId='chatgpt' /> : null}
+      {startedChat === true && !minimized ? (
+        <ChatPanel
+          clientId='chatgpt'
+          messages={chatgptChat.messages}
+          sendMessage={chatgptChat.sendMessage}
+          generating={chatgptChat.generating}
+          stopGenerating={chatgptChat.stopGenerating}
+          resetConversation={chatgptChat.resetConversation}
+        />
+      ) : null}
     </Box>
   );
 };

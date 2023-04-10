@@ -12,11 +12,12 @@
         "48": "logo.png",
         "128": "logo.png"
     },
-    "host_permissions": ["https://*.openai.com/"],
+    "host_permissions": ["https://*.openai.com/", "<all_urls>"],
     "permissions": [
         "storage",
         "alarms",
-        "notifications"
+        "notifications",
+        "activeTab"
     ],
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self'"
