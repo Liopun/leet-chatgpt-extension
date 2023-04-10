@@ -14,6 +14,8 @@ export interface IAppStrings {
   appSend: string;
   appStop: string;
   appReset: string;
+  appShare: string;
+  appClipboard: string;
   appOr: string;
   appOptions: string;
   appAIClient: string;
@@ -33,6 +35,7 @@ export interface IAppStrings {
   appChatGptPlusLearnMore: string;
   appInstallNotification: string;
   appStreak: string;
+  appStreakStats: string;
   appStreakDesc: string;
   appStreakNotification: string;
   appStreakAddedNotification: string;

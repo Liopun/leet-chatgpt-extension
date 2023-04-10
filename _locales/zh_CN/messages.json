@@ -38,6 +38,12 @@
     "appReset": {
       "message": "复位"
     },
+    "appShare": {
+      "message": "分享"
+    },
+    "appClipboard": {
+      "message": "复制到剪贴板"
+    },
     "appOr": {
       "message": "或"
     },
@@ -94,6 +100,9 @@
     },
     "appStreak": {
       "message": "潸然泪下"
+    },
+    "appStreakStats": {
+      "message": "统计数据"
     },
     "appStreakDesc": {
       "message": "你掌握着你的成功。你解决的每一个问题都是走向成功的一步。继续推动并创造你想要的未来。可能性是无止境的!"

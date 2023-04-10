@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { generateTriggerMode } from '../../../utils/common';
+import { loadAppLocales } from '../../../utils/locales';
 import { sharePngOrPdf } from '../../../utils/share';
 
 const CssChatsDialog = styled(Dialog)(({ theme }) => ({
@@ -74,6 +75,7 @@ const ChatsDialog: FC<ChatsDialogProps> = (props) => {
   const { title, open, onClose, getMessages, children } = props;
   const [copied, setCopied] = useState(false);
   const [messages, setMessages] = useState(getMessages);
+  const langBasedAppStrings = loadAppLocales();
 
   const serializedContent = useMemo(() => {
     return messages
@@ -138,11 +140,11 @@ const ChatsDialog: FC<ChatsDialogProps> = (props) => {
           {children}
         </DialogContent>
         <DialogActions sx={{ backgroundColor: 'rgba(30, 33, 34, 1) !important', color: '#fff', pl: 2, pr: 2 }}>
-          <Typography sx={{ pl: 1 }}>Share</Typography>
+          <Typography sx={{ pl: 1 }}>{langBasedAppStrings.appShare}</Typography>
           <Box sx={{ backgroundColor: 'transparent' }} style={{ flex: 1 }}></Box>
           <Stack direction='row' spacing={1}>
             <IconButton aria-label='close' onClick={copyToClipboard} sx={{ color: (theme) => theme.palette.grey[500] }}>
-              <Tooltip open={copied} title='Added To Clipboard'>
+              <Tooltip open={copied} title={langBasedAppStrings.appClipboard}>
                 <ContentCopyOutlined />
               </Tooltip>
             </IconButton>
