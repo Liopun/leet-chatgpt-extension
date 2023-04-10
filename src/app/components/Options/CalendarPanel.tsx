@@ -60,7 +60,7 @@ const CalendarPanel: FC<ChartProps> = (props) => {
         <Box sx={{ display: 'flex', alignItems: 'center', ml: 10 }}>
           <AssessmentOutlined fontSize='medium' />
           <Typography variant='h6' style={{ marginLeft: '10px' }}>
-            Stats
+            {langBasedAppStrings.appStreakStats}
           </Typography>
         </Box>
       </Stack>

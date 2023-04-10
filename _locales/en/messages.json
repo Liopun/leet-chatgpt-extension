@@ -38,6 +38,12 @@
     "appReset": {
       "message": "Reset"
     },
+    "appShare": {
+      "message": "Share"
+    },
+    "appClipboard": {
+      "message": "Copied To Clipboard"
+    },
     "appOr": {
       "message": "Or"
     },
@@ -94,6 +100,9 @@
     },
     "appStreak": {
       "message": "Streak"
+    },
+    "appStreakStats": {
+      "message": "Stats"
     },
     "appStreakDesc": {
       "message": "You are in control of your success. Every problem you solve is a step towards success. Keep pushing and creating the future you want. The possibilities are endless!"
