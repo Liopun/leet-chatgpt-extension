@@ -9,19 +9,22 @@ import {
   Scheduler,
   Toolbar,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import { AssessmentOutlined, LocalFireDepartment, Subject } from '@mui/icons-material';
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
-import { FC } from 'react';
+import { AssessmentOutlined, LocalFireDepartment, MessageOutlined, Subject } from '@mui/icons-material';
+import { Box, Grid, IconButton, Paper, Stack, Typography } from '@mui/material';
+import { FC, ReactNode } from 'react';
 import { IUserStats } from '../../../interfaces';
 import { loadAppLocales } from '../../../utils/locales';
 
 interface ChartProps {
   data: IUserStats[];
+  onChatsOpen: (key: string) => void;
+  hasChats: (k: string) => boolean;
+  children: ReactNode;
 }
 
-const AppointmentComponent = ({ children, ...restProps }: Appointments.AppointmentProps) => (
-  <Appointments.Appointment {...restProps} style={{ backgroundColor: '#F89F1B' }}>
-    {children}
+const AppointmentComponent = (appProps: Appointments.AppointmentProps) => (
+  <Appointments.Appointment {...appProps} style={{ backgroundColor: '#F89F1B' }}>
+    {appProps.children}
   </Appointments.Appointment>
 );
 
@@ -29,25 +32,8 @@ const AppointmentContent = ({ ...restProps }: Appointments.AppointmentContentPro
   <Appointments.AppointmentContent {...restProps} style={{ whiteSpace: 'normal', lineHeight: 1.2 }} />
 );
 
-const TooltipComponent = ({ children, appointmentData, ...restProps }: AppointmentTooltip.ContentProps) => (
-  <AppointmentTooltip.Content {...restProps} appointmentData={appointmentData}>
-    <Grid container alignItems='center'>
-      <Grid item xs={2} sx={{ textAlign: 'center' }}>
-        <Subject sx={{ color: '#808080' }} />
-      </Grid>
-      <Grid item xs={10}>
-        {(appointmentData?.description as string).split(' ').map((v) => (
-          <Typography component='a' key={v} href={v} sx={{ display: 'block' }}>
-            {v}
-          </Typography>
-        ))}
-      </Grid>
-    </Grid>
-  </AppointmentTooltip.Content>
-);
-
 const CalendarPanel: FC<ChartProps> = (props) => {
-  const { data } = props;
+  const { data, onChatsOpen, hasChats, children } = props;
 
   const langBasedAppStrings = loadAppLocales();
 
@@ -81,22 +67,55 @@ const CalendarPanel: FC<ChartProps> = (props) => {
     </Toolbar.FlexibleSpace>
   );
 
+  const TooltipComponent = (tipProps: AppointmentTooltip.ContentProps) => (
+    <AppointmentTooltip.Content {...tipProps} appointmentData={tipProps.appointmentData}>
+      <Grid container alignItems='center'>
+        <Grid item xs={2} sx={{ textAlign: 'center' }}>
+          <Subject sx={{ color: '#808080' }} />
+        </Grid>
+        <Grid item xs={10}>
+          {(tipProps.appointmentData?.description as string).split(' ').map((v) => (
+            <Stack direction='row' spacing={0.1} key={v}>
+              <Typography component='a' key={v} href={v} sx={{ display: 'block' }}>
+                {v}
+              </Typography>
+              {hasChats(v) && (
+                <IconButton
+                  aria-label='userChatModel'
+                  size='small'
+                  sx={{
+                    '&:hover': { background: 'transparent' },
+                  }}
+                  onClick={(e) => onChatsOpen(v)}>
+                  <MessageOutlined fontSize='small' htmlColor='#75A99C' />
+                </IconButton>
+              )}
+            </Stack>
+          ))}
+        </Grid>
+      </Grid>
+    </AppointmentTooltip.Content>
+  );
+
   return (
-    <Paper
-      sx={{
-        boxShadow: 'rgba(0, 0, 0, 0.14) 0px 1px 1px 0px',
-        border: '.2px solid rgba(0, 0, 0, 0.14)',
-      }}>
-      <Scheduler data={data}>
-        <ViewState defaultCurrentDate={new Date()} />
-        <MonthView />
-        <Appointments appointmentComponent={AppointmentComponent} appointmentContentComponent={AppointmentContent} />
-        <Toolbar flexibleSpaceComponent={FlexibleSpace} />
-        <DateNavigator />
-        <AppointmentTooltip contentComponent={TooltipComponent} showCloseButton />
-        <Resources {...resources} />
-      </Scheduler>
-    </Paper>
+    <>
+      <Paper
+        sx={{
+          boxShadow: 'rgba(0, 0, 0, 0.14) 0px 1px 1px 0px',
+          border: '.2px solid rgba(0, 0, 0, 0.14)',
+        }}>
+        <Scheduler data={data}>
+          <ViewState defaultCurrentDate={new Date()} />
+          <MonthView />
+          <Appointments appointmentComponent={AppointmentComponent} appointmentContentComponent={AppointmentContent} />
+          <Toolbar flexibleSpaceComponent={FlexibleSpace} />
+          <DateNavigator />
+          <AppointmentTooltip contentComponent={TooltipComponent} showCloseButton />
+          <Resources {...resources} />
+        </Scheduler>
+      </Paper>
+      {children}
+    </>
   );
 };
 

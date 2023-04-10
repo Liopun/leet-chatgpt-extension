@@ -34,6 +34,19 @@ const CssTextField = styled(TextField)({
   },
 });
 
+const CssButton = styled(Button)({
+  color: theme.palette.primary.main,
+  background: 'transparent',
+  borderColor: 'transparent',
+  fontSize: '17px',
+  fontWeight: 'bold',
+  '&:hover': {
+    color: theme.palette.primary.main,
+    background: 'transparent',
+    borderColor: 'transparent',
+  },
+});
+
 const Input: FC<Props> = (props) => {
   const { onSubmit, stopGenerating, generating } = props;
 
@@ -118,27 +131,18 @@ const Input: FC<Props> = (props) => {
           multiline
         />
         {!generating ? (
-          <Button
-            variant='contained'
-            color='primary'
-            size='large'
-            onClick={onFormSubmit}
-            sx={{ color: '#fff' }}
-            disabled={inputValue.length === 0}>
+          <CssButton variant='outlined' onClick={onFormSubmit} disabled={inputValue.length === 0}>
             {langBasedAppStrings.appSend}
-          </Button>
+          </CssButton>
         ) : (
-          <Button
-            variant='contained'
-            color='primary'
-            size='large'
-            sx={{ color: '#fff' }}
+          <CssButton
+            variant='outlined'
             onClick={(e) => {
               e.preventDefault();
               stopGenerating();
             }}>
             {langBasedAppStrings.appStop}
-          </Button>
+          </CssButton>
         )}
       </Paper>
     </Box>

@@ -4,12 +4,17 @@ import { REMINDER_MESSAGES } from '../app/constants';
 import { getUserCfg } from '../config';
 import { loadAppLocales } from './locales';
 
-export const alarmInit = () => {
-  const alarmTime = dayjs();
-  alarmTime.set('hour', 12);
-  alarmTime.set('minute', 1);
+export const clearAlarm = () => {
+  (async () => {
+    await Browser.alarms.clear(dayjs().format('dddd'));
+  })();
+};
 
-  Browser.alarms.create('bootstrap', { when: alarmTime.valueOf(), periodInMinutes: 24 * 60 });
+export const alarmInit = () => {
+  const alarmTime = new Date();
+  alarmTime.setHours(12, 1);
+
+  Browser.alarms.create('bootstrap', { when: alarmTime.getTime(), periodInMinutes: 24 * 60 });
 };
 
 export const dailyReminderSetup = async () => {
@@ -18,17 +23,16 @@ export const dailyReminderSetup = async () => {
 
   const reminderParts = cfg.userReminder.split(':');
 
-  const alarmTime = dayjs();
-  alarmTime.set('hour', parseInt(reminderParts[0]));
-  alarmTime.set('minute', parseInt(reminderParts[1]));
+  const alarmTime = new Date();
+  alarmTime.setHours(parseInt(reminderParts[0]), parseInt(reminderParts[1]));
 
-  const todayString = alarmTime.format('dddd');
+  const todayString = alarmTime.toLocaleDateString('en-US', { weekday: 'long' });
 
   if (cfg.userDays.indexOf(todayString) === -1) return;
 
-  const diffMs = alarmTime.diff(dayjs());
+  if (alarmTime.getTime() - Date.now() < 0) return;
 
-  return Browser.alarms.create(todayString, { when: Date.now() + diffMs });
+  return Browser.alarms.create(todayString, { when: alarmTime.getTime() });
 };
 
 export const showStreakNotification = async (msg?: string, cxtMsg?: string) => {
@@ -51,6 +55,7 @@ export const alarmHandler = () => {
       const cfg = await getUserCfg();
 
       if (name === 'bootstrap') {
+        clearAlarm();
         await dailyReminderSetup();
       } else if (cfg.userDays.indexOf(name) > -1) {
         await showStreakNotification(
@@ -64,10 +69,4 @@ export const alarmHandler = () => {
       }
     })();
   });
-};
-
-export const clearAlarm = () => {
-  (async () => {
-    await Browser.alarms.clear(dayjs().format('dddd'));
-  })();
 };

@@ -32,6 +32,7 @@ import { array, object, string, TypeOf } from 'zod';
 
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import dayjs, { Dayjs } from 'dayjs';
+import Browser from 'webextension-polyfill';
 import { getUserCfg, invalidateUserCfgToken, updateUserCfg, UserCfg } from '../../../config';
 import { ClientType } from '../../../interfaces';
 import { getAppVersion } from '../../../utils/common';
@@ -41,8 +42,10 @@ import { CHATGPT_API_MODELS, WEEK_DAYS } from '../../constants';
 import { MenuProps } from '../../styles/controls/cssSelectField';
 import FormMultiSelect from '../FormMultiSelect';
 import CalendarPanel from './CalendarPanel';
+import ChatsDialog from './ChatsDialog';
 import './styles.scss';
 import TabPanel from './TabPanel';
+import UserChats from './UserChats';
 
 const a11yProps = (index: number) => {
   return {
@@ -69,6 +72,8 @@ const Options: FC = () => {
   const [userConfig, setUserConfig] = useState<UserCfg | null>(null);
   const [reminderValue, setReminderValue] = useState<Dayjs | null>(null);
   const [clientSwitcher, setClientSwitcher] = useState<ClientType>(ClientType.ChatGPT);
+  const [chatsOpen, setChatsOpen] = useState(false);
+  const [selectedChatKey, setSelectedChatKey] = useState('');
 
   const defaultValues: IClientSchema = {
     apiKey: '',
@@ -96,6 +101,13 @@ const Options: FC = () => {
 
   const handleTabsChange = (event: React.SyntheticEvent, newValue: number) => setTabsValue(newValue);
 
+  const setupReminder = () => {
+    setConfigChanged(true);
+    Browser.runtime.sendMessage({ action: 'REMOVE_REMINDER' }).then((v) => {
+      Browser.runtime.sendMessage({ action: 'SET_REMINDER' });
+    });
+  };
+
   const handleDaysClose = useCallback(
     (event: React.SyntheticEvent<Element, Event>) => {
       (async () => {
@@ -105,7 +117,8 @@ const Options: FC = () => {
           userDays: daysArr,
           userReminder: reminderValue!.format('HH:mm'),
         });
-        setConfigChanged(true);
+
+        setupReminder();
       })();
     },
     [methods, reminderValue]
@@ -118,7 +131,8 @@ const Options: FC = () => {
           userReminder: reminderValue!.format('HH:mm'),
           userDays: methods.getValues().streakDays,
         });
-        setConfigChanged(true);
+
+        setupReminder();
       }
     },
     [methods, reminderValue]
@@ -145,6 +159,36 @@ const Options: FC = () => {
     });
     alert('Changes saved');
     setConfigChanged(true);
+  };
+
+  const handleChatsOpen = (key: string) => {
+    setSelectedChatKey(key);
+    setChatsOpen(true);
+  };
+
+  const handleChatsClose = () => setChatsOpen(false);
+
+  const deleteChatItem = (index: number) => {
+    (async () => {
+      const currentChats = userConfig!.userChats;
+      currentChats[selectedChatKey] = currentChats[selectedChatKey].filter((_v, i) => i !== index);
+      await updateUserCfg({
+        userChats: currentChats,
+      });
+      setConfigChanged(true);
+    })();
+  };
+
+  const checkIfKeyHasChats = (key: string) => {
+    if (userConfig && userConfig.userChats[key]) return userConfig.userChats[key].length > 0;
+
+    return false;
+  };
+
+  const getMessagesByKey = () => {
+    if (userConfig && userConfig.userChats[selectedChatKey]) return userConfig.userChats[selectedChatKey];
+
+    return [];
   };
 
   useEffect(() => {
@@ -290,7 +334,18 @@ const Options: FC = () => {
                 (userConfig && userConfig?.userDays.length > 0) ||
                 (userConfig && userConfig?.userStats.length > 0)) && (
                 <Stack component='form' direction='row' sx={{ width: '100%' }}>
-                  <CalendarPanel data={userConfig!.userStats} />
+                  <CalendarPanel
+                    data={userConfig!.userStats}
+                    onChatsOpen={handleChatsOpen}
+                    hasChats={checkIfKeyHasChats}>
+                    <ChatsDialog
+                      title={selectedChatKey}
+                      open={chatsOpen}
+                      onClose={handleChatsClose}
+                      getMessages={getMessagesByKey}>
+                      <UserChats key={selectedChatKey} getMessages={getMessagesByKey} deleteChatItem={deleteChatItem} />
+                    </ChatsDialog>
+                  </CalendarPanel>
                 </Stack>
               )}
             </Box>

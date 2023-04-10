@@ -62,10 +62,10 @@ export function querySelectElement<T extends Element>(possibleItems: string[]): 
   return;
 }
 
-export const generateTriggerMode = () => {
+export const generateTriggerMode = (url?: string) => {
   for (const val of Object.keys(EngineModes)) {
     const currRegex = new RegExp(`${EngineModes[val].host}.*${val}`);
-    if (currRegex.test(location.href)) return val as TriggerMode;
+    if (currRegex.test(url || location.href)) return val as TriggerMode;
   }
 
   return null;

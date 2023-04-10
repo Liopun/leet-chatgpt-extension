@@ -52,7 +52,7 @@ export abstract class AbstractClient {
           parsedError = { error: { message: (err as Error).message, code: ErrorCode.UNKOWN_ERROR } };
         }
 
-        const errCode = parsedError.detail?.code || parsedError.error.code || '';
+        const errCode = parsedError.detail?.code || parsedError.error?.code || '';
 
         const code =
           errCode.toUpperCase() === ErrorCode.INVALID_API_KEY ? ErrorCode.INVALID_API_KEY : ErrorCode.UNKOWN_ERROR;

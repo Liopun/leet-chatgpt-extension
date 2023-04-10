@@ -3,6 +3,7 @@ import { defaults } from 'lodash-es';
 import Browser from 'webextension-polyfill';
 import { CHATGPT_API_MODELS } from '../app/constants';
 import { ClientType, IUserStats } from '../interfaces';
+import { IUserChats } from '../interfaces/chat';
 
 const userDefaultCfg = {
   openaiApiKey: '',
@@ -13,6 +14,7 @@ const userDefaultCfg = {
   userReminder: dayjs().format('HH:mm'),
   userDays: [] as string[],
   userStats: [] as IUserStats[],
+  userChats: {} as IUserChats,
   userWeeklyTip: '',
   language: Browser.i18n.getUILanguage(),
 };

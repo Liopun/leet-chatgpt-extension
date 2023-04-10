@@ -90,7 +90,7 @@
       "message": "了解更多"
     },
     "appInstallNotification": {
-      "message": "为了与ChatGPT的连接更加稳定，在使用Leetcode时，请保持chat.openai.com标签打开。"
+      "message": "为了与ChatGPT进行更稳定的连接，在使用Leetcode/Hackerrank时保持chat.openai.com标签打开。"
     },
     "appStreak": {
       "message": "潸然泪下"
@@ -102,10 +102,10 @@
       "message": "是时候磨练你的问题解决技巧了"
     },
     "appStreakAddedNotification": {
-      "message": "日复一日地坚持一个目标需要大量的纪律、承诺和毅力，请继续努力！\"！你可以在LeetChatGPT选项页中找到你的记录和统计资料"
+      "message": "日复一日地坚持一个目标，需要大量的纪律、承诺和毅力，继续努力吧!"
     },
     "appStreakAddedSubNotification": {
-      "message": "添加了Streak"
+      "message": "添加了Streak。选项页中的结账记录"
     },
     "appStreakQuestions": {
       "message": "连日来的问题"

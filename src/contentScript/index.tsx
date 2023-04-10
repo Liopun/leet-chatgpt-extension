@@ -18,25 +18,37 @@ import theme from '../app/theme';
 import { TriggerMode } from '../interfaces/client';
 import './styles.scss';
 
-const mount = (trigger: TriggerMode, engCfg: Engine, inpQ?: string, inpS?: string, submitElem?: Element) => {
-  const container = document.createElement('div');
-  container.className = 'chat-gpt-container';
-  container.classList.add('gpt-dark');
+interface IMountArg {
+  trigger: TriggerMode;
+  engCfg: Engine;
+  inpQ?: string;
+  solutionElem: Element;
+  submitElem?: Element;
+}
 
-  const sbContainer = document.getElementsByClassName(engCfg.sidebarContainer[0])[0];
+const mount = (arg: IMountArg) => {
+  const { trigger, engCfg, inpQ, solutionElem, submitElem } = arg;
+  let container = document.getElementsByClassName('chat-gpt-container')[0];
+  if (!container) {
+    container = document.createElement('div');
+    container.className = 'chat-gpt-container';
+    container.classList.add('gpt-dark');
 
-  if (sbContainer) {
-    sbContainer.prepend(container);
-  } else {
-    container.classList.add('sidebar-free');
-    let appendContainer = getHolderElement(trigger);
+    const sbContainer = document.getElementsByClassName(engCfg.sidebarContainer[0])[0];
 
-    if (appendContainer) {
-      appendContainer.insertBefore(container, appendContainer.firstChild);
+    if (sbContainer) {
+      sbContainer.prepend(container);
     } else {
-      appendContainer = retryHolderElement(trigger);
-      container.classList.add('leetcode-cn');
-      if (appendContainer) appendContainer.insertBefore(container, appendContainer.lastChild);
+      container.classList.add('sidebar-free');
+      let appendContainer = getHolderElement(trigger);
+
+      if (appendContainer) {
+        appendContainer.insertAdjacentElement('beforebegin', container);
+      } else {
+        appendContainer = retryHolderElement(trigger);
+        container.classList.add('leetcode-cn');
+        if (appendContainer) appendContainer.insertBefore(container, appendContainer.lastChild);
+      }
     }
   }
 
@@ -45,8 +57,8 @@ const mount = (trigger: TriggerMode, engCfg: Engine, inpQ?: string, inpS?: strin
       <CssBaseline />
       <App
         submitElement={submitElem!}
-        inputQuestion={inpQ!}
-        inputSolution={inpS!}
+        inputQuestion={inpQ!.replace(/\n{3,}/g, '\n\n')}
+        inputElement={solutionElem}
         topics={getQuestionTopics(trigger)}
         triggerMode={trigger}
       />
@@ -86,8 +98,14 @@ const run = () => {
   const buttonSubmit = getSubmitElement(tMode);
 
   if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
-    console.debug('Re-mounting ChatGPT on a different route');
-    mount(tMode, engCfg, inputQuestion.textContent!, inputSolution.textContent!, buttonSubmit);
+    console.debug('Re-mounting ChatGPT on a different use case');
+    mount({
+      trigger: tMode,
+      engCfg: engCfg,
+      inpQ: inputQuestion.textContent!,
+      solutionElem: inputSolution,
+      submitElem: buttonSubmit,
+    });
   }
 };
 
@@ -97,8 +115,15 @@ const mutationObserver = new MutationObserver((mutations) => {
   const buttonSubmit = getSubmitElement(tMode);
 
   if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
-    mount(tMode, engCfg, inputQuestion.textContent!, inputSolution.textContent!, buttonSubmit);
+    mount({
+      trigger: tMode,
+      engCfg: engCfg,
+      inpQ: inputQuestion.textContent!,
+      solutionElem: inputSolution,
+      submitElem: buttonSubmit,
+    });
     console.debug(`Mounting ChatGPT on ${tMode} trigger`);
+
     mutationObserver.disconnect();
   }
 });

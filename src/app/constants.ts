@@ -1,5 +1,3 @@
-import { IUserStats } from '../interfaces';
-
 export const CHATCLIENTS = {
   chatgpt: {
     name: 'ChatGPT',
@@ -13,66 +11,6 @@ export const CHATGPT_API_MODELS = ['gpt-3.5-turbo', 'gpt-4', 'gpt-4-32k'];
 export const TIME_OPTIONS = ['10 min', '15 min', '20 min', '25 min', '30 min', '35 min'];
 
 export const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thrusday', 'Friday', 'Saturday', 'Sunday'];
-
-export const USER_STATS: IUserStats[] = [
-  {
-    id: 1,
-    title: 'Sliding Window; Two Pointers',
-    startDate: new Date(2023, 2, 29, 12, 0),
-    endDate: new Date(2023, 2, 29, 15, 0),
-    description:
-      'hello world helloworld helloworld helloworld helloworld helloworld helloworld helloworld helloworld helloworld',
-    resourcesId: 1,
-  },
-  {
-    id: 2,
-    title: 'Two Pointers; Fast & Slow Pointers',
-    startDate: new Date(2023, 2, 30, 12, 0),
-    endDate: new Date(2023, 2, 30, 15, 0),
-    description: 'hello world',
-    resourcesId: 1,
-  },
-  {
-    id: 3,
-    title: 'Merge Intervals',
-    startDate: new Date(2023, 2, 31, 12, 0),
-    endDate: new Date(2023, 2, 31, 15, 0),
-    description: 'helloworld',
-    resourcesId: 1,
-  },
-  {
-    id: 4,
-    title: 'Breadth First Search',
-    startDate: new Date(2023, 3, 2, 12, 0),
-    endDate: new Date(2023, 3, 2, 15, 0),
-    description: 'hello world',
-    resourcesId: 1,
-  },
-  {
-    id: 5,
-    title: 'Depth First Search',
-    startDate: new Date(2023, 3, 5, 12, 0),
-    endDate: new Date(2023, 3, 5, 15, 0),
-    description: 'hello world',
-    resourcesId: 1,
-  },
-  {
-    id: 6,
-    title: 'Subsets; Two Heaps',
-    startDate: new Date(2023, 3, 9, 12, 0),
-    endDate: new Date(2023, 3, 9, 15, 0),
-    description: 'hello world',
-    resourcesId: 1,
-  },
-  {
-    id: 7,
-    title: 'Topological Sort; 0/1 Knapsack',
-    startDate: new Date(2023, 3, 10, 12, 0),
-    endDate: new Date(2023, 3, 10, 15, 0),
-    description: 'hello world',
-    resourcesId: 1,
-  },
-];
 
 export const MONTHS = [
   'January',
