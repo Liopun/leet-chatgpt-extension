@@ -23,7 +23,7 @@
     <img src="src/app/assets/chrome.png" style="max-width: 15px; max-height: 15px;" />
   </a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt" style="max-width: 15px; max-height: 15px; margin-left: 120px;">
-    <img src="src/app/assets/firefox.png" style="max-width: 15px; max-height: 15px;" />
+    <img src="src/app/assets/firefox.png" width="15px" style="max-width: 15px; max-height: 15px;" />
   </a>
 </div>
 <br>
