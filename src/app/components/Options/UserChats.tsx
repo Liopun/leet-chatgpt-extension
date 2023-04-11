@@ -47,7 +47,7 @@ const UserChats: FC<UserChatsProps> = (props) => {
 
   useEffect(() => {
     setData(getMessages);
-  }, [key, data]);
+  }, [key, data, deleteChatItem]);
 
   return (
     <Box className='list' ref={ref} sx={{ p: 0 }}>

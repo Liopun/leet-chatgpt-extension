@@ -15,9 +15,7 @@
         "storage",
         "alarms",
         "notifications",
-        "https://*.openai.com/",
-        "activeTab",
-        "<all_urls>"
+        "https://*.openai.com/"
     ],
     "content_security_policy": "script-src 'self'; object-src 'self'",
     "author": "Liopun",

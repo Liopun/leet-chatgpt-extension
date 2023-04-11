@@ -17,7 +17,7 @@ interface Props {
 const ChatPanel: FC<Props> = (props) => {
   const { clientId, messages, sendMessage, generating, stopGenerating, resetConversation } = props;
 
-  const saveChatRecord = () => {
+  const saveChatThread = () => {
     (async () => {
       const cfg = await getUserCfg();
       const newCfg = cfg.userChats;
@@ -38,7 +38,7 @@ const ChatPanel: FC<Props> = (props) => {
         generating={generating}
         stopGenerating={stopGenerating}
         resetConversation={resetConversation}
-        saveChatRecord={saveChatRecord}
+        saveChatRecord={saveChatThread}
       />
     </Box>
   );

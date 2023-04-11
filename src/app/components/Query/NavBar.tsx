@@ -1,3 +1,4 @@
+import { LocalFireDepartment } from '@mui/icons-material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -29,6 +30,7 @@ interface NavBarProps {
   disableManuals: boolean;
   minimized: boolean;
   showAnswer: boolean;
+  streakCount: string;
   handleTimerSelect: (event: SelectChangeEvent) => void;
   options: string[];
   handleTimerStart: () => void;
@@ -36,6 +38,7 @@ interface NavBarProps {
   handleManualBRClick: () => void;
   handleManualOPClick: () => void;
   handleMinimizeClick: () => void;
+  openOptions: () => void;
 }
 
 const NavBar: FC<NavBarProps> = (props) => {
@@ -45,6 +48,7 @@ const NavBar: FC<NavBarProps> = (props) => {
     disableManuals,
     minimized,
     showAnswer,
+    streakCount,
     handleTimerSelect,
     options,
     handleTimerStart,
@@ -52,6 +56,7 @@ const NavBar: FC<NavBarProps> = (props) => {
     handleManualBRClick,
     handleManualOPClick,
     handleMinimizeClick,
+    openOptions,
   } = props;
   const [expanded, setExpanded] = useState<string | false>(false);
   const langBasedAppStrings = loadAppLocales();
@@ -188,6 +193,14 @@ const NavBar: FC<NavBarProps> = (props) => {
           </Accordion>
         </Box>
         <Box sx={{ backgroundColor: 'transparent' }} style={{ flex: 1 }}></Box>
+        <Box sx={{ mr: 6 }}>
+          <IconButton size='medium' aria-label='options-streak' onClick={() => openOptions()}>
+            <LocalFireDepartment fontSize='medium' htmlColor='#F89F1B' />
+            <Typography variant='h6' style={{ marginLeft: '10px' }}>
+              {streakCount}
+            </Typography>
+          </IconButton>
+        </Box>
         <Box>
           <IconButton
             size='medium'

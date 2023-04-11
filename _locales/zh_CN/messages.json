@@ -27,7 +27,7 @@
       "message": "优化"
     },
     "appLetsChat": {
-      "message": "我有后续问题"
+      "message": "我们来谈谈"
     },
     "appSend": {
       "message": "发送"
@@ -43,6 +43,9 @@
     },
     "appClipboard": {
       "message": "复制到剪贴板"
+    },
+    "appChatSave": {
+      "message": "保存在选项页"
     },
     "appOr": {
       "message": "或"
