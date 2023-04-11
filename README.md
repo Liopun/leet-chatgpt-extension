@@ -1,7 +1,7 @@
 # LeetChatGPT
-<div style="display: flex; justify-content: left; align-items: left; margin-bottom: 10px">
+<div style="display: flex; justify-content: flex-start; align-items: flex-start; margin-bottom: 10px">
   <a href="https://leetchatgpt.com/" style="margin-right: 15px;">
-      <img src="src/app/assets/logo.png" style="max-width: 50px; max-height: 50px;" />
+      <img src="src/app/assets/logo.png" width="50px" height="50px" />
   </a>
   <div style="margin-left: 0px; margin-right: 5px;">
     <span style="font-size: 25px;">AI-powered browser extension that enhances your leetcode/hacker-rank experience<span>
@@ -17,15 +17,23 @@
 ![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/ephkkockglkjbdljoljjfdlfmgkeijek?color=%234CB749&label=rating)
 ![Mozilla Add-on](https://img.shields.io/amo/v/leetchatgpt?color=%230C8CC5&label=firefox)
 ![Mozilla Add-on](https://img.shields.io/amo/stars/leetchatgpt?color=%23E85D0C&label=rating)
-<div style="display: flex; justify-content: left; align-items: left;">
-  <span>From:</span>
-  <a href="https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek">
-    <img src="src/app/assets/chrome.png" width="40px" height="40px" style="margin-left: 50px; margin-right: 55px;" />
-  </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt">
-    <img src="src/app/assets/firefox.png" width="40px" height="40px" style="margin-left: 120px;" />
-  </a>
-</div>
+<table style="width: 100%; border: none;">
+  <tr>
+    <td style="text-align: left;">
+      <span>Get It Today:</span>
+    </td>
+    <td style="text-align: left;">
+      <a href="https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek">
+        <img src="src/app/assets/chrome.png" width="30px" height="30px" style="margin-left: 50px; margin-right: 55px;" />
+      </a>
+    </td>
+    <td style="text-align: left;">
+      <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt">
+        <img src="src/app/assets/firefox.png" width="30px" height="30px" />
+      </a>
+    </td>
+  </tr>
+</table>
 <br>
 
 ## 📷 Screenshot
