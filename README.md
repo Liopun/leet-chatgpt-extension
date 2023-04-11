@@ -19,11 +19,11 @@
 ![Mozilla Add-on](https://img.shields.io/amo/stars/leetchatgpt?color=%23E85D0C&label=rating)
 <div style="display: flex; justify-content: left; align-items: left;">
   <span>From:</span>
-  <a href="https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek" style="max-width: 15px; max-height: 15px; margin-left: 50px; margin-right: 55px;">
-    <img src="src/app/assets/chrome.png" style="max-width: 15px; max-height: 15px;" />
+  <a href="https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek" style="max-width: 40px; max-height: 40px; margin-left: 50px; margin-right: 55px;">
+    <img src="src/app/assets/chrome.png" width="40px" height="40px" />
   </a>
-  <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt" style="max-width: 15px; max-height: 15px; margin-left: 120px;">
-    <img src="src/app/assets/firefox.png" width="15px" style="max-width: 15px; max-height: 15px;" />
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt" style="max-width: 40px; max-height: 40px; margin-left: 120px;">
+    <img src="src/app/assets/firefox.png" width="40px" height="40px" />
   </a>
 </div>
 <br>
