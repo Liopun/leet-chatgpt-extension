@@ -20,10 +20,10 @@
 <div style="display: flex; justify-content: left; align-items: left;">
   <span>From:</span>
   <a href="https://chrome.google.com/webstore/detail/leetchatgpt/ephkkockglkjbdljoljjfdlfmgkeijek" style="max-width: 15px; max-height: 15px; margin-left: 50px; margin-right: 55px;">
-    <img src="src/app/assets/chrome.png" />
+    <img src="src/app/assets/chrome.png" style="max-width: 15px; max-height: 15px;" />
   </a>
   <a href="https://addons.mozilla.org/en-US/firefox/addon/leetchatgpt" style="max-width: 15px; max-height: 15px; margin-left: 120px;">
-    <img src="src/app/assets/firefox.png" />
+    <img src="src/app/assets/firefox.png" style="max-width: 15px; max-height: 15px;" />
   </a>
 </div>
 <br>
