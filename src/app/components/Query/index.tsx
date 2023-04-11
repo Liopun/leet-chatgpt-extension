@@ -1,10 +1,12 @@
-import { QuestionAnswer } from '@mui/icons-material';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { Box, Button, Grid, SelectChangeEvent, Typography } from '@mui/material';
+import { QuestionAnswer, SaveOutlined } from '@mui/icons-material';
+import StopIcon from '@mui/icons-material/Stop';
+import { Box, Fab, Grid, SelectChangeEvent, Stack, Tooltip, Typography, Zoom } from '@mui/material';
 import { FC, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
 import rehypeHighlight from 'rehype-highlight';
+import Browser from 'webextension-polyfill';
+import { getUserCfg, updateUserCfg, UserCfg } from '../../../config';
 import { ChatMessageObj } from '../../../interfaces/chat';
 import { ClientError } from '../../../utils/errors';
 import { loadAppLocales } from '../../../utils/locales';
@@ -28,10 +30,15 @@ const Query: FC<Props> = (props) => {
   const { question, topics, submitElement, onModeChange, resetQuestion } = props;
   const [answer, setAnswer] = useState<ChatMessageObj | null>(null);
   const [error, setError] = useState<ClientError | null>(null);
+  const [userConfig, setUserConfig] = useState<UserCfg | null>(null);
+  const [streakCount, setStreakCount] = useState('');
   const [showAnswer, setShowAnswer] = useState(false);
   const [minimized, setMinimized] = useState(false);
   const [startedChat, setStartedChat] = useState(false);
   const [isAddingStreak, setIsAddingStreak] = useState(true);
+  const [renderFab, setRenderFab] = useState(true);
+
+  const [chatSaved, setChatSaved] = useState(false);
 
   // timer
   const [timeStarted, setTimerStarted] = useState(false);
@@ -52,11 +59,21 @@ const Query: FC<Props> = (props) => {
     if (generating) chatgptChat.stopGenerating();
   }, [chatgptChat.stopGenerating]);
 
+  const openWebPage = useCallback(() => {
+    Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
+  }, []);
+
   const oneTimeUseAI = () => {
     setError(null);
     setIsAddingStreak(true);
     resetConvo();
     chatgptChat.sendMessage(question);
+  };
+
+  const getUserConfig = () => {
+    getUserCfg().then((config) => {
+      setUserConfig(config);
+    });
   };
 
   const handleTimerSelect = (event: SelectChangeEvent) => {
@@ -136,11 +153,26 @@ const Query: FC<Props> = (props) => {
     (async () => {
       setMinimized(true);
       await addStreak(topics);
+      getUserConfig();
     })();
   }, [topics]);
 
+  const saveChatRecord = () => {
+    (async () => {
+      const cfg = await getUserCfg();
+      const newCfg = cfg.userChats;
+      newCfg[location.href] = chatgptChat.messages;
+
+      await updateUserCfg({
+        userChats: newCfg,
+      });
+      setChatSaved(true);
+    })();
+  };
+
   useEffect(() => {
     if (question.length > 10) oneTimeUseAI();
+    getUserConfig();
   }, [question, onModeChange]);
 
   useEffect(() => {
@@ -176,6 +208,16 @@ const Query: FC<Props> = (props) => {
   }, [timeStarted]);
 
   useEffect(() => {
+    if (chatSaved) setTimeout(() => setChatSaved(false), 1500);
+  }, [chatSaved]);
+
+  useEffect(() => {
+    if (userConfig) {
+      setStreakCount(`${userConfig.userStats.length}`);
+    }
+  }, [userConfig]);
+
+  useEffect(() => {
     if (submitElement) {
       submitElement.addEventListener('click', submitButtonHandler);
     }
@@ -194,6 +236,7 @@ const Query: FC<Props> = (props) => {
         disableManuals={generating}
         minimized={minimized}
         showAnswer={showAnswer}
+        streakCount={streakCount}
         handleTimerSelect={handleTimerSelect}
         options={TIME_OPTIONS}
         handleTimerStart={handleTimerStart}
@@ -201,9 +244,10 @@ const Query: FC<Props> = (props) => {
         handleManualBRClick={handleManualBRClick}
         handleManualOPClick={handleManualOPClick}
         handleMinimizeClick={handleMinimizeClick}
+        openOptions={openWebPage}
       />
 
-      {error && !startedChat && !minimized ? <ErrorPanel error={error} /> : null}
+      {error && !startedChat && !minimized ? <ErrorPanel error={error} openOptions={openWebPage} /> : null}
       {(!answer && !error && timeStarted && !minimized) === true ? (
         <Box
           sx={{
@@ -248,16 +292,18 @@ const Query: FC<Props> = (props) => {
             <>
               <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>{answer.text}</ReactMarkdown>
               {generating && (
-                <Typography
-                  component='a'
-                  variant='body2'
-                  sx={{ color: 'red', opacity: 0.5, textDecoration: 'none !important' }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    stopConvo();
-                  }}>
-                  <CancelIcon sx={{ color: 'red', opacity: 0.5 }} /> {' cancel'}
-                </Typography>
+                <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '20ms' : '0ms' }}>
+                  <Fab
+                    size='small'
+                    color='info'
+                    aria-label='stop-answer'
+                    onClick={(e) => {
+                      e.preventDefault();
+                      stopConvo();
+                    }}>
+                    <StopIcon />
+                  </Fab>
+                </Zoom>
               )}
             </>
           ) : (
@@ -279,14 +325,35 @@ const Query: FC<Props> = (props) => {
           )}
 
           {!generating ? (
-            <Button
-              sx={{ textTransform: 'capitalize' }}
-              variant='outlined'
-              size='medium'
-              endIcon={<QuestionAnswer />}
-              onClick={() => setStartedChat(true)}>
-              {langBasedAppStrings.appLetsChat}
-            </Button>
+            <Stack
+              direction='row'
+              justifyContent='flex-end'
+              alignItems='flex-end'
+              spacing={3}
+              sx={{ width: '100%', padding: 1, paddingLeft: 2 }}>
+              <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '200ms' : '0ms' }}>
+                <Fab
+                  size='small'
+                  color='primary'
+                  aria-label='lets-chat'
+                  variant='extended'
+                  onClick={() => setStartedChat(true)}
+                  sx={{
+                    textTransform: 'capitalize',
+                  }}>
+                  <QuestionAnswer />
+                  &nbsp;&nbsp;{langBasedAppStrings.appLetsChat}&nbsp;&nbsp;
+                </Fab>
+              </Zoom>
+
+              <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '300ms' : '0ms' }}>
+                <Fab size='small' color='info' aria-label='save-chat' onClick={() => saveChatRecord()}>
+                  <Tooltip open={chatSaved} title={langBasedAppStrings.appChatSave}>
+                    <SaveOutlined />
+                  </Tooltip>
+                </Fab>
+              </Zoom>
+            </Stack>
           ) : null}
           <Box ref={containerRef}></Box>
         </Box>

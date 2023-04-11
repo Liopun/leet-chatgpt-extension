@@ -16,6 +16,7 @@ export const loadAppLocales = (): IAppStrings => {
     appReset: Browser.i18n.getMessage('appReset'),
     appShare: Browser.i18n.getMessage('appShare'),
     appClipboard: Browser.i18n.getMessage('appClipboard'),
+    appChatSave: Browser.i18n.getMessage('appChatSave'),
     appOr: Browser.i18n.getMessage('appOr'),
     appOptions: Browser.i18n.getMessage('appOptions'),
     appAIClient: Browser.i18n.getMessage('appAIClient'),

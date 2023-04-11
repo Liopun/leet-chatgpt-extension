@@ -2,22 +2,18 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, IconButton, Link, Stack, Typography } from '@mui/material';
 import { FC, useCallback } from 'react';
-import Browser from 'webextension-polyfill';
 import { isBraveBrowser } from '../../../utils/common';
 import { ClientError, ErrorCode } from '../../../utils/errors';
 import { loadAppLocales } from '../../../utils/locales';
 
 interface AuthProps {
   error: ClientError;
+  openOptions: () => void;
 }
 
 const ErrorPanel: FC<AuthProps> = (props) => {
-  const { error } = props;
+  const { error, openOptions } = props;
   const langBasedAppStrings = loadAppLocales();
-
-  const openWebPage = useCallback(() => {
-    Browser.runtime.sendMessage({ action: 'OPEN_OPTIONS' });
-  }, []);
 
   const reloadPage = useCallback(() => {
     window.location.reload();
@@ -69,7 +65,7 @@ const ErrorPanel: FC<AuthProps> = (props) => {
           <IconButton onClick={() => reloadPage()} sx={{ p: 0 }}>
             <RefreshIcon style={{ fontSize: '1.5rem', color: '#75A99C' }} />
           </IconButton>
-          <IconButton onClick={() => openWebPage()} sx={{ p: 0 }}>
+          <IconButton onClick={() => openOptions()} sx={{ p: 0 }}>
             <SettingsIcon style={{ fontSize: '1.5rem', color: '#75A99C' }} />
           </IconButton>
         </Stack>

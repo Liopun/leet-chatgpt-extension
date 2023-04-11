@@ -27,7 +27,7 @@
       "message": "Optimize"
     },
     "appLetsChat": {
-      "message": "I have follow-up question(s)"
+      "message": "Let's Chat"
     },
     "appSend": {
       "message": "Send"
@@ -43,6 +43,9 @@
     },
     "appClipboard": {
       "message": "Copied To Clipboard"
+    },
+    "appChatSave": {
+      "message": "Saved In Option Page"
     },
     "appOr": {
       "message": "Or"
@@ -114,7 +117,7 @@
       "message": "It takes a lot of discipline, commitment, and perseverance to stick to a goal day after day, keep pushing!"
     },
     "appStreakAddedSubNotification": {
-      "message": "Streak added. Checkout records in options page"
+      "message": "Streak added. Checkout records in option page"
     },
     "appStreakQuestions": {
       "message": "Streak day questions"

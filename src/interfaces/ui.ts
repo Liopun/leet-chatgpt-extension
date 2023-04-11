@@ -16,6 +16,7 @@ export interface IAppStrings {
   appReset: string;
   appShare: string;
   appClipboard: string;
+  appChatSave: string;
   appOr: string;
   appOptions: string;
   appAIClient: string;
