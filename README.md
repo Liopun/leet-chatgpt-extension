@@ -36,9 +36,8 @@
 </table>
 <br>
 
-## 📷 Screenshot
-
-![Leetcode](promotion/screenshot.png?raw=true)
+## 📺 Demo
+https://user-images.githubusercontent.com/54894213/231353876-bbcfa066-f54a-425d-a698-f94a3b8beafe.mp4
 
 ## 🔍 Features
 - 🧩 Supports both leetcode and hacker-rank questions
