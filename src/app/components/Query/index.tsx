@@ -1,6 +1,21 @@
 import { QuestionAnswer, SaveOutlined } from '@mui/icons-material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StopIcon from '@mui/icons-material/Stop';
-import { Box, Fab, Grid, SelectChangeEvent, Stack, Tooltip, Typography, Zoom } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Fab,
+  Grid,
+  IconButton,
+  SelectChangeEvent,
+  Stack,
+  Tooltip,
+  Typography,
+  Zoom,
+} from '@mui/material';
 import { FC, RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { BeatLoader } from 'react-spinners';
@@ -37,6 +52,8 @@ const Query: FC<Props> = (props) => {
   const [startedChat, setStartedChat] = useState(false);
   const [isAddingStreak, setIsAddingStreak] = useState(true);
   const [renderFab, setRenderFab] = useState(true);
+  const [contentExpanded, setContentExpanded] = useState<string | false>('chatgpt-content');
+  const [chatExpanded, setChatExpanded] = useState<string | false>('chatgpt-chat');
 
   const [chatSaved, setChatSaved] = useState(false);
 
@@ -78,6 +95,14 @@ const Query: FC<Props> = (props) => {
 
   const handleTimerSelect = (event: SelectChangeEvent) => {
     setSelectedTimer(event.target.value);
+  };
+
+  const handleContentExpandChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    setContentExpanded(newExpanded ? panel : false);
+  };
+
+  const handleChatExpandChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    setChatExpanded(newExpanded ? panel : false);
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -228,7 +253,20 @@ const Query: FC<Props> = (props) => {
     };
   }, [submitElement, submitButtonHandler]);
 
-  return (
+  return minimized ? (
+    <Box sx={{ flexGrow: 1 }}>
+      <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={2} paddingRight={2}>
+        <IconButton
+          size='medium'
+          aria-label='hideshow-toggler'
+          onClick={() => {
+            handleMinimizeClick();
+          }}>
+          <VisibilityIcon sx={{ color: '#fff' }} />
+        </IconButton>
+      </Stack>
+    </Box>
+  ) : (
     <Box sx={{ flexGrow: 1 }}>
       <NavBar
         selectedTimer={selectedTimer}
@@ -289,23 +327,41 @@ const Query: FC<Props> = (props) => {
             },
           }}>
           {answer.text && answer.text.length > 0 ? (
-            <>
-              <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>{answer.text}</ReactMarkdown>
-              {generating && (
-                <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '20ms' : '0ms' }}>
-                  <Fab
-                    size='small'
-                    color='info'
-                    aria-label='stop-answer'
-                    onClick={(e) => {
-                      e.preventDefault();
-                      stopConvo();
-                    }}>
-                    <StopIcon />
-                  </Fab>
-                </Zoom>
-              )}
-            </>
+            <Accordion
+              sx={{ backgroundColor: '#0C0F15' }}
+              expanded={contentExpanded === 'chatgpt-content'}
+              onChange={handleContentExpandChange('chatgpt-content')}
+              disableGutters>
+              <AccordionSummary
+                aria-controls='chatgpt-accordion-content'
+                id='chatgpt-accordion-content'
+                expandIcon={<ExpandMoreIcon sx={{ color: '#fff' }} />}
+                sx={{
+                  minHeight: '1rem',
+                  maxHeight: '2rem',
+                  color: '#fff',
+                  borderRadius: '.3rem',
+                }}>
+                {'ChatGPT'}
+              </AccordionSummary>
+              <AccordionDetails sx={{ minHeight: '1.5rem', color: '#fff' }}>
+                <ReactMarkdown rehypePlugins={[[rehypeHighlight, { detect: true }]]}>{answer.text}</ReactMarkdown>
+                {generating && (
+                  <Zoom in={renderFab} style={{ transitionDelay: renderFab ? '20ms' : '0ms' }}>
+                    <Fab
+                      size='small'
+                      color='info'
+                      aria-label='stop-answer'
+                      onClick={(e) => {
+                        e.preventDefault();
+                        stopConvo();
+                      }}>
+                      <StopIcon />
+                    </Fab>
+                  </Zoom>
+                )}
+              </AccordionDetails>
+            </Accordion>
           ) : (
             !answer.error && (
               <Box
@@ -360,14 +416,34 @@ const Query: FC<Props> = (props) => {
       ) : null}
 
       {startedChat === true && !minimized ? (
-        <ChatPanel
-          clientId='chatgpt'
-          messages={chatgptChat.messages}
-          sendMessage={chatgptChat.sendMessage}
-          generating={chatgptChat.generating}
-          stopGenerating={chatgptChat.stopGenerating}
-          resetConversation={chatgptChat.resetConversation}
-        />
+        <Accordion
+          sx={{ backgroundColor: '#0C0F15' }}
+          expanded={chatExpanded === 'chatgpt-chat'}
+          onChange={handleChatExpandChange('chatgpt-chat')}
+          disableGutters>
+          <AccordionSummary
+            aria-controls='chat-accordion-content'
+            id='chat-accordion-content'
+            expandIcon={<ExpandMoreIcon sx={{ color: '#fff' }} />}
+            sx={{
+              minHeight: '1rem',
+              maxHeight: '2rem',
+              color: '#fff',
+              borderRadius: '.3rem',
+            }}>
+            {'ChatGPT'}
+          </AccordionSummary>
+          <AccordionDetails sx={{ minHeight: '1.5rem', color: '#fff' }}>
+            <ChatPanel
+              clientId='chatgpt'
+              messages={chatgptChat.messages}
+              sendMessage={chatgptChat.sendMessage}
+              generating={chatgptChat.generating}
+              stopGenerating={chatgptChat.stopGenerating}
+              resetConversation={chatgptChat.resetConversation}
+            />
+          </AccordionDetails>
+        </Accordion>
       ) : null}
     </Box>
   );

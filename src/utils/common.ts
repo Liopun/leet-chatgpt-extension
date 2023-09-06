@@ -94,10 +94,14 @@ export const getQuestionElement = (tMode: TriggerMode) => {
   const qElem = document.getElementById(cfg.input_question[0]);
   let qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
 
+  console.debug('gqE1----', cfg, qElem, qChild);
+
   if (tMode === TriggerMode.Problem && (!qElem || !qChild)) {
     const qParent = document.getElementById(cfg.input_question[2]);
     const q = qParent?.getElementsByClassName(cfg.input_question[3])[0];
     qChild = q?.getElementsByClassName(cfg.input_question[4])[0];
+
+    console.debug('gqE2----', cfg, qParent, qChild);
   }
 
   return qChild;

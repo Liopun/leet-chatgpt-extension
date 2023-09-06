@@ -4,9 +4,9 @@ export const EngineModes: Record<string, Engine> = {
   problem: {
     // leetcode
     host: 'leetcode',
-    input_question: ['__next', '_1l1MA', 'lc-home', 'css-1qqaagl-layer1', 'notranslate'],
-    input_topics: ['__next', 'ssg__qd-splitter-primary-w', 'lc-home', 'description__2b0C'],
-    input_code: ['qd-content', 'view-lines', 'lc-home', 'view-lines'],
+    input_question: ['__next', 'ssg__qd-splitter-primary-w'],
+    input_topics: ['__next', 'ssg__qd-splitter-primary-w', '[data-track-load="description_content"]'],
+    input_code: ['qd-content', 'ssg__qd-splitter-secondary-w', '[data-track-load="code_editor"]', 'view-lines'],
     submit_button: ['__next', 'console-submit-button', 'lc-home', 'submit__-6u9', 'ery7n2v0'],
     sidebarContainer: ['rhs'],
     appendContainerRight: ['ssg__qd-console-position--right', 'css-pwvbgl-CodeAreaContainer'],

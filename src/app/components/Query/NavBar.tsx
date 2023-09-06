@@ -1,12 +1,11 @@
 import { LocalFireDepartment } from '@mui/icons-material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import AvTimerIcon from '@mui/icons-material/AvTimer';
+import CodeIcon from '@mui/icons-material/Code';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import StopIcon from '@mui/icons-material/Stop';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { TabContext, TabList, TabPanel } from '@mui/lab';
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   AppBar,
   Box,
   Button,
@@ -16,8 +15,8 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  Tab,
   Toolbar,
-  Tooltip,
   Typography,
 } from '@mui/material';
 import { FC, useState } from 'react';
@@ -41,6 +40,9 @@ interface NavBarProps {
   openOptions: () => void;
 }
 
+const TIMER = 'timer';
+const MANUAL = 'manual';
+
 const NavBar: FC<NavBarProps> = (props) => {
   const {
     selectedTimer,
@@ -58,20 +60,17 @@ const NavBar: FC<NavBarProps> = (props) => {
     handleMinimizeClick,
     openOptions,
   } = props;
-  const [expanded, setExpanded] = useState<string | false>(false);
+  const [tabValue, setTabValue] = useState(TIMER);
   const langBasedAppStrings = loadAppLocales();
 
-  const handleAccordionChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
   };
 
   return (
     <AppBar position='static' color='transparent'>
       <Toolbar variant='dense'>
-        <Typography variant='body1' component='div' mr='2rem'>
-          {langBasedAppStrings.appChatGpt}
-        </Typography>
-        <Box sx={{ ml: '1rem' }}>
+        {/* <Box sx={{ ml: '1rem' }}>
           <Accordion
             sx={{ backgroundColor: '#0C0F15' }}
             expanded={expanded === 'timerAccordion'}
@@ -140,8 +139,105 @@ const NavBar: FC<NavBarProps> = (props) => {
               </FormControl>
             </AccordionDetails>
           </Accordion>
+        </Box> */}
+        <Box sx={{ ml: '1rem', typography: 'body1' }}>
+          <TabContext value={tabValue}>
+            <Box sx={{ borderBottom: 0.5, borderColor: 'divider' }}>
+              <TabList onChange={handleTabChange} aria-label='mode tab selection'>
+                <Tab
+                  sx={{ color: 'rgba(255,255,255,.8)' }}
+                  icon={<AvTimerIcon />}
+                  aria-label={TIMER}
+                  value={TIMER}
+                  disabled={tabValue !== TIMER && disableManuals}
+                />
+                <Tab
+                  sx={{ color: 'rgba(255,255,255,.8)' }}
+                  icon={<CodeIcon />}
+                  aria-label={MANUAL}
+                  value={MANUAL}
+                  disabled={tabValue !== MANUAL && timeStarted}
+                />
+              </TabList>
+            </Box>
+            <TabPanel value={TIMER}>
+              <FormControl
+                variant='outlined'
+                sx={{
+                  minWidth: '3rem',
+                  color: '#808080',
+                  borderColor: '#808080',
+                  textAlign: 'left',
+                }}
+                size='small'>
+                <Stack direction='row' spacing={1}>
+                  <Select
+                    labelId='time-select-small'
+                    id='time-select-small'
+                    value={selectedTimer}
+                    label='Time'
+                    sx={{ color: '#808080', borderColor: '#808080' }}
+                    input={<CssSelect />}
+                    disabled={timeStarted}
+                    onChange={handleTimerSelect}>
+                    {options.map((v) => (
+                      <MenuItem key={v} value={v}>
+                        {v}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <IconButton
+                    sx={{ mt: '.8rem' }}
+                    size='medium'
+                    color='secondary'
+                    aria-label='start-timer'
+                    disabled={timeStarted}
+                    onClick={handleTimerStart}>
+                    <PlayArrowIcon />
+                  </IconButton>
+                  <IconButton
+                    sx={{ mt: '.8rem' }}
+                    size='medium'
+                    color='secondary'
+                    aria-label='stop-timer'
+                    disabled={!timeStarted}
+                    onClick={handleStopTimer}>
+                    <StopIcon />
+                  </IconButton>
+                </Stack>
+              </FormControl>
+            </TabPanel>
+            <TabPanel value={MANUAL}>
+              <Stack
+                direction='row'
+                spacing={2}
+                justifyContent='space-between'
+                alignItems='center'
+                pt='.3rem'
+                pb='.175rem'>
+                <Button
+                  variant='outlined'
+                  color='info'
+                  size='small'
+                  sx={{ color: '#808080', borderColor: '#808080', width: '7rem' }}
+                  disabled={disableManuals}
+                  onClick={handleManualBRClick}>
+                  {langBasedAppStrings.appBruteforce}
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='info'
+                  size='small'
+                  sx={{ color: '#808080', borderColor: '#808080', width: '7rem' }}
+                  disabled={disableManuals}
+                  onClick={handleManualOPClick}>
+                  {langBasedAppStrings.appOptimize}
+                </Button>
+              </Stack>
+            </TabPanel>
+          </TabContext>
         </Box>
-        <Box sx={{ ml: '3rem' }}>
+        {/* <Box sx={{ ml: '3rem' }}>
           <Accordion
             sx={{ backgroundColor: '#0C0F15' }}
             expanded={expanded === 'manualAccordion'}
@@ -191,7 +287,7 @@ const NavBar: FC<NavBarProps> = (props) => {
               </Stack>
             </AccordionDetails>
           </Accordion>
-        </Box>
+        </Box> */}
         <Box sx={{ backgroundColor: 'transparent' }} style={{ flex: 1 }}></Box>
         <Box sx={{ mr: 6 }}>
           <IconButton size='medium' aria-label='options-streak' onClick={() => openOptions()}>
@@ -207,14 +303,10 @@ const NavBar: FC<NavBarProps> = (props) => {
             aria-label='minimize-toggler'
             onClick={() => {
               handleMinimizeClick();
-              setExpanded(false);
             }}
-            disabled={!showAnswer && !minimized && !timeStarted}>
-            {minimized ? (
-              <KeyboardArrowUpIcon sx={{ color: '#fff' }} />
-            ) : (
-              <KeyboardArrowDownIcon sx={{ color: '#fff' }} />
-            )}
+            // disabled={!showAnswer && !timeStarted}
+          >
+            <VisibilityOffIcon sx={{ color: '#fff' }} />
           </IconButton>
         </Box>
       </Toolbar>
