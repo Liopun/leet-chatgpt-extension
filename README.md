@@ -49,7 +49,7 @@ https://user-images.githubusercontent.com/54894213/231353876-bbcfa066-f54a-425d-
 - 📜 Conversation history kept locally
 - 👥 Export and share conversations as png, pdf or markdown
 - 🎨 Markdown rendering and Code highlights
-- 🔓 Supports both ChatGPT and ChatGPT Plus (models: gpt-3.5-turbo, gpt-4, gpt-4-32k)
+- 🔓 Supports both ChatGPT WebApp and OpenAI Key (models: gpt-3.5-turbo, gpt-4, gpt-4-32k)
 
 ## 🔨 Build from source
 1. Clone this repository
