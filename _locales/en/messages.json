@@ -54,7 +54,7 @@
       "message": "Options"
     },
     "appAIClient": {
-      "message": "AI Client"
+      "message": "ChatGPT Client"
     },
     "appAuthLogin": {
       "message": "Login & verify"
@@ -72,7 +72,7 @@
       "message": "Brave Troubleshooting"
     },
     "appErrCloudflareDetails": {
-      "message": "OpenAI requires passing a security check. If this annoys you, change AI client to ChatGPT Plus in the extension options"
+      "message": "OpenAI requires passing a security check. If this annoys you, change AI client to OpenAI API key mode in the extension options"
     },
     "appShuffle": {
       "message": "Shuffle"
@@ -84,7 +84,7 @@
       "message": "Default choice"
     },
     "appChatGptDesc": {
-      "message": "Free to use but unstable from time to time"
+      "message": "Free to use but unstable from time to time. Recommended for both chatgpt free and plus users"
     },
     "appChatGptPlusDesc": {
       "message": "OpenAI official API, more stable, charge by usage"

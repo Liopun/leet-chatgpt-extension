@@ -9,7 +9,7 @@ const userDefaultCfg = {
   openaiApiKey: '',
   openaiApiHost: 'https://api.openai.com',
   openaiApiModel: CHATGPT_API_MODELS[0],
-  clientMode: ClientType.ChatGPT,
+  clientMode: ClientType.WebApp,
   chatgptApiTemperature: 0.6,
   userReminder: dayjs().format('HH:mm'),
   userDays: [] as string[],
