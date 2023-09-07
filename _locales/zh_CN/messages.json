@@ -54,7 +54,7 @@
       "message": "选择"
     },
     "appAIClient": {
-      "message": "AI客户"
+      "message": "ChatGPT客户"
     },
     "appAuthLogin": {
       "message": "登录并验证"
@@ -84,7 +84,7 @@
       "message": "默认选择"
     },
     "appChatGptDesc": {
-      "message": "免费使用，但不时出现不稳定的情况"
+      "message": "免费使用，但有时不稳定。推荐给聊天工具免费版和高级版用户使用"
     },
     "appChatGptPlusDesc": {
       "message": "OpenAI官方API），更稳定，按用量收费"

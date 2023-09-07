@@ -1,6 +1,6 @@
 export enum ClientType {
-  ChatGPT = 'chatgpt',
-  ChatGPTPlus = 'chatgpt plus',
+  WebApp = 'webapp',
+  OpenAI = 'openai key',
 }
 
 export enum TriggerMode {

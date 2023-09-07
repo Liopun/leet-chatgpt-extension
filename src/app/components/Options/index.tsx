@@ -71,7 +71,7 @@ const Options: FC = () => {
   const [streakConfigured, setStreakConfigured] = useState(false);
   const [userConfig, setUserConfig] = useState<UserCfg | null>(null);
   const [reminderValue, setReminderValue] = useState<Dayjs | null>(null);
-  const [clientSwitcher, setClientSwitcher] = useState<ClientType>(ClientType.ChatGPT);
+  const [clientSwitcher, setClientSwitcher] = useState<ClientType>(ClientType.WebApp);
   const [chatsOpen, setChatsOpen] = useState(false);
   const [selectedChatKey, setSelectedChatKey] = useState('');
 
@@ -96,6 +96,7 @@ const Options: FC = () => {
     getUserCfg().then((config) => {
       setClientSwitcher(config.clientMode);
       setUserConfig(config);
+      console.debug('CFG::: ', config);
     });
   };
 
@@ -141,11 +142,11 @@ const Options: FC = () => {
   const handleClientModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked) {
       invalidateUserCfgToken('openaiApiKey');
-      updateUserCfg({ clientMode: ClientType.ChatGPT });
+      updateUserCfg({ clientMode: ClientType.WebApp });
       setConfigChanged(true);
       return;
     }
-    setClientSwitcher(ClientType.ChatGPTPlus);
+    setClientSwitcher(ClientType.OpenAI);
     setTabsValue(1);
   };
 
@@ -155,7 +156,7 @@ const Options: FC = () => {
       openaiApiKey: opts.apiKey,
       openaiApiHost: opts.apiHost,
       openaiApiModel: opts.apiModel,
-      clientMode: ClientType.ChatGPTPlus,
+      clientMode: ClientType.OpenAI,
     });
     alert('Changes saved');
     setConfigChanged(true);
@@ -212,7 +213,7 @@ const Options: FC = () => {
         setReminderValue(dayjs(userConfig.userReminder, 'HH:mm'));
       }
 
-      setTabsValue(userConfig.clientMode === ClientType.ChatGPTPlus ? 1 : 0);
+      setTabsValue(userConfig.clientMode === ClientType.OpenAI ? 1 : 0);
     }
   }, [userConfig]);
 
@@ -361,13 +362,13 @@ const Options: FC = () => {
             </Stack>
 
             <Stack direction='row' spacing={1} alignItems='center'>
-              <Typography textTransform='uppercase'>{ClientType.ChatGPT}</Typography>
+              <Typography textTransform='uppercase'>{ClientType.WebApp}</Typography>
               <Switch
-                checked={userConfig?.openaiApiKey !== '' || clientSwitcher === ClientType.ChatGPTPlus}
+                checked={userConfig?.openaiApiKey !== '' || clientSwitcher === ClientType.OpenAI}
                 onChange={handleClientModeChange}
                 inputProps={{ 'aria-label': 'active-client' }}
               />
-              <Typography textTransform='uppercase'>{ClientType.ChatGPTPlus}</Typography>
+              <Typography textTransform='uppercase'>{ClientType.OpenAI}</Typography>
             </Stack>
 
             <Box
@@ -393,11 +394,11 @@ const Options: FC = () => {
                   borderColor: 'divider',
                 }}
                 indicatorColor='primary'>
-                <Tab color='#000' label={ClientType.ChatGPT} {...a11yProps(0)} />
-                <Tab label={ClientType.ChatGPTPlus} {...a11yProps(1)} />
+                <Tab color='#000' label={ClientType.WebApp} {...a11yProps(0)} />
+                <Tab label={ClientType.OpenAI} {...a11yProps(1)} />
               </Tabs>
               <TabPanel value={tabsValue} index={0}>
-                {langBasedAppStrings.appChatGpt}
+                {`${langBasedAppStrings.appChatGpt} ${ClientType.WebApp}`}
                 <Typography variant='h6' component='div' mt='1rem' color='info'>
                   {langBasedAppStrings.appChatGptDesc}
                 </Typography>

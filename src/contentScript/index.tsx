@@ -24,10 +24,11 @@ interface IMountArg {
   inpQ?: string;
   solutionElem: Element;
   submitElem?: Element;
+  topics: string[];
 }
 
 const mount = (arg: IMountArg) => {
-  const { trigger, engCfg, inpQ, solutionElem, submitElem } = arg;
+  const { trigger, engCfg, inpQ, solutionElem, submitElem, topics } = arg;
   let container = document.getElementsByClassName('chat-gpt-container')[0];
   if (!container) {
     container = document.createElement('div');
@@ -59,7 +60,7 @@ const mount = (arg: IMountArg) => {
         submitElement={submitElem!}
         inputQuestion={inpQ!.replace(/\n{3,}/g, '\n\n')}
         inputElement={solutionElem}
-        topics={getQuestionTopics(trigger)}
+        topics={topics}
         triggerMode={trigger}
       />
     </ThemeProvider>
@@ -68,7 +69,7 @@ const mount = (arg: IMountArg) => {
   ReactDOM.render(responseComponent, container);
 };
 
-const inputsReady = (qElem?: Element, sElem?: Element, bElem?: Element): boolean => {
+const inputsReady = (topics: string[], qElem?: Element, sElem?: Element, bElem?: Element): boolean => {
   if (
     qElem &&
     sElem &&
@@ -77,7 +78,8 @@ const inputsReady = (qElem?: Element, sElem?: Element, bElem?: Element): boolean
     qElem.textContent.length > 5 &&
     sElem.textContent &&
     sElem.textContent.length > 5 &&
-    bElem.textContent
+    bElem.textContent &&
+    topics.length > 0
   )
     return true;
 
@@ -96,8 +98,14 @@ const run = () => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
   const buttonSubmit = getSubmitElement(tMode);
+  const inputTopics = getQuestionTopics(tMode);
 
-  if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
+  if (
+    inputQuestion &&
+    inputSolution &&
+    buttonSubmit &&
+    inputsReady(inputTopics, inputQuestion, inputSolution, buttonSubmit)
+  ) {
     console.debug('Re-mounting ChatGPT on a different use case');
     mount({
       trigger: tMode,
@@ -105,6 +113,7 @@ const run = () => {
       inpQ: inputQuestion.textContent!,
       solutionElem: inputSolution,
       submitElem: buttonSubmit,
+      topics: inputTopics,
     });
   }
 };
@@ -113,14 +122,21 @@ const mutationObserver = new MutationObserver((mutations) => {
   const inputQuestion = getQuestionElement(tMode);
   const inputSolution = getSolutionElement(tMode);
   const buttonSubmit = getSubmitElement(tMode);
+  const inputTopics = getQuestionTopics(tMode);
 
-  if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
+  if (
+    inputQuestion &&
+    inputSolution &&
+    buttonSubmit &&
+    inputsReady(inputTopics, inputQuestion, inputSolution, buttonSubmit)
+  ) {
     mount({
       trigger: tMode,
       engCfg: engCfg,
       inpQ: inputQuestion.textContent!,
       solutionElem: inputSolution,
       submitElem: buttonSubmit,
+      topics: inputTopics,
     });
     console.debug(`Mounting ChatGPT on ${tMode} trigger`);
 

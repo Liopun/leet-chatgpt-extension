@@ -31,6 +31,8 @@ const App: FC<ResponseProps> = (props) => {
     [inputQuestion, inputElement]
   );
 
+  console.debug('GGGG00-----', topics);
+
   const resetQuestion = useCallback(() => {
     setCurrentQuestion('');
   }, []);
