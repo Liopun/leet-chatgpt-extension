@@ -113,7 +113,6 @@ const Query: FC<Props> = (props) => {
 
   const handleTimerStart = () => {
     setTimerStarted(true);
-    setMinimized(false);
     setAnswer(null);
     setError(null);
     setShowAnswer(false);
@@ -122,12 +121,11 @@ const Query: FC<Props> = (props) => {
   };
 
   const handleStopTimer = () => {
-    setTimerStarted(false);
-    setMinimized(false);
     setAnswer(null);
     setShowAnswer(false);
     setStartedChat(false);
-    setTimerInProgress('');
+    setTimerInProgress(``);
+    setTimerStarted(false);
   };
 
   const handleManualBRClick = () => {
@@ -225,10 +223,12 @@ const Query: FC<Props> = (props) => {
   useEffect(() => {
     if (timeStarted) {
       timerCountDown(parseInt(selectedTimer.split(' ')[0], 10) * 60);
-    } else {
-      if (timerId !== undefined) {
-        handleStopTimer();
-      }
+      return;
+    }
+
+    if (timerId !== undefined) {
+      clearInterval(timerId);
+      return;
     }
   }, [timeStarted]);
 
@@ -256,6 +256,9 @@ const Query: FC<Props> = (props) => {
   return minimized ? (
     <Box sx={{ flexGrow: 1 }}>
       <Stack direction='row' justifyContent='flex-end' alignItems='center' spacing={2} paddingRight={2}>
+        <Typography component='p' variant='h6'>
+          {timerInProgress === '' ? '00:00' : timerInProgress}
+        </Typography>
         <IconButton
           size='medium'
           aria-label='hideshow-toggler'
