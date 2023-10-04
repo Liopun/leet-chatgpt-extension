@@ -42,12 +42,12 @@
     "content_scripts": [
         {
             "matches": [
-                "https://leetcode.com/problems/*/",
-                "https://www.leetcode.com/problems/*/",
+                "https://leetcode.com/problems/*",
+                "https://www.leetcode.com/problems/*",
                 "https://leetcode.com/problems/*/description/*",
                 "https://www.leetcode.com/problems/*/description/*",
-                "https://leetcode.cn/problems/*/",
-                "https://www.leetcode.cn/problems/*/",
+                "https://leetcode.cn/problems/*",
+                "https://www.leetcode.cn/problems/*",
                 "https://leetcode.cn/problems/*/description/*",
                 "https://www.leetcode.cn/problems/*/description/*",
                 "https://hackerrank.com/challenges/*/problem*",
