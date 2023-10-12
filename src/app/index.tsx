@@ -5,14 +5,13 @@ import Query from './components/Query';
 
 interface ResponseProps {
   submitElement: Element;
-  inputQuestion: string;
   inputElement: Element;
   topics: string[];
   triggerMode: TriggerMode;
 }
 
 const App: FC<ResponseProps> = (props) => {
-  const { submitElement, inputQuestion, inputElement, topics, triggerMode } = props;
+  const { submitElement, inputElement, topics, triggerMode } = props;
   const [currentQuestion, setCurrentQuestion] = useState('');
 
   const updateQuestion = useCallback(
@@ -20,15 +19,15 @@ const App: FC<ResponseProps> = (props) => {
       const currText = inputElement.textContent;
       if (currText) {
         const petitionOpts: IPetition = {
-          question: inputQuestion,
           solution: currText,
           mode: mode,
+          triggerMode: triggerMode,
         };
         const newQuestion = addPetition(petitionOpts);
         setCurrentQuestion(newQuestion);
       }
     },
-    [inputQuestion, inputElement]
+    [inputElement, triggerMode]
   );
 
   console.debug('GGGG00-----', topics);

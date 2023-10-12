@@ -32,25 +32,6 @@ export const getAppVersion = () => Browser.runtime.getManifest().version;
 
 export const getReminderMessage = () => REMINDER_MESSAGES[Math.floor(Math.random() * REMINDER_MESSAGES.length)];
 
-export const addPetition = (opts: IPetition): string => {
-  const { question, solution, mode } = opts;
-  const langBasedAppStrings = loadAppLocales();
-
-  if (mode) {
-    if (mode === langBasedAppStrings.appBruteforce) {
-      // bruteforce
-      return PREFIX_PETITION + PETITION_QUESTION + question + M_B_PETITION_SOLUTION + solution;
-    }
-
-    if (mode === langBasedAppStrings.appOptimize) {
-      // optmize
-      return PREFIX_PETITION + PETITION_QUESTION + question + M_O_PETITION_SOLUTION + solution;
-    }
-  }
-
-  return PREFIX_PETITION + PETITION_QUESTION + question + PETITION_SOLUTION + solution;
-};
-
 export const formatTopicQuery = (topic: string): string => PETITION_TOPIC_QUERY + topic + PETITION_TOPIC_QUERY_EOL;
 
 export function querySelectElement<T extends Element>(possibleItems: string[]): T | undefined {
@@ -168,4 +149,33 @@ export const retryHolderElement = (tMode: TriggerMode) => {
     sElem?.getElementsByClassName(cfg.appendContainerLeft[1])[0];
 
   return sChild;
+};
+
+export const prettifyQuestion = (question: string) => question.replace(/\n{3,}/g, '\n\n');
+
+export const getQuestionText = (tMode: TriggerMode) => {
+  const qChild = getQuestionElement(tMode);
+  if (qChild) return prettifyQuestion(qChild.textContent!);
+
+  return '';
+};
+
+export const addPetition = (opts: IPetition): string => {
+  const { solution, mode, triggerMode } = opts;
+  const question = getQuestionText(triggerMode);
+  const langBasedAppStrings = loadAppLocales();
+
+  if (mode) {
+    if (mode === langBasedAppStrings.appBruteforce) {
+      // bruteforce
+      return PREFIX_PETITION + PETITION_QUESTION + question + M_B_PETITION_SOLUTION + solution;
+    }
+
+    if (mode === langBasedAppStrings.appOptimize) {
+      // optmize
+      return PREFIX_PETITION + PETITION_QUESTION + question + M_O_PETITION_SOLUTION + solution;
+    }
+  }
+
+  return PREFIX_PETITION + PETITION_QUESTION + question + PETITION_SOLUTION + solution;
 };
