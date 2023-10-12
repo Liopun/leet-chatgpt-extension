@@ -1,5 +1,7 @@
+import { TriggerMode } from './client';
+
 export interface IPetition {
-  question: string;
   solution: string;
   mode?: string;
+  triggerMode: TriggerMode;
 }

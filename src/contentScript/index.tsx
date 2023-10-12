@@ -21,14 +21,13 @@ import './styles.scss';
 interface IMountArg {
   trigger: TriggerMode;
   engCfg: Engine;
-  inpQ?: string;
   solutionElem: Element;
   submitElem?: Element;
   topics: string[];
 }
 
 const mount = (arg: IMountArg) => {
-  const { trigger, engCfg, inpQ, solutionElem, submitElem, topics } = arg;
+  const { trigger, engCfg, solutionElem, submitElem, topics } = arg;
   let container = document.getElementsByClassName('chat-gpt-container')[0];
   if (!container) {
     container = document.createElement('div');
@@ -56,13 +55,7 @@ const mount = (arg: IMountArg) => {
   const responseComponent = (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App
-        submitElement={submitElem!}
-        inputQuestion={inpQ!.replace(/\n{3,}/g, '\n\n')}
-        inputElement={solutionElem}
-        topics={topics}
-        triggerMode={trigger}
-      />
+      <App submitElement={submitElem!} inputElement={solutionElem} topics={topics} triggerMode={trigger} />
     </ThemeProvider>
   );
 
@@ -110,7 +103,6 @@ const run = () => {
     mount({
       trigger: tMode,
       engCfg: engCfg,
-      inpQ: inputQuestion.textContent!,
       solutionElem: inputSolution,
       submitElem: buttonSubmit,
       topics: inputTopics,
@@ -133,7 +125,6 @@ const mutationObserver = new MutationObserver((mutations) => {
     mount({
       trigger: tMode,
       engCfg: engCfg,
-      inpQ: inputQuestion.textContent!,
       solutionElem: inputSolution,
       submitElem: buttonSubmit,
       topics: inputTopics,
