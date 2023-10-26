@@ -9,6 +9,7 @@ import {
   getQuestionTopics,
   getSolutionElement,
   getSubmitElement,
+  isDynamicLayout,
   retryHolderElement,
 } from '../utils/common';
 
@@ -31,8 +32,7 @@ const mount = (arg: IMountArg) => {
   let container = document.getElementsByClassName('chat-gpt-container')[0];
   if (!container) {
     container = document.createElement('div');
-    container.className = 'chat-gpt-container';
-    container.classList.add('gpt-dark');
+    container.classList.add('chat-gpt-container', 'gpt-dark');
 
     const sbContainer = document.getElementsByClassName(engCfg.sidebarContainer[0])[0];
 
@@ -41,9 +41,21 @@ const mount = (arg: IMountArg) => {
     } else {
       container.classList.add('sidebar-free');
       let appendContainer = getHolderElement(trigger);
+      console.debug('&&&&&', appendContainer);
 
       if (appendContainer) {
-        appendContainer.insertAdjacentElement('beforebegin', container);
+        // const isDLActive = isDynamicLayout()
+        // const insPos: InsertPosition = isDLActive ? 'beforeend' : 'beforebegin'
+        // if (isDLActive) container.classList.add('')
+
+        if (isDynamicLayout()) {
+          // container.classList.add('flexlayout__tab')
+          // const lchild =
+          appendContainer.before(container);
+          // .appendChild(container)
+        } else {
+          appendContainer.insertAdjacentElement('beforebegin', container);
+        }
       } else {
         appendContainer = retryHolderElement(trigger);
         container.classList.add('leetcode-cn');
@@ -62,7 +74,7 @@ const mount = (arg: IMountArg) => {
   ReactDOM.render(responseComponent, container);
 };
 
-const inputsReady = (topics: string[], qElem?: Element, sElem?: Element, bElem?: Element): boolean => {
+const inputsReady = (qElem?: Element, sElem?: Element, bElem?: Element): boolean => {
   if (
     qElem &&
     sElem &&
@@ -71,8 +83,7 @@ const inputsReady = (topics: string[], qElem?: Element, sElem?: Element, bElem?:
     qElem.textContent.length > 5 &&
     sElem.textContent &&
     sElem.textContent.length > 5 &&
-    bElem.textContent &&
-    topics.length > 0
+    bElem.textContent
   )
     return true;
 
@@ -93,12 +104,7 @@ const run = () => {
   const buttonSubmit = getSubmitElement(tMode);
   const inputTopics = getQuestionTopics(tMode);
 
-  if (
-    inputQuestion &&
-    inputSolution &&
-    buttonSubmit &&
-    inputsReady(inputTopics, inputQuestion, inputSolution, buttonSubmit)
-  ) {
+  if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
     console.debug('Re-mounting ChatGPT on a different use case');
     mount({
       trigger: tMode,
@@ -116,12 +122,15 @@ const mutationObserver = new MutationObserver((mutations) => {
   const buttonSubmit = getSubmitElement(tMode);
   const inputTopics = getQuestionTopics(tMode);
 
-  if (
-    inputQuestion &&
-    inputSolution &&
-    buttonSubmit &&
-    inputsReady(inputTopics, inputQuestion, inputSolution, buttonSubmit)
-  ) {
+  // console.debug("*********1********", inputQuestion)
+
+  // console.debug("**********2*******", inputSolution)
+
+  // console.debug("**********3*******", buttonSubmit)
+
+  // console.debug("*********4********", inputTopics)
+
+  if (inputQuestion && inputSolution && buttonSubmit && inputsReady(inputQuestion, inputSolution, buttonSubmit)) {
     mount({
       trigger: tMode,
       engCfg: engCfg,

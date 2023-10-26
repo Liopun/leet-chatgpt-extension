@@ -52,6 +52,27 @@ export const generateTriggerMode = (url?: string) => {
   return null;
 };
 
+export const isElementVisible = (el: Element | null): boolean => {
+  if (!el) return false;
+
+  const rect = el.getBoundingClientRect();
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  // Check if the element is fully visible or partially visible in the viewport
+  const isVisible = rect.top >= 0 && rect.bottom <= windowHeight;
+
+  return isVisible;
+};
+
+export const isDynamicLayout = (): boolean => {
+  const itemKey = 'used-dynamic-layout'; // Replace 'key' with the key of the item you want to retrieve
+  const storedItemStr: string | null = localStorage.getItem(itemKey);
+
+  if (!storedItemStr) return false;
+
+  return JSON.parse(storedItemStr) as boolean;
+};
+
 export const getSubmitElement = (tMode: TriggerMode) => {
   let qChild: Element | undefined;
   const cfg = EngineModes[tMode];
@@ -74,10 +95,18 @@ export const getQuestionElement = (tMode: TriggerMode) => {
   const cfg = EngineModes[tMode];
   const qElem = document.getElementById(cfg.input_question[0]);
   let qChild = qElem?.getElementsByClassName(cfg.input_question[1])[0];
-  if (tMode === TriggerMode.Problem && (!qElem || !qChild)) {
-    const qParent = document.getElementById(cfg.input_question[2]);
-    const q = qParent?.getElementsByClassName(cfg.input_question[3])[0];
-    qChild = q?.getElementsByClassName(cfg.input_question[4])[0];
+  // if (tMode === TriggerMode.Problem && (!qElem || !qChild)) {
+  //   const qParent = document.getElementById(cfg.input_question[2]);
+  //   const q = qParent?.getElementsByClassName(cfg.input_question[3])[0];
+  //   qChild = q?.getElementsByClassName(cfg.input_question[4])[0];
+  //   console.debug("IDS:::", cfg.input_question[2], cfg.input_question[3], cfg.input_question[4])
+  // }
+
+  if (qChild === undefined) {
+    // try dynamic layout setup
+    // const qElem = document.getElementById(cfg.input_question_alt[0]);
+    // const qDescription = document.getElementById(cfg.input_question_alt[1]);
+    qChild = document.querySelectorAll(cfg.input_question_alt[2])[0];
   }
 
   return qChild;
@@ -120,6 +149,11 @@ export const getSolutionElement = (tMode: TriggerMode) => {
     sChild = sElem?.getElementsByClassName(cfg.input_code[3])[0];
   }
 
+  if (sChild === undefined) {
+    // try dynamic layout setup
+    sChild = document.querySelectorAll(cfg.input_code_alt[2])[0];
+  }
+
   return sChild;
 };
 
@@ -131,7 +165,8 @@ export const getHolderElement = (tMode: TriggerMode) => {
   if (tMode === TriggerMode.Problem) {
     sChild =
       sElem?.getElementsByClassName(cfg.appendContainerRight[0])[1] ||
-      sElem?.getElementsByClassName(cfg.appendContainerLeft[0])[1];
+      sElem?.getElementsByClassName(cfg.appendContainerLeft[0])[1] ||
+      document.getElementById(cfg.appendContainerDL[0]);
   } else if (tMode === TriggerMode.Challenge) {
     sChild =
       sElem?.getElementsByClassName(cfg.appendContainerRight[0])[0] ||
