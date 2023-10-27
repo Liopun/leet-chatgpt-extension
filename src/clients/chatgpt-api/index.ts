@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { ISSEChatGPTResponse } from '../../interfaces';
+import { ClientError, ErrorCode } from '../../utils/errors';
 import { parseSSE } from '../../utils/sse';
 import { AbstractClient, IGenerateResponseParams } from '../abstract';
 import { chatGPTClient } from './client';
@@ -33,7 +34,7 @@ export class ChatGPTApiClient extends AbstractClient {
         messages: [
           {
             id: uuid(),
-            role: 'user',
+            author: { role: 'user' },
             content: {
               content_type: 'text',
               parts: [params.prompt],
@@ -59,6 +60,11 @@ export class ChatGPTApiClient extends AbstractClient {
       } catch (err) {
         console.error('parseSSE', err);
         return;
+      }
+
+      if (data.error) {
+        console.error('parseSSE', data.error);
+        throw new ClientError(data.error, ErrorCode.UNKOWN_ERROR);
       }
       const text = data.message?.content?.parts?.[0];
       if (text && data.message) {

@@ -16,6 +16,7 @@ export interface ISSEChatGPT {
 
 export interface ISSEChatGPTResponse {
   conversation_id: string;
+  error?: string;
   message?: {
     id: string;
     content?: {
