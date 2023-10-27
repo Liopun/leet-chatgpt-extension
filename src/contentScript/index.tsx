@@ -41,18 +41,10 @@ const mount = (arg: IMountArg) => {
     } else {
       container.classList.add('sidebar-free');
       let appendContainer = getHolderElement(trigger);
-      console.debug('&&&&&', appendContainer);
 
       if (appendContainer) {
-        // const isDLActive = isDynamicLayout()
-        // const insPos: InsertPosition = isDLActive ? 'beforeend' : 'beforebegin'
-        // if (isDLActive) container.classList.add('')
-
         if (isDynamicLayout()) {
-          // container.classList.add('flexlayout__tab')
-          // const lchild =
           appendContainer.before(container);
-          // .appendChild(container)
         } else {
           appendContainer.insertAdjacentElement('beforebegin', container);
         }
