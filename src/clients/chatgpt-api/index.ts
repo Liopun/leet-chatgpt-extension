@@ -3,6 +3,7 @@ import { ISSEChatGPTResponse } from '../../interfaces';
 import { ClientError, ErrorCode } from '../../utils/errors';
 import { parseSSE } from '../../utils/sse';
 import { AbstractClient, IGenerateResponseParams } from '../abstract';
+import { getArkoseToken } from './arkose';
 import { chatGPTClient } from './client';
 
 interface ConversationContext {
@@ -21,6 +22,7 @@ export class ChatGPTApiClient extends AbstractClient {
     if (!this.accessToken) this.accessToken = await chatGPTClient.getAccessToken();
 
     const currentModel = await this.getCurrentModel();
+    const arkoseToken = await getArkoseToken();
 
     const resp = await chatGPTClient.fetch('https://chat.openai.com/backend-api/conversation', {
       method: 'POST',
@@ -44,6 +46,7 @@ export class ChatGPTApiClient extends AbstractClient {
         model: currentModel,
         conversation_id: this.conversationCtx?.conversationId || undefined,
         parent_message_id: this.conversationCtx?.lastMessageId || uuid(),
+        arkose_token: arkoseToken,
       }),
     });
 
