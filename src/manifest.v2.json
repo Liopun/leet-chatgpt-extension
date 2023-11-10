@@ -18,7 +18,7 @@
         "unlimitedStorage",
         "https://*.openai.com/"
     ],
-    "content_security_policy": "script-src 'self'; object-src 'self'",
+    "content_security_policy": "default-src 'self'; style-src 'self'; style-src-elem 'self'; img-src 'self'",
     "author": "Liopun",
     "background": {
         "scripts": ["background.js"]
