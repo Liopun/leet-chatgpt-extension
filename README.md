@@ -1,4 +1,7 @@
 # LeetChatGPT
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 <div style="display: flex; justify-content: flex-start; align-items: flex-start; margin-bottom: 10px">
   <a href="https://leetchatgpt.com/" style="margin-right: 15px;">
       <img src="src/app/assets/logo.png" width="50px" height="50px" />
@@ -59,3 +62,25 @@ https://user-images.githubusercontent.com/54894213/231353876-bbcfa066-f54a-425d-
 
 ## 🛠️ Contributing
 Contributions are welcome! Please submit pull requests to the `dev` branch.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/krabbi"><img src="https://avatars.githubusercontent.com/u/5084613?v=4?s=100" width="100px;" alt="krabbi"/><br /><sub><b>krabbi</b></sub></a><br /><a href="https://github.com/Liopun/leet-chatgpt-extension/issues?q=author%3Akrabbi" title="Bug reports">🐛</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
