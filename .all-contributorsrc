@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "krabbi",
+      "name": "krabbi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5084613?v=4",
+      "profile": "https://github.com/krabbi",
+      "contributions": [
+        "bug"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "leet-chatgpt-extension",
+  "projectOwner": "Liopun"
+}
