@@ -1,0 +1,7 @@
+# All files are checked into the repo with LF
+* text=auto
+
+# Excluding Binary files lsited below
+*.png binary
+*.jpg binary
+*.svg binary
