@@ -1,9 +1,0 @@
-{
-	"singleQuote": true,
-	"semi": true,
-	"printWidth": 120,
-	"bracketSameLine": true,
-	"jsxSingleQuote": true,
-    "tabWidth": 2,
-    "endOfLine": "lf"
-}
