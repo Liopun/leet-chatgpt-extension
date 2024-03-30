@@ -5,8 +5,7 @@ name: LeetChatGPT WEB CI
 
 on:
   push:
-    tags:
-      - 'w.*.*.*'
+    branches: [ "main" ]
 
 permissions:
   contents: write
