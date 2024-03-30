@@ -30,7 +30,7 @@ jobs:
         SPECIFIC_FOLDER="web"
         if git diff --quiet --exit-code "$SPECIFIC_FOLDER"; then
           echo "No changes in $SPECIFIC_FOLDER. Aborting CI."
-          exit 0
+          exit 1
         fi
     
     - name: Cache dependencies
@@ -49,13 +49,12 @@ jobs:
         cache: 'npm'
 
     - name: Dependencies, Lint and Build
-      if: ${{ contains(github.event.head_commit.modified, matrix.folder) }}
       working-directory: ${{ matrix.folder }}
       run: |
         npm ci
         npm run lint
         npm run build
-      
+  
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       env:
