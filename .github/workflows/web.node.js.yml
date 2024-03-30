@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - web
+      - web/**
 
 permissions:
   contents: write
