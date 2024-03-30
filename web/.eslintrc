@@ -2,7 +2,6 @@
     "root": true,
     "extends": [
         "eslint:recommended",
-        "plugin:node/recommended",
         "plugin:import/errors",
         "plugin:react/recommended",
         "plugin:jsx-a11y/recommended",
@@ -18,24 +17,15 @@
         "import/no-unresolved": 0,
         "no-unused-vars": 0,
         "max-len": ["warn", {"code": 150}],
-        "no-console": ["error", { "allow": ["debug", "warn", "error", "assert"] }],
-        "no-extend-native": "off",
-        "react/jsx-props-no-spreading": "off",
-        "jsx-a11y/label-has-associated-control": "off",
+        "no-console": ["error", { "allow": ["debug", "warn", "error"] }],
         "no-underscore-dangle": "off",
         "class-methods-use-this": "off",
-        "max-classes-per-file": "off",
         "import/extensions": ["error", "ignorePackages", {
             "js": "never",
             "jsx": "never",
             "ts": "never",
             "tsx": "never"
         }],
-        "node/no-missing-import": "off",
-		"node/no-unpublished-import": "off",
-		"node/no-unsupported-features/es-syntax": ["error", {
-			"ignores": ["modules"]
-		}],
         "no-tabs": ["error", {"allowIndentationTabs": true}],
         "@typescript-eslint/no-require-imports": "warn",
         "@typescript-eslint/no-floating-promises": "off",
@@ -45,8 +35,7 @@
         "react",
         "@typescript-eslint",
         "import",
-        "jsx-a11y",
-        "node"
+        "jsx-a11y"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -60,7 +49,6 @@
     "env": {
         "es6": true,
         "browser": true,
-        "webextensions": true,
         "node": true
     },
     "globals": {
@@ -76,10 +64,10 @@
                 ".js",
                 ".jsx",
                 ".ts",
-                ".tsx",
-                ".json"
+                ".tsx"
               ]
-            }
+            },
+            "webpack": {}
         },
         "import/ignore": ["node_modules"],
         "import/extensions": [".js", ".mjs", ".jsx", ".ts", ".tsx"],
@@ -89,6 +77,5 @@
               ".tsx"
             ]
         }
-    },
-    "ignorePatterns": ["extension/**"]
+    }
 }
