@@ -6,7 +6,7 @@ import './App.css';
 import NotFound from './components/NotFound';
 import Home from './components/Home';
 
-ReactGA.initialize(process.env.GA_TRACKING_ID || '');
+ReactGA.initialize(process.env.GA_TRACKING_ID);
 
 function App() {
   return (
