@@ -14,7 +14,7 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path='/home' element={<Home />} />
+          <Route path='/web' element={<Home />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
