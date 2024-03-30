@@ -17,7 +17,7 @@ export default function Error() {
             <Typography variant='h1'>404</Typography>
             <Typography variant='h6'>The page you’re looking for doesn’t exist.</Typography>
             <Button href='/' variant='contained'>
-              Back Home
+              Home
             </Button>
           </Grid>
           <Grid xs={6}>
