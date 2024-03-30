@@ -50,8 +50,11 @@ jobs:
 
     - name: Dependencies, Lint and Build
       working-directory: ${{ matrix.folder }}
-      run: npm ci && npm run lint && npm run build
-      
+      run: |
+        npm ci
+        npm run lint
+        npm run build
+  
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
       env:
