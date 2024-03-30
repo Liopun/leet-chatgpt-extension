@@ -1,7 +1,7 @@
 {
   "name": "leet-chatgpt-web",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://liopun.github.com/leet-chatgpt-web",
   "type": "module",
   "scripts": {
