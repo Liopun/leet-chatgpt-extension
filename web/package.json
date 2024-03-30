@@ -2,7 +2,7 @@
   "name": "leet-chatgpt-web",
   "private": true,
   "version": "1.0.0",
-  "homepage": "https://liopun.github.io/leet-chatgpt-extension/home",
+  "homepage": "https://liopun.github.io/leet-chatgpt-extension",
   "type": "module",
   "scripts": {
     "dev": "vite",
